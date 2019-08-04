@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.glacier'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://repo.spring.io/snapshot' }
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    swaggerVersion = '2.9.2'
+    mybatisBootVersion = '2.1.0'
+    druidVersion = '1.1.18'
+}
+
+dependencies {
+    // 本地依赖
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // swagger
+    implementation(
+            "io.springfox:springfox-swagger-ui:${swaggerVersion}",
+            "io.springfox:springfox-swagger2:${swaggerVersion}",
+            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+    )
+    // spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
