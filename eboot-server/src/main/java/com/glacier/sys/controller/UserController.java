@@ -1,0 +1,40 @@
+package com.glacier.sys.controller;
+
+import com.glacier.sys.entity.User;
+import com.glacier.sys.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * @author glacier
+ * @version 1.0
+ * @description
+ * @date 2019-08-04 22:13
+ */
+@RestController
+@RequestMapping(value = "user")
+public class UserController {
+    @Autowired
+    private UserService userService;
+
+    /**
+     * @param user
+     * @return
+     */
+    @GetMapping("list")
+    public List<User> list(User user) {
+        return userService.findList(user);
+    }
+
+    @PutMapping("save")
+    public int save(User user) {
+        return userService.save(user);
+    }
+
+    @DeleteMapping("del")
+    public int delete(User user) {
+        return userService.delete(user);
+    }
+}
