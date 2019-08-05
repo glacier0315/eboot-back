@@ -1,5 +1,6 @@
 package com.glacier.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.glacier.common.entity.BaseEntity;
 
 import java.util.Date;
@@ -66,6 +67,7 @@ public class User extends BaseEntity {
         this.idCard = idCard;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     public Date getBirthday() {
         return birthday;
     }

@@ -6,13 +6,13 @@
         a.id, a.username, a.password, a.id_card as idCard, a.birthday, a.sex, a.status
     </sql>
 
-    <insert id="insert" parameterType="com.glacier.sys.entity.User">
+    <insert id="insert" parameterType="User">
         INSERT INTO t_user
         (id, username, password, id_card, birthday, sex, status, create_by, create_date, del_flag)
         VALUES (#{id}, #{username}, #{password}, #{id_card}, #{birthday}, #{sex}, #{status}, #{create_by}, #{create_date}, #{del_flag})
     </insert>
 
-    <select id="findList" resultType="com.glacier.sys.entity.User">
+    <select id="findList" resultType="User">
         SELECT
         <include refid="user_columns"/>
         FROM t_user a
