@@ -3,6 +3,7 @@ package com.glacier;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author hebin
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019-04-24 20:27
  */
 @SpringBootApplication
+@EnableTransactionManagement
 @MapperScan("com.glacier.**.dao")
 public class SysApplication {
 

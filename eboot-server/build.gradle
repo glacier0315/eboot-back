@@ -21,6 +21,7 @@ ext {
     swaggerVersion = '2.9.2'
     mybatisBootVersion = '2.1.0'
     druidVersion = '1.1.18'
+    pageHelperVersion = "1.2.12"
 }
 
 dependencies {
@@ -31,6 +32,7 @@ dependencies {
             "io.springfox:springfox-swagger-ui:${swaggerVersion}",
             "io.springfox:springfox-swagger2:${swaggerVersion}",
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
+            "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
     // spring boot

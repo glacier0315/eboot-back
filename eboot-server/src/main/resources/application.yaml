@@ -37,6 +37,14 @@ mybatis:
   config-location:  classpath:mybatis/mybatis-config.xml
   type-aliases-package: com.glacier.**.entity
 
+#pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
 info:
   head: head
   body: body
