@@ -35,9 +35,6 @@ public class UserController {
      */
     @GetMapping("page")
     public PageInfo<User> page(User user,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "1") int pageSize) {
-        if (pageSize <= 0) {
-            pageSize = 1;
-        }
         return userService.findPage(user, pageNum, pageSize);
     }
 
