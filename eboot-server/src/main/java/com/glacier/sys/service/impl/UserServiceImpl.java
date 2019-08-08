@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Override
+    public User get(String id) {
+        return userDao.get(id);
+    }
+
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {

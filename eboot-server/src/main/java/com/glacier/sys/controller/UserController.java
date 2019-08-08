@@ -20,6 +20,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("get/{id}")
+    public User get(@PathVariable("id") String id) {
+        return userService.get(id);
+    }
+
     /**
      * @param user
      * @return

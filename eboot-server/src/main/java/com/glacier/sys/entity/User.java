@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * @author glacier
  * @version 1.0
- * @description
+ * @description  用户
  * @date 2019-08-04 13:45
  */
 public class User extends BaseEntity {

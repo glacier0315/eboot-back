@@ -8,10 +8,18 @@ import java.util.List;
 /**
  * @author glacier
  * @version 1.0
- * @description
+ * @description  用户业务层
  * @date 2019-08-04 21:50
  */
 public interface UserService {
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    User get(String id);
+
     /**
      *
      * @param user
