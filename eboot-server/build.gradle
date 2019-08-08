@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id "com.arenagod.gradle.MybatisGenerator" version "1.4"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -47,3 +48,12 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
+
+configurations {
+    mybatisGenerator
+}
+
+mybatisGenerator {
+    verbose = true
+    configFile = 'src/main/resources/mybatis/generator/mybatis-generator.xml'
+}
