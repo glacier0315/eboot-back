@@ -43,8 +43,10 @@ public class UserController {
         return userService.save(user);
     }
 
-    @DeleteMapping("del")
-    public int delete(User user) {
+    @DeleteMapping("del/{id}")
+    public int delete(@PathVariable("id") String id) {
+        User user = new User();
+        user.setId(id);
         return userService.delete(user);
     }
 }
