@@ -1,6 +1,7 @@
 package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
 
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Date;
  * @description  用户
  * @date 2019-08-04 13:45
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends BaseEntity {
     private static final long serialVersionUID = -3083387263445135811L;
     /**
@@ -67,7 +69,7 @@ public class User extends BaseEntity {
         this.idCard = idCard;
     }
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
     public Date getBirthday() {
         return birthday;
     }

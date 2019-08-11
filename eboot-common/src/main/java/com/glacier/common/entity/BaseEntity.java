@@ -1,6 +1,8 @@
 package com.glacier.common.entity;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Date;
  * @description 基类
  * @date 2019-08-04 13:48
  */
-public abstract class BaseEntity implements Serializable {
+public abstract class BaseEntity extends IdEntity {
     private static final long serialVersionUID = 2888247672017206669L;
     /**
      * 正常标记
@@ -19,10 +21,7 @@ public abstract class BaseEntity implements Serializable {
      * 删除标记
      */
     public static final String DEL_FLAG = "1";
-    /**
-     * 主键
-     */
-    protected String id;
+
     /**
      * 删除标记
      */
@@ -48,14 +47,7 @@ public abstract class BaseEntity implements Serializable {
         return serialVersionUID;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    @JsonIgnore
     public String getDelFlag() {
         return delFlag;
     }
@@ -72,6 +64,7 @@ public abstract class BaseEntity implements Serializable {
         this.createBy = createBy;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateDate() {
         return createDate;
     }
@@ -88,6 +81,7 @@ public abstract class BaseEntity implements Serializable {
         this.updateBy = updateBy;
     }
 
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateDate() {
         return updateDate;
     }

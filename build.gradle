@@ -21,6 +21,7 @@ subprojects {
         mybatisBootVersion = '2.1.0'
         druidVersion = '1.1.18'
         pageHelperVersion = "1.2.12"
+        jacksonVersion = "2.9.9.3"
     }
 
     tasks.withType(JavaCompile) {

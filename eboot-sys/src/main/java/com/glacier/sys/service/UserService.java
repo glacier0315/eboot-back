@@ -1,6 +1,7 @@
 package com.glacier.sys.service;
 
 import com.github.pagehelper.PageInfo;
+import com.glacier.common.service.CrudService;
 import com.glacier.sys.entity.User;
 
 import java.util.List;
@@ -11,28 +12,7 @@ import java.util.List;
  * @description  用户业务层
  * @date 2019-08-04 21:50
  */
-public interface UserService {
-
-    /**
-     *
-     * @param id
-     * @return
-     */
-    User get(String id);
-
-    /**
-     *
-     * @param user
-     * @return
-     */
-    int save(User user);
-
-    /**
-     *
-     * @param user
-     * @return
-     */
-    List<User> findList(User user);
+public interface UserService extends CrudService<User, String> {
 
     /**
      *
@@ -43,10 +23,4 @@ public interface UserService {
      */
     PageInfo<User> findPage(User user, int pageNum, int pageSize);
 
-    /**
-     *
-     * @param user
-     * @return
-     */
-    int delete(User user);
 }

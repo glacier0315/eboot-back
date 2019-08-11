@@ -1,5 +1,6 @@
 package com.glacier.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
 
 /**
@@ -8,6 +9,7 @@ import com.glacier.common.entity.BaseEntity;
  * @description  角色
  * @date 2019-08-04 13:45
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -3318599726827564559L;
     /**

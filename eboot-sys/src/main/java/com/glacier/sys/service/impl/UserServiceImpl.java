@@ -20,6 +20,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserDao userDao;
 
