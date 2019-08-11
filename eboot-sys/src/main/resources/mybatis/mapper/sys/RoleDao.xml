@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.glacier.sys.dao.RoleDao">
-    
-    <resultMap id="RoleResultMap" type="com.glacier.sys.entity.Role">
-        <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
-        <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
-        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
-        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
-        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
-        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
-        <result column="del_flag" jdbcType="VARCHAR" property="delFlag"/>
-    </resultMap>
-    
+
     <sql id="role_columns">
         a.id, a.role_name, a.role_code, a.status, a.create_by, a.create_date, a.update_by, a.update_date,
         a.del_flag
     </sql>
+
+    <sql id="roleJoins">
+        inner join t_user_role b on b.del_flag='0' and a.id=b.role_id
+    </sql>
     
-    <select id="get" parameterType="java.lang.String" resultMap="RoleResultMap">
+    <select id="get" resultType="Role">
         select
         <include refid="role_columns"/>
         from t_role a
         where id = #{id}
     </select>
 
-    <select id="findList" parameterType="java.lang.String" resultMap="RoleResultMap">
+    <select id="findList" resultType="Role">
         select
         <include refid="role_columns"/>
         from t_role a
@@ -35,6 +27,18 @@
             <if test="roleName != null and roleName != '' ">
                 and a.role_name=#{roleName}
             </if>
+        </where>
+    </select>
+
+    <select id="findListByUser" resultType="Role">
+        select
+            <include refid="role_columns"/>
+        from t_role a
+        <include refid="roleJoins"/>
+        <where>
+            a.del_flag='0'
+            and b.del_flag='0'
+            and b.user_id = #{userId}
         </where>
     </select>
 
@@ -55,8 +59,7 @@
             role_code = #{roleCode},
             status = #{status},
             update_by = #{updateBy},
-            update_date = #{updateDate},
-            del_flag = #{delFlag}
+            update_date = #{updateDate}
         where id = #{id}
     </update>
 

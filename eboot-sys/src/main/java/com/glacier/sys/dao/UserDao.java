@@ -10,4 +10,11 @@ import com.glacier.sys.entity.User;
  * @date 2019-08-04 21:53
  */
 public interface UserDao extends CrudDao<User, String> {
+
+    /**
+     * 更新用户密码
+     * @param user
+     * @return
+     */
+    int updatePassword(User user);
 }

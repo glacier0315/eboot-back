@@ -4,8 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.glacier.common.service.CrudService;
 import com.glacier.sys.entity.User;
 
-import java.util.List;
-
 /**
  * @author glacier
  * @version 1.0
@@ -13,6 +11,12 @@ import java.util.List;
  * @date 2019-08-04 21:50
  */
 public interface UserService extends CrudService<User, String> {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    User getWithRoles(String id);
 
     /**
      *

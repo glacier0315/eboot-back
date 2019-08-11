@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author glacier
@@ -40,6 +42,10 @@ public class User extends BaseEntity {
      * 状态  1 正常  0 锁定
      */
     private String status;
+    /**
+     * 角色
+     */
+    private List<Role> roles;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -92,6 +98,17 @@ public class User extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Role> getRoles() {
+        if (roles == null) {
+            roles = Collections.emptyList();
+        }
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

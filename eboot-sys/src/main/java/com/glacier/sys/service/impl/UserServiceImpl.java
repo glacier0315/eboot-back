@@ -2,7 +2,9 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
+import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +16,34 @@ import java.util.List;
 /**
  * @author glacier
  * @version 1.0
- * @description
+ * @description 用户业务类
  * @date 2019-08-04 21:50
  */
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Transactional(readOnly = true)
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private RoleDao roleDao;
 
     @Override
     public User get(String id) {
         return userDao.get(id);
+    }
+
+    /**
+     * 查询用户及用户拥有的角色
+     * @param id
+     * @return
+     */
+    @Override
+    public User getWithRoles(String id) {
+        User user = userDao.get(id);
+        List<Role> roles = roleDao.findListByUser(id);
+        user.setRoles(roles);
+        return user;
     }
 
     @Transactional(rollbackFor = {})

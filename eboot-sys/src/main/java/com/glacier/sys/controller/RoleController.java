@@ -12,22 +12,18 @@ import java.util.List;
  * @author glacier
  * @version 1.0
  * @description
- * @date 2019-08-04 22:13
+ * @date 2019-08-11 21:24
  */
 @RestController
-@RequestMapping(value = "user")
-public class UserController {
+@RequestMapping(value = "role")
+public class RoleController {
+
     @Autowired
     private UserService userService;
 
     @GetMapping("get/{id}")
     public User get(@PathVariable("id") String id) {
         return userService.get(id);
-    }
-
-    @GetMapping("getWithRoles/{id}")
-    public User getWithRoles(@PathVariable("id") String id) {
-        return userService.getWithRoles(id);
     }
 
     /**
@@ -44,7 +40,7 @@ public class UserController {
      * @return
      */
     @GetMapping("page")
-    public PageInfo<User> page(User user,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "1") int pageSize) {
+    public PageInfo<User> page(User user, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int pageSize) {
         return userService.findPage(user, pageNum, pageSize);
     }
 
