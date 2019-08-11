@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan("com.glacier.**.dao")
-public class SysApplication {
+public class EbootSysApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SysApplication.class, args);
+		SpringApplication.run(EbootSysApplication.class, args);
 	}
 
 }

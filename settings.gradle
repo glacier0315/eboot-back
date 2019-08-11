@@ -1,2 +1,2 @@
 rootProject.name = 'eboot-platform'
-include('eboot-admin')
+include('eboot-sys', 'eboot-common')

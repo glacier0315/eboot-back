@@ -2,7 +2,7 @@ package com.glacier.sys;
 
 import static org.hamcrest.Matchers.equalTo;
 
-import com.glacier.SysApplication;
+import com.glacier.EbootSysApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @date 2019-04-24 20:41
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { SysApplication.class })
+@SpringBootTest(classes = { EbootSysApplication.class })
 public class HelloControllerTest {
 
 	@Autowired
