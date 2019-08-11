@@ -1,29 +1,11 @@
 plugins {
-    id 'java'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id "com.arenagod.gradle.MybatisGenerator" version "1.4"
 }
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.glacier'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven { url 'https://repo.spring.io/snapshot' }
-    maven { url 'https://repo.spring.io/milestone' }
-}
-
-ext {
-    swaggerVersion = '2.9.2'
-    mybatisBootVersion = '2.1.0'
-    druidVersion = '1.1.18'
-    pageHelperVersion = "1.2.12"
-}
 
 dependencies {
     // 本地依赖
@@ -42,12 +24,6 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-
-
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
 
 configurations {
     mybatisGenerator

@@ -1,0 +1,29 @@
+allprojects {
+    group = 'com.glacier'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+
+    ext {
+        swaggerVersion = '2.9.2'
+        mybatisBootVersion = '2.1.0'
+        druidVersion = '1.1.18'
+        pageHelperVersion = "1.2.12"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+}
