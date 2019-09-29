@@ -1,6 +1,14 @@
 allprojects {
     group = 'com.glacier'
     version = '0.0.1-SNAPSHOT'
+
+    //删除文件
+    task cleanTempFiles() {
+        println("delete out")
+        delete "out"
+        println("delete logs")
+        delete "logs"
+    }
 }
 
 subprojects {
