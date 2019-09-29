@@ -21,6 +21,10 @@ dependencies {
     )
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 验证码
+    implementation('com.baomidou:kaptcha-spring-boot-starter:1.1.0')
+
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
