@@ -15,11 +15,11 @@ import java.util.List;
  * @description 角色业务类
  * @date 2019-08-11 21:21
  */
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 @Transactional(readOnly = true)
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
 
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private RoleDao roleDao;
     @Override

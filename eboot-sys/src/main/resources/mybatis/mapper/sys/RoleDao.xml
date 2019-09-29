@@ -10,7 +10,7 @@
     <sql id="roleJoins">
         inner join t_user_role b on b.del_flag='0' and a.id=b.role_id
     </sql>
-    
+
     <select id="get" resultType="Role">
         select
         <include refid="role_columns"/>
@@ -32,7 +32,7 @@
 
     <select id="findListByUser" resultType="Role">
         select
-            <include refid="role_columns"/>
+        <include refid="role_columns"/>
         from t_role a
         <include refid="roleJoins"/>
         <where>
