@@ -9,6 +9,10 @@ allprojects {
         println("delete logs")
         delete "logs"
     }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 }
 
 subprojects {
@@ -31,9 +35,14 @@ subprojects {
         druidVersion = '1.1.18'
         pageHelperVersion = "1.2.12"
         jacksonVersion = "2.9.9.3"
+        lombokVersion = "1.18.10"
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
+    dependencies {
+        // lombok
+        compileOnly("org.projectlombok:lombok:${lombokVersion}")
+        annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     }
+
+
 }

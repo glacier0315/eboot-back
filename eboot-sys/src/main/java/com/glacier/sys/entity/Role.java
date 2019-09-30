@@ -2,6 +2,8 @@ package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author glacier
@@ -9,6 +11,8 @@ import com.glacier.common.entity.BaseEntity;
  * @description  角色
  * @date 2019-08-04 13:45
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Role extends BaseEntity {
     private static final long serialVersionUID = -3318599726827564559L;
@@ -24,49 +28,4 @@ public class Role extends BaseEntity {
      * 状态
      */
     private String status;
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName == null ? null : roleName.trim();
-    }
-
-    public String getRoleCode() {
-        return roleCode;
-    }
-
-    public void setRoleCode(String roleCode) {
-        this.roleCode = roleCode == null ? null : roleCode.trim();
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status == null ? null : status.trim();
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id='" + id + '\'' +
-                ", roleName='" + roleName + '\'' +
-                ", roleCode='" + roleCode + '\'' +
-                ", status='" + status + '\'' +
-                ", createBy='" + createBy + '\'' +
-                ", createDate=" + createDate +
-                ", updateBy='" + updateBy + '\'' +
-                ", updateDate=" + updateDate +
-                ", delFlag='" + delFlag + '\'' +
-                ", id='" + id + '\'' +
-                ", delFlag='" + delFlag + '\'' +
-                ", createBy='" + createBy + '\'' +
-                ", createDate=" + createDate +
-                ", updateBy='" + updateBy + '\'' +
-                ", updateDate=" + updateDate +
-                '}';
-    }
 }

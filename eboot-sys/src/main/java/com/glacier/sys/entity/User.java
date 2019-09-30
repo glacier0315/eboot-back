@@ -1,10 +1,10 @@
 package com.glacier.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +14,8 @@ import java.util.List;
  * @description  用户
  * @date 2019-08-04 13:45
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends BaseEntity {
     private static final long serialVersionUID = -3083387263445135811L;
@@ -46,86 +48,4 @@ public class User extends BaseEntity {
      * 角色
      */
     private List<Role> roles;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd")
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Role> getRoles() {
-        if (roles == null) {
-            roles = Collections.emptyList();
-        }
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", idCard='" + idCard + '\'' +
-                ", birthday=" + birthday +
-                ", sex=" + sex +
-                ", status='" + status + '\'' +
-                ", id='" + id + '\'' +
-                ", delFlag='" + delFlag + '\'' +
-                ", createBy='" + createBy + '\'' +
-                ", createDate=" + createDate +
-                ", updateBy='" + updateBy + '\'' +
-                ", updateDate=" + updateDate +
-                '}';
-    }
 }

@@ -1,6 +1,8 @@
 package com.glacier.sys.entity;
 
 import com.glacier.common.entity.BaseEntity;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author glacier
@@ -8,6 +10,8 @@ import com.glacier.common.entity.BaseEntity;
  * @description
  * @date 2019-08-11 21:18
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class UserRole extends BaseEntity {
     /**
      * 用户id
@@ -17,34 +21,4 @@ public class UserRole extends BaseEntity {
      * 角色id
      */
     private String roleId;
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRole{" +
-                "userId='" + userId + '\'' +
-                ", roleId='" + roleId + '\'' +
-                ", delFlag='" + delFlag + '\'' +
-                ", createBy='" + createBy + '\'' +
-                ", createDate=" + createDate +
-                ", updateBy='" + updateBy + '\'' +
-                ", updateDate=" + updateDate +
-                ", id='" + id + '\'' +
-                '}';
-    }
 }

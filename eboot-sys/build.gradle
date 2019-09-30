@@ -11,23 +11,31 @@ dependencies {
 
     compile project(':eboot-common')
 
-    // swagger
+    // spring boot
     implementation(
-            "io.springfox:springfox-swagger-ui:${swaggerVersion}",
-            "io.springfox:springfox-swagger2:${swaggerVersion}",
+            "org.springframework.boot:spring-boot-starter-web",
+            // "org.springframework.boot:spring-boot-starter-security",
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
             "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
-    // spring boot
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // jwt
+    // implementation("org.springframework.security:spring-security-jwt:1.0.10.RELEASE")
 
     // 验证码
-    implementation('com.baomidou:kaptcha-spring-boot-starter:1.1.0')
+    implementation("com.baomidou:kaptcha-spring-boot-starter:1.1.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
 
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // swagger
+    implementation(
+            "io.springfox:springfox-swagger-ui:${swaggerVersion}",
+            "io.springfox:springfox-swagger2:${swaggerVersion}"
+    )
+
+    runtimeOnly "org.springframework.boot:spring-boot-devtools"
+    runtimeOnly "mysql:mysql-connector-java"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 
 configurations {
