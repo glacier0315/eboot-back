@@ -7,10 +7,11 @@ import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,13 +20,13 @@ import java.util.List;
  * @description 用户业务类
  * @date 2019-08-04 21:50
  */
-@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+@Slf4j
 @Transactional(readOnly = true)
 @Service(value = "userService")
 public class UserServiceImpl implements UserService {
-    @Autowired
+    @Resource
     private UserDao userDao;
-    @Autowired
+    @Resource
     private RoleDao roleDao;
 
     @Override

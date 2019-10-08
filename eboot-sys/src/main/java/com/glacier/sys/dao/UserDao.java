@@ -2,6 +2,7 @@ package com.glacier.sys.dao;
 
 import com.glacier.common.dao.CrudDao;
 import com.glacier.sys.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author glacier
@@ -17,4 +18,12 @@ public interface UserDao extends CrudDao<User, String> {
      * @return
      */
     int updatePassword(User user);
+
+    /**
+     * 根据用户名查找对应用户
+     *
+     * @param username
+     * @return
+     */
+    User loadUserByUsername(@Param("username") String username);
 }
