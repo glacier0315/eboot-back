@@ -1,8 +1,8 @@
 package com.glacier.sys.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.glacier.sys.entity.User;
-import com.glacier.sys.service.UserService;
+import com.glacier.sys.entity.Role;
+import com.glacier.sys.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author glacier
  * @version 1.0
- * @description
+ * @description 角色管理
  * @date 2019-08-11 21:24
  */
 @RestController
@@ -19,40 +19,74 @@ import java.util.List;
 public class RoleController {
 
     @Autowired
-    private UserService userService;
+    private RoleService roleService;
 
+    /**
+     * 查找指定角色
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("get/{id}")
-    public User get(@PathVariable("id") String id) {
-        return userService.get(id);
+    public Role get(@PathVariable("id") String id) {
+        return roleService.get(id);
     }
 
     /**
-     * @param user
+     * 查找所有角色
+     *
+     * @param role
      * @return
      */
     @GetMapping("list")
-    public List<User> list(User user) {
-        return userService.findList(user);
+    public List<Role> list(Role role) {
+        return roleService.findList(role);
     }
 
     /**
-     * @param user
+     * 分页查询角色
+     *
+     * @param role
      * @return
      */
     @GetMapping("page")
-    public PageInfo<User> page(User user, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int pageSize) {
-        return userService.findPage(user, pageNum, pageSize);
+    public PageInfo<Role> page(Role role, @RequestParam(defaultValue = "1") int pageNum,
+                               @RequestParam(defaultValue = "1") int pageSize) {
+        return roleService.findPage(role, pageNum, pageSize);
     }
 
+    /**
+     * 根据用户id 查找对应的角色
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("findRolesByUserId/{userId}")
+    public List<Role> findRolesByUserId(@PathVariable("userId") String userId) {
+        return roleService.findRolesByUserId(userId);
+    }
+
+    /**
+     * 保存角色
+     *
+     * @param user
+     * @return
+     */
     @PutMapping("save")
-    public int save(User user) {
-        return userService.save(user);
+    public int save(Role user) {
+        return roleService.save(user);
     }
 
+    /**
+     * 删除指定角色
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("del/{id}")
     public int delete(@PathVariable("id") String id) {
-        User user = new User();
-        user.setId(id);
-        return userService.delete(user);
+        Role role = new Role();
+        role.setId(id);
+        return roleService.delete(role);
     }
 }

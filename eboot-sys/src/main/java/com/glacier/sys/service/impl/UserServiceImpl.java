@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
-import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,19 +31,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User get(String id) {
         return userDao.get(id);
-    }
-
-    /**
-     * 查询用户及用户拥有的角色
-     * @param id
-     * @return
-     */
-    @Override
-    public User getWithRoles(String id) {
-        User user = userDao.get(id);
-        List<Role> roles = roleDao.findListByUser(id);
-        user.setRoles(roles);
-        return user;
     }
 
     @Transactional(rollbackFor = {})

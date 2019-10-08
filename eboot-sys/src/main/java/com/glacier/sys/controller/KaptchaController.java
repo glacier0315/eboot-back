@@ -17,17 +17,30 @@ public class KaptchaController {
     @Autowired
     private Kaptcha kaptcha;
 
+    /**
+     * 获取验证码
+     */
     @GetMapping("/render")
     public void render() {
         kaptcha.render();
     }
 
+    /**
+     * 校验验证码
+     *
+     * @param code
+     */
     @PostMapping("/valid")
     public void validDefaultTime(@RequestParam String code) {
         //default timeout 900 seconds
         kaptcha.validate(code);
     }
 
+    /**
+     * 校验验证码
+     *
+     * @param code
+     */
     @PostMapping("/validTime")
     public void validWithTime(@RequestParam String code) {
         kaptcha.validate(code, 60);

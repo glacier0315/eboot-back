@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author glacier
  * @version 1.0
- * @description
+ * @description 用户管理
  * @date 2019-08-04 22:13
  */
 @RestController
@@ -20,17 +20,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 根据用户id 查询用户
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("get/{id}")
     public User get(@PathVariable("id") String id) {
         return userService.get(id);
     }
 
-    @GetMapping("getWithRoles/{id}")
-    public User getWithRoles(@PathVariable("id") String id) {
-        return userService.getWithRoles(id);
-    }
-
     /**
+     * 查询所有用户
+     *
      * @param user
      * @return
      */
@@ -40,19 +43,34 @@ public class UserController {
     }
 
     /**
+     * 分页查询用户
+     *
      * @param user
      * @return
      */
     @GetMapping("page")
-    public PageInfo<User> page(User user,@RequestParam(defaultValue = "1") int pageNum,@RequestParam(defaultValue = "1") int pageSize) {
+    public PageInfo<User> page(User user, @RequestParam(defaultValue = "1") int pageNum,
+                               @RequestParam(defaultValue = "1") int pageSize) {
         return userService.findPage(user, pageNum, pageSize);
     }
 
+    /**
+     * 保存用户
+     *
+     * @param user
+     * @return
+     */
     @PutMapping("save")
     public int save(User user) {
         return userService.save(user);
     }
 
+    /**
+     * 删除指定用户
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("del/{id}")
     public int delete(@PathVariable("id") String id) {
         User user = new User();

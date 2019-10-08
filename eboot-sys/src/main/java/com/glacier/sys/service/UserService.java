@@ -11,15 +11,10 @@ import com.glacier.sys.entity.User;
  * @date 2019-08-04 21:50
  */
 public interface UserService extends CrudService<User, String> {
-    /**
-     *
-     * @param id
-     * @return
-     */
-    User getWithRoles(String id);
+
 
     /**
-     *
+     * 分页查询用户
      * @param user
      * @param pageNum
      * @param pageSize
