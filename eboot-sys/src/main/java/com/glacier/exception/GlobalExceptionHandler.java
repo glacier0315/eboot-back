@@ -1,4 +1,4 @@
-package com.glacier.sys.handler;
+package com.glacier.exception;
 
 import com.baomidou.kaptcha.exception.KaptchaException;
 import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
