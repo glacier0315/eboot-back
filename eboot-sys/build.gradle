@@ -15,14 +15,16 @@ dependencies {
     // spring boot
     implementation(
             "org.springframework.boot:spring-boot-starter-web",
-            // "org.springframework.boot:spring-boot-starter-security",
+            "org.springframework.boot:spring-boot-starter-security",
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
             "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
 
     // jwt
-    // implementation("org.springframework.security:spring-security-jwt:1.0.10.RELEASE")
+    implementation('io.jsonwebtoken:jjwt-api:0.10.7')
+    runtimeOnly('io.jsonwebtoken:jjwt-impl:0.10.7',
+            'io.jsonwebtoken:jjwt-jackson:0.10.7')
 
     // 验证码
     implementation("com.baomidou:kaptcha-spring-boot-starter:1.1.0")
