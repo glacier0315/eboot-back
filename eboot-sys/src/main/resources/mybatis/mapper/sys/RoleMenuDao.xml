@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glacier.sys.dao.RoleMenuDao">
+
+    <sql id="role_menu_columns">
+        a.id, a.role_id, a.menu_id, a.create_by, a.create_date, a.update_by, a.update_date
+    </sql>
+
+    <select id="get" resultType="RoleMenu">
+        select
+        <include refid="role_menu_columns"/>
+        from t_role_menu a
+        where id = #{id}
+    </select>
+
+    <select id="findList" resultType="RoleMenu">
+        select
+        <include refid="role_menu_columns"/>
+        from t_role_menu a
+        <where>
+            a.del_flag=#{NORMAL_FLAG}
+            <if test="roleId != null and roleId != '' ">
+                and a.role_id=#{roleId}
+            </if>
+            <if test="menuId != null and menuId != '' ">
+                and a.menu_id=#{menuId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="RoleMenu">
+        insert into t_role_menu (id, menu_id, role_id,
+            create_by, create_date,
+            update_by, update_date, del_flag
+          )
+        values (#{id}, #{menuId}, #{roleId},
+            #{createBy}, #{createDate},
+            #{updateBy}, #{updateDate}, #{delFlag}
+          )
+    </insert>
+
+    <update id="update" parameterType="RoleMenu">
+        update t_role_menu
+        set menu_id = #{menuId},
+            role_id = #{roleId},
+            update_by = #{updateBy},
+            update_date = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        update t_role_menu a
+        set a.del_flag=#{DEL_FLAG}
+        where id=#{id}
+    </update>
+</mapper>

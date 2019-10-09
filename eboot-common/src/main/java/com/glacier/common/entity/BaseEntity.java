@@ -16,6 +16,10 @@ import java.util.Date;
 public abstract class BaseEntity extends IdEntity {
     private static final long serialVersionUID = 2888247672017206669L;
     /**
+     * 是否新记录
+     */
+    private boolean isNewRecord = false;
+    /**
      * 正常标记
      */
     public static final String NORMAL_FLAG = "0";
@@ -44,4 +48,12 @@ public abstract class BaseEntity extends IdEntity {
      * 更新时间
      */
     protected Date updateDate;
+
+    public boolean isNewRecord() {
+        return isNewRecord || id == null || id.trim().length() == 0;
+    }
+
+    public void setNewRecord(boolean newRecord) {
+        isNewRecord = newRecord;
+    }
 }

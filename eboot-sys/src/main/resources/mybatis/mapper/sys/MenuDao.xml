@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glacier.sys.dao.MenuDao">
+
+    <sql id="menu_columns">
+        a.id, a.name, a.url, a.perms,  a.type,  a.status,  a.order_num,  a.icon,  a.parent_id,
+        a.create_by, a.create_date, a.update_by, a.update_date,a.del_flag
+    </sql>
+
+    <sql id="roleJoins">
+        inner join t_role_menu b on b.del_flag='0' and a.id=b.menu_id
+    </sql>
+
+    <select id="get" resultType="Menu">
+        select
+        <include refid="menu_columns"/>
+        from t_menu a
+        where id = #{id}
+    </select>
+
+    <select id="findList" resultType="Menu">
+        select
+        <include refid="menu_columns"/>
+        from t_menu a
+        <where>
+            a.del_flag=#{NORMAL_FLAG}
+            <if test="name != null and name != '' ">
+                and a.name=#{name}
+            </if>
+            <if test="parentId != null and parentId != '' ">
+                and a.parent_id=#{parentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findMenusByRoleId" resultType="Menu">
+        select
+        <include refid="menu_columns"/>
+        from t_menu a
+        <include refid="roleJoins"/>
+        <where>
+            a.del_flag='0'
+            and b.del_flag='0'
+            and b.role_id = #{roleId}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="Menu">
+        insert into t_menu (
+            id, name, url, perms, type, status, order_num, icon, parent_id,
+            create_by, create_date, update_by, update_date, del_flag
+        )
+        values (
+            #{id}, #{name}, #{url}, #{perms}, #{type}, #{status}, #{orderNum}, #{icon}, #{parentId},
+            #{createBy}, #{createDate},#{updateBy}, #{updateDate}, #{delFlag}
+          )
+    </insert>
+
+    <update id="update" parameterType="Menu">
+        update t_menu
+        set name = #{name},
+            url = #{url},
+            perms = #{perms},
+            type = #{type},
+            status = #{status},
+            order_num = #{orderNum},
+            icon = #{icon},
+            parent_id = #{parentId},
+            update_by = #{updateBy},
+            update_date = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        update t_menu a
+        set a.del_flag=#{DEL_FLAG}
+        where id=#{id}
+    </update>
+</mapper>

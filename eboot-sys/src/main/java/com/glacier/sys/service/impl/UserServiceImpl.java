@@ -36,7 +36,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {
-        return userDao.insert(user);
+        if (user.isNewRecord()) {
+            return userDao.insert(user);
+        } else {
+            return userDao.update(user);
+        }
     }
 
     @Override

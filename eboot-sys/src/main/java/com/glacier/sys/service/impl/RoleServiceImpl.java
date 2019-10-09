@@ -32,7 +32,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int save(Role role) {
-        return roleDao.insert(role);
+        if (role.isNewRecord()) {
+            return roleDao.insert(role);
+        } else {
+            return roleDao.update(role);
+        }
     }
 
     @Override
