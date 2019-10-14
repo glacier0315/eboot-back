@@ -1,8 +1,10 @@
 package com.glacier.sys.entity;
 
 import com.glacier.common.entity.BaseEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author glacier
@@ -10,7 +12,9 @@ import lombok.EqualsAndHashCode;
  * @description
  * @date 2019-08-11 21:18
  */
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper = true)
 public class UserRole extends BaseEntity {
     /**

@@ -2,8 +2,10 @@ package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author glacier
@@ -11,7 +13,9 @@ import lombok.EqualsAndHashCode;
  * @description  角色
  * @date 2019-08-04 13:45
  */
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Role extends BaseEntity {

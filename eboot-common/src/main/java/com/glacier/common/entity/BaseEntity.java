@@ -1,7 +1,9 @@
 package com.glacier.common.entity;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,7 +13,9 @@ import java.util.Date;
  * @description 基类
  * @date 2019-08-04 13:48
  */
-@Data
+@Getter
+@Setter
+@ToString
 @EqualsAndHashCode(callSuper = true)
 public abstract class BaseEntity extends IdEntity {
     private static final long serialVersionUID = 2888247672017206669L;

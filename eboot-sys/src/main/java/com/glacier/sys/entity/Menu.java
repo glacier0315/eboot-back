@@ -2,8 +2,9 @@ package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.entity.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -13,8 +14,9 @@ import java.util.List;
  * @description 菜单
  * @date 2019-10-09 11:03
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Menu extends BaseEntity {
 

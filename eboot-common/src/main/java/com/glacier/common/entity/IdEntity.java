@@ -1,6 +1,8 @@
 package com.glacier.common.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -10,7 +12,9 @@ import java.io.Serializable;
  * @description 主键基类
  * @date 2019-08-11 19:31
  */
-@Data
+@Getter
+@Setter
+@ToString
 public abstract class IdEntity implements Serializable {
     private static final long serialVersionUID = -7805787197851972745L;
     /**
