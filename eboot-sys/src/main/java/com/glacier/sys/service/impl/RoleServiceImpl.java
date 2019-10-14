@@ -2,6 +2,7 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
@@ -26,10 +27,11 @@ public class RoleServiceImpl implements RoleService {
     @Resource
     private RoleDao roleDao;
     @Override
-    public Role get(String id) {
-        return roleDao.get(id);
+    public Role findById(String id) {
+        return roleDao.findById(id);
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int save(Role role) {
         if (role.isNewRecord()) {
@@ -48,16 +50,14 @@ public class RoleServiceImpl implements RoleService {
      * 这个方法中用到了开头配置依赖的分页插件pagehelper
      * 很简单，只需要在service层传入参数，然后将参数传递给一个插件的一个静态方法即可；
      *
-     * @param role
-     * @param pageNum  开始页数
-     * @param pageSize 每页显示的数据条数
+     * @param pageRequest
      * @return
      */
     @Override
-    public PageInfo<Role> findPage(Role role, int pageNum, int pageSize) {
+    public PageInfo<Role> findPage(PageRequest<Role> pageRequest) {
         //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageNum, pageSize);
-        List<Role> list = roleDao.findList(role);
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+        List<Role> list = roleDao.findList(pageRequest.getData());
         PageInfo<Role> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }
@@ -73,6 +73,7 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.findRolesByUserId(userId);
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int delete(Role entity) {
         return roleDao.delete(entity);

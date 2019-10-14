@@ -1,7 +1,8 @@
 package com.glacier.sys.service;
 
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.service.CrudService;
+import com.glacier.core.page.PageRequest;
+import com.glacier.core.service.CurdService;
 import com.glacier.sys.entity.Role;
 
 import java.util.List;
@@ -12,17 +13,14 @@ import java.util.List;
  * @description 角色业务层
  * @date 2019-08-11 21:20
  */
-public interface RoleService extends CrudService<Role, String> {
+public interface RoleService extends CurdService<Role> {
 
     /**
-     * 分页查询角色
-     *
-     * @param role
-     * @param pageNum
-     * @param pageSize
+     * 分页查询
+     * @param pageRequest
      * @return
      */
-    PageInfo<Role> findPage(Role role, int pageNum, int pageSize);
+    PageInfo<Role> findPage(PageRequest<Role> pageRequest);
 
     /**
      * 根据用户id 查询对应的角色

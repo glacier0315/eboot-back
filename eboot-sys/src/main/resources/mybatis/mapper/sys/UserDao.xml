@@ -3,10 +3,10 @@
 <mapper namespace="com.glacier.sys.dao.UserDao">
 
     <sql id="user_columns">
-        a.id, a.username, a.password, a.id_card as idCard, a.birthday, a.sex, a.status
+        a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id
     </sql>
 
-    <select id="get" resultType="User">
+    <select id="findById" resultType="User">
         SELECT
         <include refid="user_columns"/>
         FROM t_user a
@@ -46,8 +46,10 @@
 
     <insert id="insert" parameterType="User">
         INSERT INTO t_user
-        (id, username, password, id_card, birthday, sex, status, create_by, create_date, del_flag)
-        VALUES (#{id}, #{username}, #{password}, #{idCard}, #{birthday}, #{sex}, #{status}, #{create_by}, #{create_date}, #{del_flag})
+        (id, username, password, nickname, id_card, birthday, sex, status, salt, email, mobile, dept_id,
+        create_by, create_date, del_flag)
+        VALUES (#{id}, #{username}, #{password}, #{nickname}, #{idCard}, #{birthday}, #{sex}, #{status}, #{salt}, #{email}, #{mobile}, #{deptId},
+        #{create_by}, #{create_date}, #{del_flag})
     </insert>
 
     <update id="update" parameterType="User">
@@ -56,6 +58,10 @@
             birthday = #{birthday},
             sex = #{sex},
             status = #{status},
+            nickname = #{nickname},
+            email = #{email},
+            mobile = #{mobile},
+            dept_id = #{deptId},
             update_by = #{updateBy},
             update_date = #{updateDate}
         where id = #{id}

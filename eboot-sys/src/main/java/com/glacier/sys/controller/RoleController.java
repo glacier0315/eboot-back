@@ -1,6 +1,7 @@
 package com.glacier.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RoleController {
      */
     @GetMapping("get/{id}")
     public Role get(@PathVariable("id") String id) {
-        return roleService.get(id);
+        return roleService.findById(id);
     }
 
     /**
@@ -50,9 +51,9 @@ public class RoleController {
      * @return
      */
     @GetMapping("page")
-    public PageInfo<Role> page(Role role, @RequestParam(defaultValue = "1") int pageNum,
-                               @RequestParam(defaultValue = "1") int pageSize) {
-        return roleService.findPage(role, pageNum, pageSize);
+    public PageInfo<Role> page(Role role, @RequestParam int pageNum,
+                               @RequestParam int pageSize) {
+        return roleService.findPage(new PageRequest<>(pageNum, pageSize, role));
     }
 
     /**

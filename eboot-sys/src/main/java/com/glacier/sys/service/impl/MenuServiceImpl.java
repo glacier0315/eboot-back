@@ -1,5 +1,8 @@
 package com.glacier.sys.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.entity.Role;
@@ -24,14 +27,27 @@ public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuDao menuDao;
 
+    /**
+     * @param pageRequest
+     * @return
+     */
+    @Override
+    public PageInfo<Menu> findPage(PageRequest<Menu> pageRequest) {
+        //将参数传给这个方法就可实现物理分页.
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+        List<Menu> list = menuDao.findList(pageRequest.getData());
+        PageInfo<Menu> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+    }
+
     @Override
     public List<Role> findMenusByRoleId(String roleId) {
         return menuDao.findMenusByRoleId(roleId);
     }
 
     @Override
-    public Menu get(String id) {
-        return menuDao.get(id);
+    public Menu findById(String id) {
+        return menuDao.findById(id);
     }
 
     @Override
@@ -39,6 +55,7 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.findList(menu);
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int save(Menu menu) {
         if (menu.isNewRecord()) {
@@ -48,8 +65,9 @@ public class MenuServiceImpl implements MenuService {
         }
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int delete(Menu menu) {
-        return 0;
+        return menuDao.delete(menu);
     }
 }

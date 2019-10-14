@@ -1,6 +1,6 @@
 package com.glacier.sys.dao;
 
-import com.glacier.common.dao.CrudDao;
+import com.glacier.core.dao.CurdDao;
 import com.glacier.sys.entity.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * @description  用户dao层
  * @date 2019-08-04 21:53
  */
-public interface UserDao extends CrudDao<User, String> {
+public interface UserDao extends CurdDao<User> {
 
     /**
      * 更新用户密码

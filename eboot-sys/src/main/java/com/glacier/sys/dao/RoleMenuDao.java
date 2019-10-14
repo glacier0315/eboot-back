@@ -1,6 +1,6 @@
 package com.glacier.sys.dao;
 
-import com.glacier.common.dao.CrudDao;
+import com.glacier.core.dao.CurdDao;
 import com.glacier.sys.entity.RoleMenu;
 
 /**
@@ -9,5 +9,5 @@ import com.glacier.sys.entity.RoleMenu;
  * @description 角色菜单关联dao层
  * @date 2019-10-09 14:51
  */
-public interface RoleMenuDao extends CrudDao<RoleMenu, String> {
+public interface RoleMenuDao extends CurdDao<RoleMenu> {
 }

@@ -6,7 +6,11 @@ package com.glacier.common.constant;
  * @description
  * @date 2019-08-04 13:52
  */
-public class Constant {
+public interface Constant {
+    /**
+     * 系统管理员用户名
+     */
+    public static final String ADMIN = "admin";
     /**
      * 性别 1 男  2 女 3 未知
      */

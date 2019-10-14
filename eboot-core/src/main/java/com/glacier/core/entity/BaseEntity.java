@@ -1,10 +1,10 @@
-package com.glacier.common.entity;
+package com.glacier.core.entity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -16,8 +16,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
-public abstract class BaseEntity extends IdEntity {
+public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 2888247672017206669L;
     /**
      * 是否新记录
@@ -32,6 +31,11 @@ public abstract class BaseEntity extends IdEntity {
      */
     public static final String DEL_FLAG = "1";
 
+
+    /**
+     * 主键
+     */
+    protected String id;
     /**
      * 删除标记
      */

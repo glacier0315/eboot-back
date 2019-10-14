@@ -1,6 +1,7 @@
 package com.glacier.sys.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserController {
      */
     @GetMapping("get/{id}")
     public User get(@PathVariable("id") String id) {
-        return userService.get(id);
+        return userService.findById(id);
     }
 
     /**
@@ -49,9 +50,9 @@ public class UserController {
      * @return
      */
     @GetMapping("page")
-    public PageInfo<User> page(User user, @RequestParam(defaultValue = "1") int pageNum,
-                               @RequestParam(defaultValue = "1") int pageSize) {
-        return userService.findPage(user, pageNum, pageSize);
+    public PageInfo<User> page(User user, @RequestParam int pageNum,
+                               @RequestParam int pageSize) {
+        return userService.findPage(new PageRequest<>(pageNum, pageSize, user));
     }
 
     /**

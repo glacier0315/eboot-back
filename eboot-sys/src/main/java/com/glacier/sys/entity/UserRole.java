@@ -1,6 +1,6 @@
 package com.glacier.sys.entity;
 
-import com.glacier.common.entity.BaseEntity;
+import com.glacier.core.entity.BaseEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

@@ -6,7 +6,7 @@
         a.id, a.role_id, a.user_id, a.create_by, a.create_date, a.update_by, a.update_date
     </sql>
 
-    <select id="get" resultType="UserRole">
+    <select id="findById" resultType="UserRole">
         select
         <include refid="user_role_columns"/>
         from t_user_role a

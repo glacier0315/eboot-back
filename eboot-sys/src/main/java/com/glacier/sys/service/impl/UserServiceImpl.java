@@ -2,6 +2,7 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.User;
@@ -29,8 +30,8 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
     @Override
-    public User get(String id) {
-        return userDao.get(id);
+    public User findById(String id) {
+        return userDao.findById(id);
     }
 
     @Transactional(rollbackFor = {})
@@ -48,19 +49,11 @@ public class UserServiceImpl implements UserService {
         return userDao.findList(user);
     }
 
-    /**
-     * 这个方法中用到了开头配置依赖的分页插件pagehelper
-     * 很简单，只需要在service层传入参数，然后将参数传递给一个插件的一个静态方法即可；
-     * @param user
-     * @param pageNum  开始页数
-     * @param pageSize 每页显示的数据条数
-     * @return
-     */
     @Override
-    public PageInfo<User> findPage(User user, int pageNum, int pageSize) {
+    public PageInfo<User> findPage(PageRequest<User> pageRequest) {
         //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageNum, pageSize);
-        List<User> list = userDao.findList(user);
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+        List<User> list = userDao.findList(pageRequest.getData());
         PageInfo<User> pageInfo = new PageInfo<>(list);
         return pageInfo;
     }

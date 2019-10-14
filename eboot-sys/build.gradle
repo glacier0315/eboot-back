@@ -10,6 +10,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     compile project(':eboot-common')
+    compile project(':eboot-core')
 
     // spring boot
     implementation(

@@ -28,7 +28,7 @@ public class MenuController {
      */
     @GetMapping("get/{id}")
     public Menu get(@PathVariable("id") String id) {
-        return menuService.get(id);
+        return menuService.findById(id);
     }
 
     /**
