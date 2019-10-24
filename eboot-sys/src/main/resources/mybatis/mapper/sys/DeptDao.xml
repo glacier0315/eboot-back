@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glacier.sys.dao.DeptDao">
+
+    <sql id="dept_columns">
+        a.id, a.name, a.code, a.level, a.type, a.status, a.order_num, a.parent_id,
+        a.create_by, a.create_date, a.update_by, a.update_date,a.del_flag
+    </sql>
+
+    <sql id="roleJoins">
+        inner join t_role_dept b on b.del_flag='0' and a.id=b.dept_id
+    </sql>
+
+    <select id="findById" resultType="Dept">
+        select
+        <include refid="dept_columns"/>
+        from t_dept a
+        where id = #{id}
+    </select>
+
+    <select id="findList" resultType="Dept">
+        select
+        <include refid="dept_columns"/>
+        from t_dept a
+        <where>
+            a.del_flag=#{NORMAL_FLAG}
+            <if test="name != null and name != '' ">
+                and a.name=#{name}
+            </if>
+            <if test="parentId != null and parentId != '' ">
+                and a.parent_id=#{parentId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findDeptsByRoleId" resultType="Dept">
+        select
+        <include refid="dept_columns"/>
+        from t_dept a
+        <include refid="roleJoins"/>
+        <where>
+            a.del_flag='0'
+            and b.del_flag='0'
+            and b.role_id = #{roleId}
+        </where>
+    </select>
+
+    <insert id="insert" parameterType="Dept">
+        insert into t_dept (
+            id, name, code, type, status, order_num, level, parent_id,
+            create_by, create_date, update_by, update_date, del_flag
+        )
+        values (
+            #{id}, #{name}, #{code}, #{type}, #{status}, #{orderNum}, #{level}, #{parentId},
+            #{createBy}, #{createDate},#{updateBy}, #{updateDate}, #{delFlag}
+          )
+    </insert>
+
+    <update id="update" parameterType="Dept">
+        update t_dept
+        set name = #{name},
+            code = #{code},
+            type = #{type},
+            status = #{status},
+            order_num = #{orderNum},
+            level = #{level},
+            parent_id = #{parentId},
+            update_by = #{updateBy},
+            update_date = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        update t_dept a
+        set a.del_flag=#{DEL_FLAG}
+        where id=#{id}
+    </update>
+</mapper>
