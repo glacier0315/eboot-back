@@ -2,7 +2,6 @@ package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.core.entity.BaseEntity;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +18,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends BaseEntity {
     private static final long serialVersionUID = -3083387263445135811L;

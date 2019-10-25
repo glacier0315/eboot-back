@@ -9,7 +9,7 @@
     </resultMap>
 
     <sql id="user_columns">
-        a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id
+        a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id, a.create_by, a.create_date
     </sql>
 
     <select id="findById" resultType="User">

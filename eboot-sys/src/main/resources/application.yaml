@@ -30,7 +30,7 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
-    default-property-inclusion: non_null
+    default-property-inclusion: non_empty
 
 server:
   port: 8081
@@ -46,6 +46,7 @@ mybatis:
     map-underscore-to-camel-case: true
     auto-mapping-unknown-column-behavior: warning
     use-generated-keys: true
+    aggressive-lazy-loading: false
 
 #pagehelper
 pagehelper:
