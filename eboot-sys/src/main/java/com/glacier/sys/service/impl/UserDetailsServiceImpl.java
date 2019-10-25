@@ -1,6 +1,7 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.sys.dao.UserDao;
+import com.glacier.sys.entity.SysUser;
 import com.glacier.sys.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +28,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userDao.loadUserByUsername(username);
         if (user == null || user.getId() == null || "".equals(user.getId().trim())) {
             throw new UsernameNotFoundException("用户不存在！");
+        } else {
+            //
         }
-        return user;
+        return new SysUser(user);
     }
 }
