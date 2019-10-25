@@ -2,6 +2,7 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.common.utils.IdGen;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.entity.Role;
@@ -35,6 +36,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int save(Role role) {
         if (role.isNewRecord()) {
+            role.setId(IdGen.uuid());
             return roleDao.insert(role);
         } else {
             return roleDao.update(role);

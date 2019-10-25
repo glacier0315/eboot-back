@@ -2,6 +2,7 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.common.utils.IdGen;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int save(User user) {
         if (user.isNewRecord()) {
+            user.setId(IdGen.uuid());
             return userDao.insert(user);
         } else {
             return userDao.update(user);

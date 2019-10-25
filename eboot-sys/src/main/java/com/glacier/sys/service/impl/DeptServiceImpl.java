@@ -1,5 +1,6 @@
 package com.glacier.sys.service.impl;
 
+import com.glacier.common.utils.IdGen;
 import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
@@ -22,6 +23,7 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public int save(Dept dept) {
         if (dept.isNewRecord()) {
+            dept.setId(IdGen.uuid());
             return deptDao.insert(dept);
         } else {
             return deptDao.update(dept);

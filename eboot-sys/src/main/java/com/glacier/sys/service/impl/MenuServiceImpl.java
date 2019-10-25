@@ -2,6 +2,7 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.glacier.common.utils.IdGen;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
@@ -59,6 +60,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public int save(Menu menu) {
         if (menu.isNewRecord()) {
+            menu.setId(IdGen.uuid());
             return menuDao.insert(menu);
         } else {
             return menuDao.update(menu);
