@@ -4,11 +4,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.glacier.common.utils.IdGen;
 import com.glacier.core.page.PageRequest;
-import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +28,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
-    @Resource
-    private RoleDao roleDao;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User findById(String id) {
@@ -40,6 +41,10 @@ public class UserServiceImpl implements UserService {
     public int save(User user) {
         if (user.isNewRecord()) {
             user.setId(IdGen.uuid());
+            if (user.getPassword() != null && user.getPassword().trim().length() > 0) {
+                // 加密密码
+                user.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
             return userDao.insert(user);
         } else {
             return userDao.update(user);

@@ -1,13 +1,11 @@
 package com.glacier.sys.service;
 
 import com.glacier.EbootSysApplication;
-import com.glacier.security.util.PasswordUtils;
 import com.glacier.sys.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,9 +25,6 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
     @Rollback(false)
     // @Test
     public void save() {
@@ -37,9 +32,7 @@ public class UserServiceTest {
         user.setUsername("admin");
         user.setNickname("超级管理员");
         user.setIdCard("11111111111111111111");
-        user.setSalt(PasswordUtils.getSalt());
-        user.setPassword(PasswordUtils.encode("admin", user.getSalt()));
-        // user.setPassword(passwordEncoder.encode("admin"));
+        user.setPassword("admin");
         Date time = Calendar.getInstance().getTime();
         user.setCreateDate(time);
         userService.save(user);

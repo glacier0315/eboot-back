@@ -1,7 +1,6 @@
 package com.glacier.config;
 
 import com.glacier.security.JwtAuthenticationFilter;
-import com.glacier.security.JwtAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -44,9 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-        // 使用自定义身份验证组件
-        auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
 
     /**

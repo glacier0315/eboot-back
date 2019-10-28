@@ -2,7 +2,6 @@ package com.glacier.security;
 
 
 import com.glacier.security.util.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -15,13 +14,11 @@ import java.io.IOException;
 /**
  * @author hebin
  * @version 1.0
- * @description
+ * @description 令牌认证过滤器
  * @date 2019-10-28 09:05
  */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
-
-    @Autowired
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }

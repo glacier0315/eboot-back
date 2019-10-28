@@ -2,7 +2,6 @@ package com.glacier.sys.controller;
 
 import com.glacier.core.http.HttpResult;
 import com.glacier.security.JwtAuthenticatioToken;
-import com.glacier.security.util.PasswordUtils;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.security.vo.LoginBean;
 import com.glacier.sys.entity.SysUser;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +30,8 @@ public class IndexController {
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping("/")
     public String index() {
@@ -54,7 +56,7 @@ public class IndexController {
         if (user == null) {
             return HttpResult.error("账号不存在！");
         }
-        if (!PasswordUtils.matches(user.getSalt(), loginBean.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginBean.getPassword(), user.getPassword())) {
             return HttpResult.error("密码不正确");
         }
         // 系统登录认证

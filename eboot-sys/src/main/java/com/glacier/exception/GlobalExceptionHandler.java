@@ -4,6 +4,8 @@ import com.baomidou.kaptcha.exception.KaptchaException;
 import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
 import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
 import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
+import com.glacier.core.http.HttpResult;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,16 +18,32 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * 处理验证码异常
+     *
+     * @param kaptchaException
+     * @return
+     */
     @ExceptionHandler(value = KaptchaException.class)
-    public String kaptchaExceptionHandler(KaptchaException kaptchaException) {
+    public HttpResult kaptchaExceptionHandler(KaptchaException kaptchaException) {
         if (kaptchaException instanceof KaptchaIncorrectException) {
-            return "验证码不正确";
+            return HttpResult.error("验证码不正确！");
         } else if (kaptchaException instanceof KaptchaNotFoundException) {
-            return "验证码未找到";
+            return HttpResult.error("验证码未找到！");
         } else if (kaptchaException instanceof KaptchaTimeoutException) {
-            return "验证码过期";
+            return HttpResult.error("验证码过期！");
         } else {
-            return "验证码渲染失败";
+            return HttpResult.error("验证码渲染失败！");
         }
+    }
+
+    /**
+     * 处理用户不存在异常
+     *
+     * @return
+     */
+    @ExceptionHandler(value = UsernameNotFoundException.class)
+    public HttpResult usernameNotFoundException() {
+        return HttpResult.error("用户不存在！");
     }
 }
