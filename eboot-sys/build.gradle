@@ -18,9 +18,12 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-security",
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
             "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
-            "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oauth2Version}",
+            // "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oauth2Version}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
+
+    // jwt
+    implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")
 
     // 验证码
     implementation("com.baomidou:kaptcha-spring-boot-starter:1.1.0")
