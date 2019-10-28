@@ -1,0 +1,19 @@
+plugins {
+    id "org.springframework.boot" version "${springBootVersion}"
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencies {
+    // spring boot
+    implementation(
+            "org.springframework.boot:spring-boot-starter",
+            "org.springframework.boot:spring-boot-starter-web"
+    )
+
+    // spring-boot-admin
+    implementation(
+            "de.codecentric:spring-boot-admin-server:${springBootAdminVersion}",
+            "de.codecentric:spring-boot-admin-server-ui:${springBootAdminVersion}"
+    )
+}

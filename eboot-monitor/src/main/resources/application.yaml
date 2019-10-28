@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eboot-monitor
+
+
+server:
+  port: 8091
+
+
+

@@ -29,6 +29,9 @@ dependencies {
     implementation("com.baomidou:kaptcha-spring-boot-starter:${kaptchaVersion}")
     implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
 
+    // spring-boot-admin
+    implementation("de.codecentric:spring-boot-admin-client:${springBootAdminVersion}")
+
     // swagger
     implementation(
             "io.springfox:springfox-swagger-ui:${swaggerVersion}",

@@ -6,6 +6,16 @@ allprojects {
         springBootVersion = "2.1.9.RELEASE"
         mybatisGeneratorVersion = "1.4"
     }
+    // 指定仓库
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+    // 设置编码
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 
     //删除文件
     task cleanTempFiles() {
@@ -14,23 +24,14 @@ allprojects {
         println("delete logs")
         delete "logs"
     }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-    }
 }
 
 subprojects {
     apply plugin: 'java'
 
+    // 指定jdk版本
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
-
-    repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://repo.spring.io/snapshot' }
-        maven { url 'https://repo.spring.io/milestone' }
-    }
 
     ext {
         swaggerVersion = '2.9.2'
@@ -42,6 +43,7 @@ subprojects {
         oauth2Version = "2.1.9.RELEASE"
         jjwtVersion = "0.9.1"
         kaptchaVersion = "1.1.0"
+        springBootAdminVersion = "2.1.6"
     }
 
     dependencies {
@@ -52,6 +54,4 @@ subprojects {
         testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
         testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
     }
-
-
 }
