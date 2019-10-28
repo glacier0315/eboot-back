@@ -2,6 +2,11 @@ allprojects {
     group = 'com.glacier'
     version = '0.0.1-SNAPSHOT'
 
+    ext {
+        springBootVersion = "2.1.9.RELEASE"
+        mybatisGeneratorVersion = "1.4"
+    }
+
     //删除文件
     task cleanTempFiles() {
         println("delete out")
@@ -36,6 +41,7 @@ subprojects {
         lombokVersion = "1.18.10"
         oauth2Version = "2.1.9.RELEASE"
         jjwtVersion = "0.9.1"
+        kaptchaVersion = "1.1.0"
     }
 
     dependencies {
