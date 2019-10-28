@@ -1,6 +1,7 @@
 package com.glacier.sys.service;
 
 import com.glacier.EbootSysApplication;
+import com.glacier.security.util.PasswordUtils;
 import com.glacier.sys.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +35,11 @@ public class UserServiceTest {
     public void save() {
         User user = new User();
         user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("admin"));
+        user.setNickname("超级管理员");
+        user.setIdCard("11111111111111111111");
+        user.setSalt(PasswordUtils.getSalt());
+        user.setPassword(PasswordUtils.encode("admin", user.getSalt()));
+        // user.setPassword(passwordEncoder.encode("admin"));
         Date time = Calendar.getInstance().getTime();
         user.setCreateDate(time);
         userService.save(user);

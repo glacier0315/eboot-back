@@ -1,5 +1,7 @@
 package com.glacier.config;
 
+import com.glacier.security.JwtAuthenticationFilter;
+import com.glacier.security.JwtAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 import javax.annotation.Resource;
@@ -41,7 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        // auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        // 使用自定义身份验证组件
+        auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
     }
 
     /**
@@ -51,12 +56,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                // 对于获取token的rest api要允许匿名访问
-                .antMatchers("oauth/**").permitAll()
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // 对于获取token的rest api要允许匿名访问
+                .antMatchers("oauth/**").permitAll()
                 // 查看sql监控 druid
                 .antMatchers("/druid/**").permitAll()
+                // 登录
+                .antMatchers("/login").permitAll()
                 // swagger
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs",
                         "/webjars/springfox-swagger-ui/**").permitAll()
@@ -65,11 +72,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 服务监控
                 .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated();
-        http.csrf().disable() // 禁用自带的跨域管理
-                .formLogin();
+        http.csrf().disable(); // 禁用自带的跨域管理
 
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+        // tolen 验证过滤器
+        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
 
     }
 

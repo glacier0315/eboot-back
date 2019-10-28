@@ -1,9 +1,6 @@
 package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +15,6 @@ import java.util.List;
  * @description
  * @date 2019-10-25 15:27
  */
-@Getter
-@Setter
-@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SysUser implements UserDetails {
 
@@ -41,6 +35,10 @@ public class SysUser implements UserDetails {
      */
     private String nickname;
     /**
+     * 盐值
+     */
+    private String salt;
+    /**
      * 角色
      */
     private List<Role> roles;
@@ -53,7 +51,58 @@ public class SysUser implements UserDetails {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
+        this.salt = user.getSalt();
         this.roles = user.getRoles();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -65,16 +114,6 @@ public class SysUser implements UserDetails {
             }
         }
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
