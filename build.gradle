@@ -4,6 +4,7 @@ allprojects {
 
     ext {
         springBootVersion = "2.1.9.RELEASE"
+        springCloudVersion = "Greenwich.SR3"
         mybatisGeneratorVersion = "1.4"
     }
     // 指定仓库

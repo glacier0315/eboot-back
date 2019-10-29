@@ -3,6 +3,7 @@ package com.glacier;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @description 主程序入口
  * @date 2019-04-24 20:27
  */
+@EnableDiscoveryClient
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan("com.glacier.**.dao")

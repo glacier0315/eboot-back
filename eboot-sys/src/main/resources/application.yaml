@@ -43,6 +43,13 @@ spring:
     admin:
       client:
         url: "http://localhost:8091"
+  cloud:
+    consul:
+      host: 192.168.10.128
+      port: 8500
+      discovery:
+        # 注册到consul的服务名称
+        serviceName: ${spring.application.name}
 
 server:
   port: 8081
@@ -91,4 +98,6 @@ management:
     web:
       exposure:
         include: '*'
-
+  endpoint:
+    health:
+      show-details: always

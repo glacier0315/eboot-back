@@ -5,6 +5,13 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
+dependencyManagement {
+    imports {
+        //spring bom helps us to declare dependencies without specifying version numbers.
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
 dependencies {
     // 本地依赖
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -18,6 +25,7 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-security",
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
             "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
+            "org.springframework.cloud:spring-cloud-starter-consul-discovery",
             // "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oauth2Version}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
