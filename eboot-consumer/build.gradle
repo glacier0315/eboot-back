@@ -19,9 +19,12 @@ dependencies {
     )
 
     // spring-boot-admin
+    implementation("de.codecentric:spring-boot-admin-client:${springBootAdminVersion}")
+
+    // swagger
     implementation(
-            "de.codecentric:spring-boot-admin-server:${springBootAdminVersion}",
-            "de.codecentric:spring-boot-admin-server-ui:${springBootAdminVersion}"
+            "io.springfox:springfox-swagger-ui:${swaggerVersion}",
+            "io.springfox:springfox-swagger2:${swaggerVersion}"
     )
 
     runtimeOnly "org.springframework.boot:spring-boot-devtools"
