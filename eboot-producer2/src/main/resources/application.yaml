@@ -1,0 +1,26 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eboot-producer2
+  boot:
+    admin:
+      client:
+        url: "http://localhost:8091"
+        instance:
+          prefer-ip: true
+  cloud:
+    consul:
+      host: 192.168.10.128
+      port: 8500
+      discovery:
+        # 注册到consul的服务名称
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+
+
+server:
+  port: 8102
+
+
+

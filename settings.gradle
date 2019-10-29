@@ -1,2 +1,2 @@
 rootProject.name = 'eboot-platform'
-include('eboot-common', 'eboot-core', 'eboot-sys', 'eboot-monitor', 'eboot-consumer')
+include('eboot-common', 'eboot-core', 'eboot-sys', 'eboot-monitor','eboot-producer1', 'eboot-producer2', 'eboot-consumer')
