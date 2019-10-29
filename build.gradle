@@ -19,9 +19,9 @@ allprojects {
 
     //删除文件
     task cleanTempFiles() {
-        println("delete out")
+        println("delete $project out")
         delete "out"
-        println("delete logs")
+        println("delete $project logs")
         delete "logs"
     }
 }
