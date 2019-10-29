@@ -10,6 +10,7 @@ spring:
       discovery:
         # 注册到consul的服务名称
         serviceName: ${spring.application.name}
+        prefer-ip-address: true
 
 
 server:
