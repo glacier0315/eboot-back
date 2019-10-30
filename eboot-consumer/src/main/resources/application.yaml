@@ -23,4 +23,7 @@ server:
   port: 8111
 
 
-
+feign:
+  hystrix:
+    # 开启熔断器
+    enabled: true
