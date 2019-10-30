@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: eboot-producer1
+    name: eboot-producer
   boot:
     admin:
       client:
