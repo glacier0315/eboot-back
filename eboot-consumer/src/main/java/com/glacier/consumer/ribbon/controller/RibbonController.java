@@ -1,4 +1,4 @@
-package com.glacier.consumer.controller.ribbon;
+package com.glacier.consumer.ribbon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

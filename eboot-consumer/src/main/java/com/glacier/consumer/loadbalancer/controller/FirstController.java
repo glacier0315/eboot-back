@@ -1,4 +1,4 @@
-package com.glacier.consumer.controller.loadbalancer;
+package com.glacier.consumer.loadbalancer.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
