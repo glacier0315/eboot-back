@@ -6,12 +6,12 @@ spring:
   boot:
     admin:
       client:
-        url: "http://localhost:8091"
+        url: "http://192.168.10.1:8091"
         instance:
           prefer-ip: true
   cloud:
     consul:
-      host: 192.168.10.128
+      host: 192.168.10.130
       port: 8500
       discovery:
         # 注册到consul的服务名称
