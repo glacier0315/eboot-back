@@ -17,6 +17,11 @@ spring:
         # 注册到consul的服务名称
         serviceName: ${spring.application.name}
         prefer-ip-address: true
+  zipkin:
+    base-url: http://192.168.10.130:9411
+  sleuth:
+    sampler:
+      probability: 1 #样本采集量,默认0.1
 
 
 server:
