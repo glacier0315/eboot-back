@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ public class IndexController {
      * @return
      */
     @PostMapping(value = "/login")
-    public HttpResult login(LoginBean loginBean, HttpServletRequest request) {
+    public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
         Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
         if (kaptcha == null) {
             return HttpResult.error("验证码已失效！");
@@ -52,7 +53,7 @@ public class IndexController {
             return HttpResult.error("验证码不正确！");
         }
         //
-        SysUser user = (SysUser) userDetailsService.loadUserByUsername(loginBean.getUsername());
+        SysUser user = (SysUser) userDetailsService.loadUserByUsername(loginBean.getAccount());
         if (user == null) {
             return HttpResult.error("账号不存在！");
         }
@@ -60,7 +61,7 @@ public class IndexController {
             return HttpResult.error("密码不正确");
         }
         // 系统登录认证
-        JwtAuthenticatioToken token = SecurityUtils.login(request, loginBean.getUsername(), loginBean.getPassword(), authenticationManager);
+        JwtAuthenticatioToken token = SecurityUtils.login(request, loginBean.getAccount(), loginBean.getPassword(), authenticationManager);
         return HttpResult.ok(token);
     }
 }
