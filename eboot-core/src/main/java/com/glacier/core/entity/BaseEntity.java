@@ -35,27 +35,27 @@ public abstract class BaseEntity implements Serializable {
     /**
      * 主键
      */
-    protected String id;
+    private String id;
     /**
      * 删除标记
      */
-    protected String delFlag = NORMAL_FLAG;
+    private String delFlag = NORMAL_FLAG;
     /**
      * 创建人
      */
-    protected String createBy;
+    private String createBy;
     /**
      * 创建时间
      */
-    protected Date createDate;
+    private Date createDate;
     /**
      * 更新人
      */
-    protected String updateBy;
+    private String updateBy;
     /**
      * 更新时间
      */
-    protected Date updateDate;
+    private Date updateDate;
 
     public boolean isNewRecord() {
         return isNewRecord || id == null || id.trim().length() == 0;
