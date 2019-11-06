@@ -44,4 +44,11 @@ public class DeptServiceImpl implements DeptService {
     public List<Dept> findList(Dept dept) {
         return deptDao.findList(dept);
     }
+
+    @Override
+    public List<Dept> findTree() {
+        Dept dept = new Dept();
+        dept.setLevel(1);
+        return deptDao.findList(dept);
+    }
 }
