@@ -6,6 +6,7 @@ import com.glacier.core.service.CurdService;
 import com.glacier.sys.entity.Menu;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author hebin
@@ -38,4 +39,12 @@ public interface MenuService extends CurdService<Menu> {
      * @return
      */
     List<Menu> findTree(String username);
+
+    /**
+     * 查找权限
+     *
+     * @param username
+     * @return
+     */
+    Set<String> findPermissions(String username);
 }

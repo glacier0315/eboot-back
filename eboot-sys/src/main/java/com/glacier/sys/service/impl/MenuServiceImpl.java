@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author hebin
@@ -68,6 +66,23 @@ public class MenuServiceImpl implements MenuService {
         // 组装子类菜单
         findChildren(menuList, menus);
         return menuList;
+    }
+
+    @Override
+    public Set<String> findPermissions(String username) {
+        Set<String> permissions = new HashSet<>(10);
+        if (username == null) {
+            return permissions;
+        }
+        if (Constant.ADMIN.equals(username)) {
+            permissions = menuDao.findAllPermissions();
+        } else {
+            permissions = menuDao.findPermissions(username);
+        }
+        if (permissions == null) {
+            permissions = new HashSet<>(1);
+        }
+        return permissions;
     }
 
     @Override

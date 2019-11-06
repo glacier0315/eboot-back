@@ -83,4 +83,11 @@ public class MenuController {
         List<Menu> tree = menuService.findTree(username);
         return HttpResult.ok(tree);
     }
+
+    @GetMapping(value = "/findPermissions")
+    public HttpResult findPermissions() {
+        String username = SecurityUtils.getUsername();
+        log.debug("username: {}", username);
+        return HttpResult.ok(menuService.findPermissions(username));
+    }
 }

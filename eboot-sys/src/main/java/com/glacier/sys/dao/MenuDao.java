@@ -5,6 +5,7 @@ import com.glacier.sys.entity.Menu;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author hebin
@@ -29,4 +30,19 @@ public interface MenuDao extends CurdDao<Menu> {
      * @return
      */
     List<Menu> findMenusByUsername(@Param("username") String username);
+
+    /**
+     * 根据用户名 查询所有按钮权限
+     *
+     * @param username
+     * @return
+     */
+    Set<String> findPermissions(@Param("username") String username);
+
+    /**
+     * 根据查询所有按钮权限
+     *
+     * @return
+     */
+    Set<String> findAllPermissions();
 }

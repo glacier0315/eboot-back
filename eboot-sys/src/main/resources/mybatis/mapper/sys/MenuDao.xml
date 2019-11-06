@@ -57,6 +57,31 @@
         </where>
     </select>
 
+    <select id="findPermissions" resultType="String">
+        select a.perms
+        from t_menu a
+        inner join t_role_menu b on b.del_flag='0' and a.id=b.menu_id
+        inner join t_user_role c on c.del_flag='0' and c.role_id=b.role_id
+        inner join t_user d on d.del_flag='0' and d.id=c.user_id
+        <where>
+            a.del_flag='0'
+            and exists (
+            select 1 from t_role r where r.del_flag='0' and r.id=b.role_id and r.status = '1'
+            )
+            and a.type = 3
+            and d.username = #{username}
+        </where>
+    </select>
+
+    <select id="findAllPermissions" resultType="String">
+        select a.perms
+        from t_menu a
+        <where>
+            a.del_flag='0'
+            and a.type = 3
+        </where>
+    </select>
+
     <insert id="insert" parameterType="Menu">
         insert into t_menu (
             id, name, url, perms, type, status, order_num, icon, parent_id,
