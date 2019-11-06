@@ -37,8 +37,7 @@ public class MenuServiceImpl implements MenuService {
         //将参数传给这个方法就可实现物理分页.
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
         List<Menu> list = menuDao.findList(pageRequest.getData());
-        PageInfo<Menu> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        return new PageInfo<>(list);
     }
 
     @Override
