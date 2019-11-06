@@ -25,16 +25,18 @@ public class Menu extends BaseEntity {
     private String url;
 
     private String perms;
-
-    private Integer type;
     /**
      * 1 目录  2 菜单  3 权限标识
      */
-    private Integer status;
+    private int type;
+    /**
+     * 1 正常  2 隐藏
+     */
+    private int status;
 
     private String icon;
 
-    private Integer orderNum;
+    private int orderNum;
 
     private String parentId;
 
@@ -42,6 +44,6 @@ public class Menu extends BaseEntity {
      * 扩展字段
      */
     private String parentName;
-    private Integer level;
+    private int level;
     private List<Menu> children;
 }

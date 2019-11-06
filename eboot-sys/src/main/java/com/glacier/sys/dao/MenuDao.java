@@ -2,7 +2,6 @@ package com.glacier.sys.dao;
 
 import com.glacier.core.dao.CurdDao;
 import com.glacier.sys.entity.Menu;
-import com.glacier.sys.entity.Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,5 +20,13 @@ public interface MenuDao extends CurdDao<Menu> {
      * @param roleId
      * @return
      */
-    List<Role> findMenusByRoleId(@Param("roleId") String roleId);
+    List<Menu> findMenusByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 根据用户名 查询所有菜单
+     *
+     * @param username
+     * @return
+     */
+    List<Menu> findMenusByUsername(@Param("username") String username);
 }

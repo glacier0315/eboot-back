@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.glacier.core.page.PageRequest;
 import com.glacier.core.service.CurdService;
 import com.glacier.sys.entity.Menu;
-import com.glacier.sys.entity.Role;
 
 import java.util.List;
 
@@ -30,5 +29,13 @@ public interface MenuService extends CurdService<Menu> {
      * @param roleId
      * @return
      */
-    List<Role> findMenusByRoleId(String roleId);
+    List<Menu> findMenusByRoleId(String roleId);
+
+    /**
+     * 根据用户名查找菜单
+     *
+     * @param username
+     * @return
+     */
+    List<Menu> findTree(String username);
 }

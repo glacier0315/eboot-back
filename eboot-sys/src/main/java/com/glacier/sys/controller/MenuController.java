@@ -1,7 +1,10 @@
 package com.glacier.sys.controller;
 
+import com.glacier.core.http.HttpResult;
+import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +16,7 @@ import java.util.List;
  * @description 菜单控制层
  * @date 2019-10-09 15:59
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "menu")
 public class MenuController {
@@ -65,5 +69,18 @@ public class MenuController {
         Menu menu = new Menu();
         menu.setId(id);
         return menuService.delete(menu);
+    }
+
+    /**
+     * 查询所有菜单 树
+     *
+     * @return
+     */
+    @GetMapping("findNavTree")
+    public HttpResult findNavTree() {
+        String username = SecurityUtils.getUsername();
+        log.debug("username: {}", username);
+        List<Menu> tree = menuService.findTree(username);
+        return HttpResult.ok(tree);
     }
 }

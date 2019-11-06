@@ -27,7 +27,7 @@ public class Role extends BaseEntity {
      */
     private String roleCode;
     /**
-     * 状态
+     * 状态 1 正常  2 禁用
      */
     private String status;
 }
