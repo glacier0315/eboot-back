@@ -84,6 +84,11 @@ public class MenuController {
         return HttpResult.ok(tree);
     }
 
+    /**
+     * 查询所有权限标识
+     *
+     * @return
+     */
     @GetMapping(value = "/findPermissions")
     public HttpResult findPermissions() {
         String username = SecurityUtils.getUsername();

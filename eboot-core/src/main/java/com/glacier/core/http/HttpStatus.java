@@ -5,7 +5,9 @@ package com.glacier.core.http;
  * All status codes defined in RFC1945 (HTTP/1.0), RFC2616 (HTTP/1.1), and
  * RFC2518 (WebDAV) are listed.
  *
+ * @author glacier
  * @see
+ * @date 2019-10-14 15:53
  * @since 4.0
  */
 public interface HttpStatus {

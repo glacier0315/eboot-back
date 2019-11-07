@@ -1,11 +1,18 @@
 package com.glacier.core.http;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * HTTP结果封装
  *
- * @author Louis
- * @date Jan 12, 2019
+ * @author glacier
+ * @date 2019-10-14 15:53
  */
+@Getter
+@Setter
+@ToString
 public class HttpResult {
 
     private int code = 200;
@@ -42,29 +49,4 @@ public class HttpResult {
     public static HttpResult ok() {
         return new HttpResult();
     }
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
 }
