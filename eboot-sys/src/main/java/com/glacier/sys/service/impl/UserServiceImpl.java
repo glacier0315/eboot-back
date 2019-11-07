@@ -48,8 +48,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {
-        if (user.isNewRecord()) {
-            user.setId(IdGen.uuid());
+        if (user.newRecord()) {
+            if (!user.isNewRecord()) {
+                user.setId(IdGen.uuid());
+            }
             if (user.getPassword() != null && user.getPassword().trim().length() > 0) {
                 // 加密密码
                 user.setPassword(passwordEncoder.encode(user.getPassword()));

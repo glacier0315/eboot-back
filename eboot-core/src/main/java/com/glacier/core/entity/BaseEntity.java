@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@ToString(exclude = {"newRecord"})
+@ToString(exclude = {"isNewRecord"})
 public abstract class BaseEntity implements Serializable {
     private static final long serialVersionUID = 2888247672017206669L;
 
@@ -57,14 +57,17 @@ public abstract class BaseEntity implements Serializable {
      */
     private Date updateDate;
     /**
-     * 是否新记录
+     * 是否新记录 默认为false
      */
     @JsonIgnore
-    private boolean newRecord = false;
+    private boolean isNewRecord = false;
 
-    @JsonIgnore
-    public boolean isNewRecord() {
-        return newRecord || id == null || id.trim().length() == 0;
+    /**
+     * 用于判断是否是新记录
+     *
+     * @return
+     */
+    public boolean newRecord() {
+        return isNewRecord || id == null || id.trim().length() == 0;
     }
-
 }

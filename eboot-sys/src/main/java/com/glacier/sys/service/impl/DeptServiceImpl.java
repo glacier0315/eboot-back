@@ -25,8 +25,10 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public int save(Dept dept) {
-        if (dept.isNewRecord()) {
-            dept.setId(IdGen.uuid());
+        if (dept.newRecord()) {
+            if (!dept.isNewRecord()) {
+                dept.setId(IdGen.uuid());
+            }
             return deptDao.insert(dept);
         } else {
             return deptDao.update(dept);

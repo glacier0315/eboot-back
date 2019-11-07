@@ -35,8 +35,10 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Role role) {
-        if (role.isNewRecord()) {
-            role.setId(IdGen.uuid());
+        if (role.newRecord()) {
+            if (!role.isNewRecord()) {
+                role.setId(IdGen.uuid());
+            }
             return roleDao.insert(role);
         } else {
             return roleDao.update(role);

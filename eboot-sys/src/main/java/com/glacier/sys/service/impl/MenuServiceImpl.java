@@ -76,6 +76,7 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 根据用户ID 查询权限标识
+     *
      * @param userId
      * @return
      */
@@ -109,8 +110,10 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Menu menu) {
-        if (menu.isNewRecord()) {
-            menu.setId(IdGen.uuid());
+        if (menu.newRecord()) {
+            if (!menu.isNewRecord()) {
+                menu.setId(IdGen.uuid());
+            }
             return menuDao.insert(menu);
         } else {
             return menuDao.update(menu);

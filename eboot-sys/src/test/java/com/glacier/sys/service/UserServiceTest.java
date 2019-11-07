@@ -1,6 +1,7 @@
 package com.glacier.sys.service;
 
 import com.glacier.EbootSysApplication;
+import com.glacier.common.constant.Constant;
 import com.glacier.sys.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,8 @@ public class UserServiceTest {
     // @Test
     public void save() {
         User user = new User();
+        user.setNewRecord(true);
+        user.setId(Constant.ADMIN_ID);
         user.setUsername("admin");
         user.setNickname("超级管理员");
         user.setIdCard("11111111111111111111");
