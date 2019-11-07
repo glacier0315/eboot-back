@@ -71,9 +71,8 @@ public class UserServiceImpl implements UserService {
     public PageInfo<User> findPage(PageRequest<User> pageRequest) {
         //将参数传给这个方法就可实现物理分页.
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<User> list = userDao.findList(pageRequest.getData());
-        PageInfo<User> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        List<User> list = userDao.findList(pageRequest.getParams());
+        return new PageInfo<>(list);
     }
 
     @Transactional(rollbackFor = {})

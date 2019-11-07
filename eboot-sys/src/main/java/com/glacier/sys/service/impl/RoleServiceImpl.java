@@ -61,9 +61,8 @@ public class RoleServiceImpl implements RoleService {
     public PageInfo<Role> findPage(PageRequest<Role> pageRequest) {
         //将参数传给这个方法就可实现物理分页.
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Role> list = roleDao.findList(pageRequest.getData());
-        PageInfo<Role> pageInfo = new PageInfo<>(list);
-        return pageInfo;
+        List<Role> list = roleDao.findList(pageRequest.getParams());
+        return new PageInfo<>(list);
     }
 
     /**

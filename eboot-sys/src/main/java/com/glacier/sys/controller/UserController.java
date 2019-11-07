@@ -46,13 +46,12 @@ public class UserController {
     /**
      * 分页查询用户
      *
-     * @param user
+     * @param pageRequest
      * @return
      */
     @GetMapping("page")
-    public PageInfo<User> page(User user, @RequestParam int pageNum,
-                               @RequestParam int pageSize) {
-        return userService.findPage(new PageRequest<>(pageNum, pageSize, user));
+    public PageInfo<User> page(@RequestBody PageRequest<User> pageRequest) {
+        return userService.findPage(pageRequest);
     }
 
     /**

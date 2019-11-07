@@ -1,10 +1,7 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.glacier.common.constant.Constant;
 import com.glacier.common.utils.IdGen;
-import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
@@ -27,18 +24,6 @@ import java.util.*;
 public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuDao menuDao;
-
-    /**
-     * @param pageRequest
-     * @return
-     */
-    @Override
-    public PageInfo<Menu> findPage(PageRequest<Menu> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Menu> list = menuDao.findList(pageRequest.getData());
-        return new PageInfo<>(list);
-    }
 
     @Override
     public List<Menu> findMenusByRoleId(String roleId) {

@@ -28,6 +28,6 @@ public class PageRequest<T> implements Serializable {
     /**
      * 查询参数
      */
-    private T data;
+    private T params;
 
 }
