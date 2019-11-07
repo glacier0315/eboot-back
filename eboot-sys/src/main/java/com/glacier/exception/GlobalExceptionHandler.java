@@ -5,7 +5,7 @@ import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
 import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
 import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
 import com.glacier.core.http.HttpResult;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -38,12 +38,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理用户不存在异常
-     *
+     * 处理 认证异常
      * @return
      */
-    @ExceptionHandler(value = UsernameNotFoundException.class)
-    public HttpResult usernameNotFoundException() {
-        return HttpResult.error("用户不存在！");
+    @ExceptionHandler(value = AuthenticationException.class)
+    public HttpResult authenticationException(AuthenticationException e) {
+        return HttpResult.error("用户名或者密码错误！");
     }
 }
