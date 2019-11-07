@@ -21,4 +21,12 @@ public interface DeptDao extends CurdDao<Dept> {
      * @return
      */
     List<Dept> findDeptsByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 根据用户名查找
+     *
+     * @param username
+     * @return
+     */
+    List<Dept> findDeptsByUsername(@Param("username") String username);
 }

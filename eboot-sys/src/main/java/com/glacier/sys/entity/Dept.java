@@ -42,7 +42,7 @@ public class Dept extends BaseEntity {
     /**
      * 排序号
      */
-    private String orderNum;
+    private int orderNum;
     /**
      * 层级
      */

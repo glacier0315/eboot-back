@@ -1,5 +1,6 @@
 package com.glacier.sys.service.impl;
 
+import com.glacier.common.constant.Constant;
 import com.glacier.common.utils.IdGen;
 import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
@@ -7,6 +8,8 @@ import com.glacier.sys.service.DeptService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -46,9 +49,74 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<Dept> findTree() {
-        Dept dept = new Dept();
-        dept.setLevel(1);
-        return deptDao.findList(dept);
+    public List<Dept> findTree(String username) {
+        List<Dept> depts = this.findDeptsByUsername(username);
+        List<Dept> deptList = new ArrayList<>(10);
+        //
+        if (depts != null && !depts.isEmpty()) {
+            Iterator<Dept> iterator = depts.iterator();
+            while (iterator.hasNext()) {
+                Dept dept = iterator.next();
+                if (dept.getParentId() == null || "0".equals(dept.getParentId())) {
+                    deptList.add(dept);
+                    // 删除
+                    iterator.remove();
+                }
+            }
+        }
+        // 排序
+        deptList.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+        // 组装子类菜单
+        findChildren(deptList, depts);
+        return deptList;
+    }
+
+    /**
+     * 递归组装菜单
+     *
+     * @param deptList 当前父级菜单
+     * @param depts    待查询菜单
+     */
+    private void findChildren(List<Dept> deptList, List<Dept> depts) {
+        // 为空则返回
+        if (deptList == null || deptList.isEmpty() || depts == null || depts.isEmpty()) {
+            return;
+        }
+        for (Dept parent : deptList) {
+            List<Dept> children = new ArrayList<>(10);
+            Iterator<Dept> iterator = depts.iterator();
+            while (iterator.hasNext()) {
+                Dept dept = iterator.next();
+                if (parent.getId() != null && parent.getId().equals(dept.getParentId())) {
+                    dept.setParentName(parent.getName());
+                    dept.setLevel(parent.getLevel() + 1);
+                    children.add(dept);
+                    iterator.remove();
+                }
+            }
+            parent.setChildren(children);
+            children.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+            findChildren(children, depts);
+        }
+    }
+
+    /**
+     * 根据用户名查找所有 组织机构
+     *
+     * @param username
+     * @return
+     */
+    private List<Dept> findDeptsByUsername(String username) {
+        List<Dept> deptList = new ArrayList<>(10);
+        if (username == null) {
+            return deptList;
+        }
+        if (Constant.ADMIN.equals(username)) {
+            Dept condition = new Dept();
+            deptList = deptDao.findList(condition);
+        } else {
+            deptList = deptDao.findDeptsByUsername(username);
+        }
+        return deptList;
     }
 }

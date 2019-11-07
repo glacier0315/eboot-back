@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface DeptService extends CurdService<Dept> {
 
-    List<Dept> findTree();
+    List<Dept> findTree(String username);
 }
