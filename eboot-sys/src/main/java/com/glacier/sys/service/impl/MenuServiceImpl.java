@@ -45,17 +45,23 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.findMenusByRoleId(roleId);
     }
 
+    /**
+     * 根据用户id 查询菜单树
+     *
+     * @param userId
+     * @return
+     */
     @Override
-    public List<Menu> findTree(String username) {
-        List<Menu> menus = this.findMenusByUsername(username);
+    public List<Menu> findTree(String userId) {
+        List<Menu> menus = this.findMenusByUsername(userId);
         List<Menu> menuList = new ArrayList<>(10);
         //
         if (menus != null && !menus.isEmpty()) {
             Iterator<Menu> iterator = menus.iterator();
             while (iterator.hasNext()) {
-                Menu menu1 = iterator.next();
-                if (menu1.getParentId() == null || "0".equals(menu1.getParentId())) {
-                    menuList.add(menu1);
+                Menu menu = iterator.next();
+                if (menu.getParentId() == null || "0".equals(menu.getParentId())) {
+                    menuList.add(menu);
                     // 删除
                     iterator.remove();
                 }
@@ -68,16 +74,21 @@ public class MenuServiceImpl implements MenuService {
         return menuList;
     }
 
+    /**
+     * 根据用户ID 查询权限标识
+     * @param userId
+     * @return
+     */
     @Override
-    public Set<String> findPermissions(String username) {
+    public Set<String> findPermissions(String userId) {
         Set<String> permissions = new HashSet<>(10);
-        if (username == null) {
+        if (userId == null) {
             return permissions;
         }
-        if (Constant.ADMIN.equals(username)) {
+        if (Constant.ADMIN_ID.equals(userId)) {
             permissions = menuDao.findAllPermissions();
         } else {
-            permissions = menuDao.findPermissions(username);
+            permissions = menuDao.findPermissionsByUserId(userId);
         }
         if (permissions == null) {
             permissions = new HashSet<>(1);
@@ -151,21 +162,20 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * 根据用户名查找所有可见菜单
+     * 根据用户ID查找所有可见菜单
      *
-     * @param username
+     * @param userId
      * @return
      */
-    private List<Menu> findMenusByUsername(String username) {
+    private List<Menu> findMenusByUsername(String userId) {
         List<Menu> menuList = new ArrayList<>(10);
-        if (username == null) {
+        if (userId == null) {
             return menuList;
         }
-        if (Constant.ADMIN.equals(username)) {
-            Menu condition = new Menu();
-            menuList = menuDao.findList(condition);
+        if (Constant.ADMIN_ID.equals(userId)) {
+            menuList = menuDao.findAllList();
         } else {
-            menuList = menuDao.findMenusByUsername(username);
+            menuList = menuDao.findMenusByUserId(userId);
         }
         return menuList;
     }

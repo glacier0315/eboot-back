@@ -71,15 +71,15 @@ public class DeptController {
     }
 
     /**
-     * 查询所有菜单 树
+     * 查询所有组织机构 树
      *
      * @return
      */
-    @GetMapping("findNavTree")
-    public HttpResult findNavTree() {
-        String username = SecurityUtils.getUsername();
-        log.debug("username: {}", username);
-        List<Dept> tree = deptService.findTree(username);
+    @GetMapping("findTree")
+    public HttpResult findTree() {
+        String userId = SecurityUtils.geUserId();
+        log.debug("userId: {}", userId);
+        List<Dept> tree = deptService.findTree(userId);
         return HttpResult.ok(tree);
     }
 }

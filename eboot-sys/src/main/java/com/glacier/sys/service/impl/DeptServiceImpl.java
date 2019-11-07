@@ -48,9 +48,15 @@ public class DeptServiceImpl implements DeptService {
         return deptDao.findList(dept);
     }
 
+    /**
+     * 根据用户ID 查找组织机构树
+     *
+     * @param userId
+     * @return
+     */
     @Override
-    public List<Dept> findTree(String username) {
-        List<Dept> depts = this.findDeptsByUsername(username);
+    public List<Dept> findTree(String userId) {
+        List<Dept> depts = this.findDeptsByUsername(userId);
         List<Dept> deptList = new ArrayList<>(10);
         //
         if (depts != null && !depts.isEmpty()) {
@@ -101,21 +107,21 @@ public class DeptServiceImpl implements DeptService {
     }
 
     /**
-     * 根据用户名查找所有 组织机构
+     * 根据用户ID查找所有 组织机构
      *
-     * @param username
+     * @param userId
      * @return
      */
-    private List<Dept> findDeptsByUsername(String username) {
+    private List<Dept> findDeptsByUsername(String userId) {
         List<Dept> deptList = new ArrayList<>(10);
-        if (username == null) {
+        if (userId == null) {
             return deptList;
         }
-        if (Constant.ADMIN.equals(username)) {
+        if (Constant.ADMIN_ID.equals(userId)) {
             Dept condition = new Dept();
             deptList = deptDao.findList(condition);
         } else {
-            deptList = deptDao.findDeptsByUsername(username);
+            deptList = deptDao.findDeptsByUserId(userId);
         }
         return deptList;
     }

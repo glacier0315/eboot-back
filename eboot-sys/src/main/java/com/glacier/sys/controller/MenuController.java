@@ -78,9 +78,9 @@ public class MenuController {
      */
     @GetMapping("findNavTree")
     public HttpResult findNavTree() {
-        String username = SecurityUtils.getUsername();
-        log.debug("username: {}", username);
-        List<Menu> tree = menuService.findTree(username);
+        String userId = SecurityUtils.geUserId();
+        log.debug("userId: {}", userId);
+        List<Menu> tree = menuService.findTree(userId);
         return HttpResult.ok(tree);
     }
 
@@ -91,8 +91,8 @@ public class MenuController {
      */
     @GetMapping(value = "/findPermissions")
     public HttpResult findPermissions() {
-        String username = SecurityUtils.getUsername();
-        log.debug("username: {}", username);
-        return HttpResult.ok(menuService.findPermissions(username));
+        String userId = SecurityUtils.geUserId();
+        log.debug("userId: {}", userId);
+        return HttpResult.ok(menuService.findPermissions(userId));
     }
 }

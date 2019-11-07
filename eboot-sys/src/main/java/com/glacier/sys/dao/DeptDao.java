@@ -15,6 +15,13 @@ import java.util.List;
 public interface DeptDao extends CurdDao<Dept> {
 
     /**
+     * 查询所有
+     *
+     * @return
+     */
+    List<Dept> findAllList();
+
+    /**
      * 根据角色id 查询所有拥有权限的额组织机构id
      *
      * @param roleId
@@ -25,8 +32,10 @@ public interface DeptDao extends CurdDao<Dept> {
     /**
      * 根据用户名查找
      *
-     * @param username
+     * @param userId
      * @return
      */
-    List<Dept> findDeptsByUsername(@Param("username") String username);
+    List<Dept> findDeptsByUserId(@Param("userId") String userId);
+
+
 }

@@ -15,6 +15,7 @@ import java.util.Set;
  */
 public interface MenuDao extends CurdDao<Menu> {
 
+
     /**
      * 根据角色id 查询所有菜单
      *
@@ -24,20 +25,27 @@ public interface MenuDao extends CurdDao<Menu> {
     List<Menu> findMenusByRoleId(@Param("roleId") String roleId);
 
     /**
-     * 根据用户名 查询所有菜单
+     * 查询所有
      *
-     * @param username
      * @return
      */
-    List<Menu> findMenusByUsername(@Param("username") String username);
+    List<Menu> findAllList();
+
+    /**
+     * 根据用户名 查询所有菜单
+     *
+     * @param userId
+     * @return
+     */
+    List<Menu> findMenusByUserId(@Param("userId") String userId);
 
     /**
      * 根据用户名 查询所有按钮权限
      *
-     * @param username
+     * @param userId
      * @return
      */
-    Set<String> findPermissions(@Param("username") String username);
+    Set<String> findPermissionsByUserId(@Param("userId") String userId);
 
     /**
      * 根据查询所有按钮权限

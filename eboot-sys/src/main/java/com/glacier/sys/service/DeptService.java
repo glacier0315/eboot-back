@@ -13,5 +13,11 @@ import java.util.List;
  */
 public interface DeptService extends CurdService<Dept> {
 
-    List<Dept> findTree(String username);
+    /**
+     * 根据用户id 查找单位树
+     *
+     * @param userId
+     * @return
+     */
+    List<Dept> findTree(String userId);
 }
