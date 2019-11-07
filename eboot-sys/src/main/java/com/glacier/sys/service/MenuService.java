@@ -33,6 +33,13 @@ public interface MenuService extends CurdService<Menu> {
     List<Menu> findMenusByRoleId(String roleId);
 
     /**
+     * 查找所有菜单
+     *
+     * @return
+     */
+    List<Menu> findMenuTree();
+
+    /**
      * 根据用户ID查找菜单
      *
      * @param userId

@@ -76,6 +76,17 @@ public class MenuController {
      *
      * @return
      */
+    @GetMapping("findMenuTree")
+    public HttpResult findMenuTree() {
+        List<Menu> tree = menuService.findMenuTree();
+        return HttpResult.ok(tree);
+    }
+
+    /**
+     * 查询所有菜单 树
+     *
+     * @return
+     */
     @GetMapping("findNavTree")
     public HttpResult findNavTree() {
         String userId = SecurityUtils.geUserId();

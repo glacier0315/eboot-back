@@ -46,6 +46,17 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
+     * 查询菜单树
+     *
+     * @return
+     */
+    @Override
+    public List<Menu> findMenuTree() {
+        List<Menu> menus = menuDao.findAllList();
+        return this.findMenuTree(menus);
+    }
+
+    /**
      * 根据用户id 查询菜单树
      *
      * @param userId
@@ -54,24 +65,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> findTree(String userId) {
         List<Menu> menus = this.findMenusByUsername(userId);
-        List<Menu> menuList = new ArrayList<>(10);
-        //
-        if (menus != null && !menus.isEmpty()) {
-            Iterator<Menu> iterator = menus.iterator();
-            while (iterator.hasNext()) {
-                Menu menu = iterator.next();
-                if (menu.getParentId() == null || "0".equals(menu.getParentId())) {
-                    menuList.add(menu);
-                    // 删除
-                    iterator.remove();
-                }
-            }
-        }
-        // 排序
-        menuList.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
-        // 组装子类菜单
-        findChildren(menuList, menus);
-        return menuList;
+        return this.findMenuTree(menus);
     }
 
     /**
@@ -124,6 +118,33 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public int delete(Menu menu) {
         return menuDao.delete(menu);
+    }
+
+    /**
+     * 组装菜单树
+     *
+     * @param menus
+     * @return
+     */
+    private List<Menu> findMenuTree(List<Menu> menus) {
+        List<Menu> menuList = new ArrayList<>(10);
+        //
+        if (menus != null && !menus.isEmpty()) {
+            Iterator<Menu> iterator = menus.iterator();
+            while (iterator.hasNext()) {
+                Menu menu = iterator.next();
+                if (menu.getParentId() == null || "0".equals(menu.getParentId())) {
+                    menuList.add(menu);
+                    // 删除
+                    iterator.remove();
+                }
+            }
+        }
+        // 排序
+        menuList.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+        // 组装子类菜单
+        findChildren(menuList, menus);
+        return menuList;
     }
 
     /**
