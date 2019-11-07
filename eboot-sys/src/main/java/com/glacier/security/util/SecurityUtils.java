@@ -1,6 +1,9 @@
 package com.glacier.security.util;
 
 import com.glacier.security.JwtAuthenticatioToken;
+import com.glacier.sys.entity.User;
+import com.glacier.sys.service.UserService;
+import com.glacier.util.SpringContextUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +54,35 @@ public class SecurityUtils {
         Authentication authentication = JwtTokenUtils.getAuthenticationeFromToken(request);
         // 设置登录认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    /**
+     * 获取当前用户ID
+     *
+     * @return
+     */
+    public static String geUserId() {
+        String userId = null;
+        User user = geUser();
+        if (user != null) {
+            userId = user.getId();
+        }
+        return userId;
+    }
+
+    /**
+     * 获取当前用户
+     *
+     * @return
+     */
+    public static User geUser() {
+        User user = null;
+        String username = getUsername();
+        if (username != null) {
+            UserService userService = SpringContextUtil.getBean(UserService.class);
+            user = userService.loadUserByUsername(username);
+        }
+        return user;
     }
 
     /**

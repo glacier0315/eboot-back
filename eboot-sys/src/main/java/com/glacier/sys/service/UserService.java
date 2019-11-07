@@ -20,4 +20,11 @@ public interface UserService extends CurdService<User> {
      */
     PageInfo<User> findPage(PageRequest<User> pageRequest);
 
+    /**
+     * 根据用户名查找用户
+     *
+     * @param username
+     * @return
+     */
+    User loadUserByUsername(String username);
 }

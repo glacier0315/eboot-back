@@ -36,6 +36,15 @@ public class UserServiceImpl implements UserService {
         return userDao.findById(id);
     }
 
+    /**
+     * @param username
+     * @return
+     */
+    @Override
+    public User loadUserByUsername(String username) {
+        return userDao.loadUserByUsername(username);
+    }
+
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {
