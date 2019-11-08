@@ -27,11 +27,18 @@ public class RoleServiceImpl implements RoleService {
 
     @Resource
     private RoleDao roleDao;
+
     @Override
     public Role findById(String id) {
         return roleDao.findById(id);
     }
 
+    /**
+     * 保存
+     *
+     * @param role
+     * @return
+     */
     @Transactional(rollbackFor = {})
     @Override
     public int save(Role role) {
@@ -45,9 +52,56 @@ public class RoleServiceImpl implements RoleService {
         }
     }
 
+    /**
+     * 删除
+     *
+     * @param entity
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int delete(Role entity) {
+        return roleDao.delete(entity);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param roles
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<Role> roles) {
+        int delCount = 0;
+        if (roles != null && !roles.isEmpty()) {
+            for (Role role : roles) {
+                delCount += roleDao.delete(role);
+            }
+        }
+        return delCount;
+    }
+
+    /**
+     * 查找
+     *
+     * @param entity
+     * @return
+     */
     @Override
     public List<Role> findList(Role entity) {
         return roleDao.findList(entity);
+    }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @Override
+    public List<Role> findAllList() {
+        Role role = new Role();
+        return roleDao.findList(role);
     }
 
     /**
@@ -74,22 +128,5 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findRolesByUserId(String userId) {
         return roleDao.findRolesByUserId(userId);
-    }
-
-    @Transactional(rollbackFor = {})
-    @Override
-    public int delete(Role entity) {
-        return roleDao.delete(entity);
-    }
-
-    /**
-     * 查询所有
-     *
-     * @return
-     */
-    @Override
-    public List<Role> findAllList() {
-        Role role = new Role();
-        return roleDao.findList(role);
     }
 }

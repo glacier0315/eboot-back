@@ -7,20 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description
  * @date 2019-10-09 15:45
  */
 public interface MenuService extends CurdService<Menu> {
-
-    /**
-     * 批量删除
-     *
-     * @param menus
-     * @return
-     */
-    int batchDelete(List<Menu> menus);
 
     /**
      * 根据角色id 查询对应的菜单

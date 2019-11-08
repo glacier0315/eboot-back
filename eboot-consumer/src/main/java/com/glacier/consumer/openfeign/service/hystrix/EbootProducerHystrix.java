@@ -4,7 +4,7 @@ import com.glacier.consumer.openfeign.service.EbootProducerService;
 import org.springframework.stereotype.Component;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description
  * @date 2019-10-30 12:21

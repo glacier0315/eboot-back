@@ -6,6 +6,7 @@ import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -23,6 +24,13 @@ public class DeptServiceImpl implements DeptService {
     @Resource
     private DeptDao deptDao;
 
+    /**
+     * 保存
+     *
+     * @param dept
+     * @return
+     */
+    @Transactional(rollbackFor = {})
     @Override
     public int save(Dept dept) {
         if (dept.newRecord()) {
@@ -35,16 +43,52 @@ public class DeptServiceImpl implements DeptService {
         }
     }
 
+    /**
+     * 删除
+     *
+     * @param dept
+     * @return
+     */
+    @Transactional(rollbackFor = {})
     @Override
     public int delete(Dept dept) {
         return deptDao.delete(dept);
     }
 
+    /**
+     * 批量删除
+     *
+     * @param depts
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<Dept> depts) {
+        int delCount = 0;
+        if (depts != null && !depts.isEmpty()) {
+            for (Dept dept : depts) {
+                delCount += deptDao.delete(dept);
+            }
+        }
+        return delCount;
+    }
+
+    /**
+     * 根据id查找
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Dept findById(String id) {
         return deptDao.findById(id);
     }
 
+    /**
+     * 查找
+     * @param dept
+     * @return
+     */
     @Override
     public List<Dept> findList(Dept dept) {
         return deptDao.findList(dept);

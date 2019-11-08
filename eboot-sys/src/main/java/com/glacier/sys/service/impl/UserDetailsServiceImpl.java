@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description
  * @date 2019-09-30 10:15
@@ -23,6 +23,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private UserService userService;
 
+    /**
+     * 根据用户名查用户
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.loadUserByUsername(username);

@@ -3,7 +3,7 @@ package com.glacier.core.dao;
 import java.util.List;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 通用CURD dao层接口
  * @date 2019-10-14 16:14

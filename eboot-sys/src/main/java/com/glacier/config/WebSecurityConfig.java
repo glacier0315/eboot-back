@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 import javax.annotation.Resource;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 权限认证配置
  * @date 2019-09-30 15:51

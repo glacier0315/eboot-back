@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 令牌认证过滤器
  * @date 2019-10-28 09:05

@@ -31,12 +31,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    /**
+     * 根据用户id 查找用户
+     *
+     * @param id
+     * @return
+     */
     @Override
     public User findById(String id) {
         return userDao.findById(id);
     }
 
     /**
+     * 根据用户名查找用户
      * @param username
      * @return
      */
@@ -45,6 +52,11 @@ public class UserServiceImpl implements UserService {
         return userDao.loadUserByUsername(username);
     }
 
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {
@@ -62,11 +74,21 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * 查找用户
+     * @param user
+     * @return
+     */
     @Override
     public List<User> findList(User user) {
         return userDao.findList(user);
     }
 
+    /**
+     * 分页查找
+     * @param pageRequest
+     * @return
+     */
     @Override
     public PageInfo<User> findPage(PageRequest<User> pageRequest) {
         //将参数传给这个方法就可实现物理分页.
@@ -75,9 +97,32 @@ public class UserServiceImpl implements UserService {
         return new PageInfo<>(list);
     }
 
+    /**
+     * 删除
+     * @param user
+     * @return
+     */
     @Transactional(rollbackFor = {})
     @Override
     public int delete(User user) {
         return userDao.delete(user);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param users
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<User> users) {
+        int delCount = 0;
+        if (users != null && !users.isEmpty()) {
+            for (User user : users) {
+                delCount += userDao.delete(user);
+            }
+        }
+        return delCount;
     }
 }

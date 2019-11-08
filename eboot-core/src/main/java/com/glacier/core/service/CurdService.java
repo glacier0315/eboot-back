@@ -3,7 +3,7 @@ package com.glacier.core.service;
 import java.util.List;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 通用CURD service接口
  * @date 2019-10-14 16:02
@@ -24,6 +24,14 @@ public interface CurdService<T> {
      * @return
      */
     int delete(T record);
+
+    /**
+     * 删除操作
+     *
+     * @param record
+     * @return
+     */
+    int batchDelete(List<T> record);
 
     /**
      * 根据ID查询

@@ -4,7 +4,7 @@ import com.glacier.core.dao.CurdDao;
 import com.glacier.sys.entity.RoleMenu;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 角色菜单关联dao层
  * @date 2019-10-09 14:51

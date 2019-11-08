@@ -3,7 +3,7 @@ package com.glacier.security;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 权限封装
  * @date 2019-10-28 09:13

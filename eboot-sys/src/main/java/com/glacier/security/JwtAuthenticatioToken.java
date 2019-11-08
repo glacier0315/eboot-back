@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 自定义令牌对象
  * @date 2019-10-28 09:09

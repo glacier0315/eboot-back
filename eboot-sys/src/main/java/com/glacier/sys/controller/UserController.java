@@ -48,7 +48,7 @@ public class UserController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(User user) {
+    public HttpResult save(@RequestBody User user) {
         return HttpResult.ok(userService.save(user));
     }
 
@@ -58,8 +58,8 @@ public class UserController {
      * @param id
      * @return
      */
-    @DeleteMapping("del/{id}")
-    public HttpResult delete(@PathVariable("id") String id) {
+    @DeleteMapping("delete")
+    public HttpResult delete(@RequestBody String id) {
         User user = new User();
         user.setId(id);
         return HttpResult.ok(userService.delete(user));

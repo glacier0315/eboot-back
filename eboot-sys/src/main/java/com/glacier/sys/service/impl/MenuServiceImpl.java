@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import java.util.*;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 菜单业务层
  * @date 2019-10-09 15:45
@@ -25,6 +25,83 @@ public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuDao menuDao;
 
+    /**
+     * 保存
+     *
+     * @param menu
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int save(Menu menu) {
+        if (menu.newRecord()) {
+            if (!menu.isNewRecord()) {
+                menu.setId(IdGen.uuid());
+            }
+            return menuDao.insert(menu);
+        } else {
+            return menuDao.update(menu);
+        }
+    }
+
+    /**
+     * 删除
+     *
+     * @param menu
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int delete(Menu menu) {
+        return menuDao.delete(menu);
+    }
+
+    /**
+     * 批量删除
+     *
+     * @param menus
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<Menu> menus) {
+        int delCount = 0;
+        if (menus != null && !menus.isEmpty()) {
+            for (Menu menu : menus) {
+                delCount += menuDao.delete(menu);
+            }
+        }
+        return delCount;
+    }
+
+    /**
+     * 根据id查询
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Menu findById(String id) {
+        return menuDao.findById(id);
+    }
+
+    /**
+     * 查询
+     *
+     * @param menu
+     * @return
+     */
+    @Override
+    public List<Menu> findList(Menu menu) {
+        return menuDao.findList(menu);
+    }
+
+    /**
+     * 根据角色id查询菜单
+     *
+     * @param roleId
+     * @return
+     */
     @Override
     public List<Menu> findMenusByRoleId(String roleId) {
         return menuDao.findMenusByRoleId(roleId);
@@ -74,47 +151,6 @@ public class MenuServiceImpl implements MenuService {
             permissions = new HashSet<>(1);
         }
         return permissions;
-    }
-
-    @Override
-    public Menu findById(String id) {
-        return menuDao.findById(id);
-    }
-
-    @Override
-    public List<Menu> findList(Menu menu) {
-        return menuDao.findList(menu);
-    }
-
-    @Transactional(rollbackFor = {})
-    @Override
-    public int save(Menu menu) {
-        if (menu.newRecord()) {
-            if (!menu.isNewRecord()) {
-                menu.setId(IdGen.uuid());
-            }
-            return menuDao.insert(menu);
-        } else {
-            return menuDao.update(menu);
-        }
-    }
-
-    @Transactional(rollbackFor = {})
-    @Override
-    public int delete(Menu menu) {
-        return menuDao.delete(menu);
-    }
-
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Menu> menus) {
-        int delCount = 0;
-        if (menus != null && !menus.isEmpty()) {
-            for (Menu menu : menus) {
-                delCount += menuDao.delete(menu);
-            }
-        }
-        return delCount;
     }
 
     /**
