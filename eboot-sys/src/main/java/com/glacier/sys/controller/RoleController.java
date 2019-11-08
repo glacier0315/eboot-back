@@ -1,13 +1,11 @@
 package com.glacier.sys.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.glacier.core.http.HttpResult;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author glacier
@@ -29,31 +27,29 @@ public class RoleController {
      * @return
      */
     @GetMapping("get/{id}")
-    public Role get(@PathVariable("id") String id) {
-        return roleService.findById(id);
+    public HttpResult get(@PathVariable("id") String id) {
+        return HttpResult.ok(roleService.findById(id));
     }
 
     /**
      * 查找所有角色
      *
-     * @param role
      * @return
      */
-    @GetMapping("list")
-    public List<Role> list(Role role) {
-        return roleService.findList(role);
+    @GetMapping("findAll")
+    public HttpResult findAll() {
+        return HttpResult.ok(roleService.findAllList());
     }
 
     /**
      * 分页查询角色
      *
-     * @param role
+     * @param pageRequest
      * @return
      */
     @GetMapping("page")
-    public PageInfo<Role> page(Role role, @RequestParam int pageNum,
-                               @RequestParam int pageSize) {
-        return roleService.findPage(new PageRequest<>(pageNum, pageSize, role));
+    public HttpResult page(@RequestBody PageRequest<Role> pageRequest) {
+        return HttpResult.ok(roleService.findPage(pageRequest));
     }
 
     /**
@@ -62,9 +58,9 @@ public class RoleController {
      * @param userId
      * @return
      */
-    @GetMapping("findRolesByUserId/{userId}")
-    public List<Role> findRolesByUserId(@PathVariable("userId") String userId) {
-        return roleService.findRolesByUserId(userId);
+    @GetMapping("findByUser/{userId}")
+    public HttpResult findByUser(@PathVariable("userId") String userId) {
+        return HttpResult.ok(roleService.findRolesByUserId(userId));
     }
 
     /**
@@ -73,9 +69,9 @@ public class RoleController {
      * @param user
      * @return
      */
-    @PutMapping("save")
-    public int save(Role user) {
-        return roleService.save(user);
+    @PostMapping("save")
+    public HttpResult save(Role user) {
+        return HttpResult.ok(roleService.save(user));
     }
 
     /**
@@ -85,9 +81,9 @@ public class RoleController {
      * @return
      */
     @DeleteMapping("del/{id}")
-    public int delete(@PathVariable("id") String id) {
+    public HttpResult delete(@PathVariable("id") String id) {
         Role role = new Role();
         role.setId(id);
-        return roleService.delete(role);
+        return HttpResult.ok(roleService.delete(role));
     }
 }

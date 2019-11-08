@@ -81,4 +81,15 @@ public class RoleServiceImpl implements RoleService {
     public int delete(Role entity) {
         return roleDao.delete(entity);
     }
+
+    /**
+     * 查询所有
+     *
+     * @return
+     */
+    @Override
+    public List<Role> findAllList() {
+        Role role = new Role();
+        return roleDao.findList(role);
+    }
 }
