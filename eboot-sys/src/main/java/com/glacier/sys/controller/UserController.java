@@ -25,8 +25,8 @@ public class UserController {
      * @param pageRequest
      * @return
      */
-    @PostMapping("page")
-    public HttpResult page(@RequestBody PageRequest<User> pageRequest) {
+    @PostMapping("findPage")
+    public HttpResult findPage(@RequestBody PageRequest<User> pageRequest) {
         return HttpResult.ok(userService.findPage(pageRequest));
     }
 
