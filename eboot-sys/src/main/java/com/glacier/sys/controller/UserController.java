@@ -7,6 +7,8 @@ import com.glacier.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author glacier
  * @version 1.0
@@ -44,13 +46,11 @@ public class UserController {
     /**
      * 删除指定用户
      *
-     * @param id
+     * @param users
      * @return
      */
     @DeleteMapping("delete")
-    public HttpResult delete(@RequestBody String id) {
-        User user = new User();
-        user.setId(id);
-        return HttpResult.ok(userService.delete(user));
+    public HttpResult delete(@RequestBody List<User> users) {
+        return HttpResult.ok(userService.batchDelete(users));
     }
 }
