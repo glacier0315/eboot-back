@@ -105,6 +105,18 @@ public class MenuServiceImpl implements MenuService {
         return menuDao.delete(menu);
     }
 
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<Menu> menus) {
+        int delCount = 0;
+        if (menus != null && !menus.isEmpty()) {
+            for (Menu menu : menus) {
+                delCount += menuDao.delete(menu);
+            }
+        }
+        return delCount;
+    }
+
     /**
      * 组装菜单树
      *
@@ -118,7 +130,8 @@ public class MenuServiceImpl implements MenuService {
             Iterator<Menu> iterator = menus.iterator();
             while (iterator.hasNext()) {
                 Menu menu = iterator.next();
-                if (menu.getParentId() == null || "0".equals(menu.getParentId())) {
+                if (menu.getParentId() == null || "".equals(menu.getParentId().trim())
+                        || "0".equals(menu.getParentId())) {
                     menuList.add(menu);
                     // 删除
                     iterator.remove();

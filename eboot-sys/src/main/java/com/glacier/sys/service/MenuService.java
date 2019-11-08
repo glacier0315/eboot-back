@@ -15,6 +15,14 @@ import java.util.Set;
 public interface MenuService extends CurdService<Menu> {
 
     /**
+     * 批量删除
+     *
+     * @param menus
+     * @return
+     */
+    int batchDelete(List<Menu> menus);
+
+    /**
      * 根据角色id 查询对应的菜单
      *
      * @param roleId

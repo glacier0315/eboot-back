@@ -42,21 +42,19 @@ public class MenuController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(Menu menu) {
+    public HttpResult save(@RequestBody Menu menu) {
         return HttpResult.ok(menuService.save(menu));
     }
 
     /**
      * 删除指定菜单
      *
-     * @param id
+     * @param menus
      * @return
      */
-    @DeleteMapping("del/{id}")
-    public HttpResult delete(@PathVariable("id") String id) {
-        Menu menu = new Menu();
-        menu.setId(id);
-        return HttpResult.ok(menuService.delete(menu));
+    @DeleteMapping("delete")
+    public HttpResult delete(@RequestBody List<Menu> menus) {
+        return HttpResult.ok(menuService.batchDelete(menus));
     }
 
     /**
