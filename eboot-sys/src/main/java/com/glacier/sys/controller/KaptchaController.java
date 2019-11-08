@@ -1,11 +1,12 @@
 package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
+import com.glacier.core.http.HttpResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description 验证码
  * @date 2019-09-29 16:39
@@ -21,8 +22,8 @@ public class KaptchaController {
      * 获取验证码
      */
     @GetMapping("/render")
-    public void render() {
-        kaptcha.render();
+    public HttpResult render() {
+        return HttpResult.ok(kaptcha.render());
     }
 
     /**
@@ -31,9 +32,9 @@ public class KaptchaController {
      * @param code
      */
     @PostMapping("/valid")
-    public void validDefaultTime(@RequestParam String code) {
+    public HttpResult validDefaultTime(@RequestParam String code) {
         //default timeout 900 seconds
-        kaptcha.validate(code);
+        return HttpResult.ok(kaptcha.validate(code));
     }
 
     /**
@@ -42,7 +43,7 @@ public class KaptchaController {
      * @param code
      */
     @PostMapping("/validTime")
-    public void validWithTime(@RequestParam String code) {
-        kaptcha.validate(code, 60);
+    public HttpResult validWithTime(@RequestParam String code) {
+        return HttpResult.ok(kaptcha.validate(code, 60));
     }
 }

@@ -31,21 +31,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("get/{id}")
-    public Menu get(@PathVariable("id") String id) {
-        return menuService.findById(id);
+    public HttpResult get(@PathVariable("id") String id) {
+        return HttpResult.ok(menuService.findById(id));
     }
-
-    /**
-     * 查询所有菜单
-     *
-     * @param menu
-     * @return
-     */
-    @GetMapping("list")
-    public List<Menu> list(Menu menu) {
-        return menuService.findList(menu);
-    }
-
 
     /**
      * 保存菜单
@@ -53,9 +41,9 @@ public class MenuController {
      * @param menu
      * @return
      */
-    @PutMapping("save")
-    public int save(Menu menu) {
-        return menuService.save(menu);
+    @PostMapping("save")
+    public HttpResult save(Menu menu) {
+        return HttpResult.ok(menuService.save(menu));
     }
 
     /**
@@ -65,10 +53,10 @@ public class MenuController {
      * @return
      */
     @DeleteMapping("del/{id}")
-    public int delete(@PathVariable("id") String id) {
+    public HttpResult delete(@PathVariable("id") String id) {
         Menu menu = new Menu();
         menu.setId(id);
-        return menuService.delete(menu);
+        return HttpResult.ok(menuService.delete(menu));
     }
 
     /**

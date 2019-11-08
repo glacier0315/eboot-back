@@ -1,13 +1,11 @@
 package com.glacier.sys.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.glacier.core.http.HttpResult;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author glacier
@@ -28,19 +26,8 @@ public class UserController {
      * @return
      */
     @GetMapping("get/{id}")
-    public User get(@PathVariable("id") String id) {
-        return userService.findById(id);
-    }
-
-    /**
-     * 查询所有用户
-     *
-     * @param user
-     * @return
-     */
-    @GetMapping("list")
-    public List<User> list(User user) {
-        return userService.findList(user);
+    public HttpResult get(@PathVariable("id") String id) {
+        return HttpResult.ok(userService.findById(id));
     }
 
     /**
@@ -49,9 +36,9 @@ public class UserController {
      * @param pageRequest
      * @return
      */
-    @GetMapping("page")
-    public PageInfo<User> page(@RequestBody PageRequest<User> pageRequest) {
-        return userService.findPage(pageRequest);
+    @PostMapping("page")
+    public HttpResult page(@RequestBody PageRequest<User> pageRequest) {
+        return HttpResult.ok(userService.findPage(pageRequest));
     }
 
     /**
@@ -60,9 +47,9 @@ public class UserController {
      * @param user
      * @return
      */
-    @PutMapping("save")
-    public int save(User user) {
-        return userService.save(user);
+    @PostMapping("save")
+    public HttpResult save(User user) {
+        return HttpResult.ok(userService.save(user));
     }
 
     /**
@@ -72,9 +59,9 @@ public class UserController {
      * @return
      */
     @DeleteMapping("del/{id}")
-    public int delete(@PathVariable("id") String id) {
+    public HttpResult delete(@PathVariable("id") String id) {
         User user = new User();
         user.setId(id);
-        return userService.delete(user);
+        return HttpResult.ok(userService.delete(user));
     }
 }
