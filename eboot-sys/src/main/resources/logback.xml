@@ -10,9 +10,9 @@
     </appender>
 
     <appender name="logFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/eboot-service.log</file>
+        <file>${LOG_PATH}/eboot-sys.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/eboot-service.%d{yyyy-MM-dd}.zip</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/eboot-sys.%d{yyyy-MM-dd}.zip</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
 
