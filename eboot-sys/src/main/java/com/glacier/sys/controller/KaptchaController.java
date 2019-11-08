@@ -22,8 +22,8 @@ public class KaptchaController {
      * 获取验证码
      */
     @GetMapping("/render")
-    public HttpResult render() {
-        return HttpResult.ok(kaptcha.render());
+    public void render() {
+        kaptcha.render();
     }
 
     /**

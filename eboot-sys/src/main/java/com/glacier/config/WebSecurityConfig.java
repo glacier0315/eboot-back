@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 查看sql监控 druid
                 .antMatchers("/druid/**").permitAll()
                 // 登录
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/logout").permitAll()
                 // swagger
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs",
                         "/webjars/springfox-swagger-ui/**").permitAll()
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 服务监控
                 .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated();
-        http.csrf().disable(); // 禁用自带的跨域管理
+        http.cors().and().csrf().disable(); // 禁用自带的跨域管理
 
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
