@@ -25,17 +25,6 @@ public class MenuController {
     private MenuService menuService;
 
     /**
-     * 根据用户id 查询菜单
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("get/{id}")
-    public HttpResult get(@PathVariable("id") String id) {
-        return HttpResult.ok(menuService.findById(id));
-    }
-
-    /**
      * 保存菜单
      *
      * @param menu

@@ -20,17 +20,6 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 根据用户id 查询用户
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("get/{id}")
-    public HttpResult get(@PathVariable("id") String id) {
-        return HttpResult.ok(userService.findById(id));
-    }
-
-    /**
      * 分页查询用户
      *
      * @param pageRequest

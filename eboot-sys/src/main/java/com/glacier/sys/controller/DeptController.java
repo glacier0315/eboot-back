@@ -24,50 +24,25 @@ public class DeptController {
     private DeptService deptService;
 
     /**
-     * 根据用户id 查询组织机构
-     *
-     * @param id
-     * @return
-     */
-    @GetMapping("get/{id}")
-    public Dept get(@PathVariable("id") String id) {
-        return deptService.findById(id);
-    }
-
-    /**
-     * 查询所有组织机构
-     *
-     * @param dept
-     * @return
-     */
-    @GetMapping("list")
-    public List<Dept> list(Dept dept) {
-        return deptService.findList(dept);
-    }
-
-
-    /**
      * 保存组织机构
      *
      * @param dept
      * @return
      */
-    @PutMapping("save")
-    public int save(Dept dept) {
-        return deptService.save(dept);
+    @PostMapping("save")
+    public HttpResult save(@RequestBody Dept dept) {
+        return HttpResult.ok(deptService.save(dept));
     }
 
     /**
      * 删除指定组织机构
      *
-     * @param id
+     * @param depts
      * @return
      */
-    @DeleteMapping("del/{id}")
-    public int delete(@PathVariable("id") String id) {
-        Dept dept = new Dept();
-        dept.setId(id);
-        return deptService.delete(dept);
+    @DeleteMapping("delete")
+    public HttpResult delete(@RequestBody List<Dept> depts) {
+        return HttpResult.ok(deptService.batchDelete(depts));
     }
 
     /**
