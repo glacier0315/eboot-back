@@ -67,6 +67,7 @@ public abstract class BaseEntity implements Serializable {
      *
      * @return
      */
+    @JsonIgnore
     public boolean newRecord() {
         return isNewRecord || id == null || id.trim().length() == 0;
     }
