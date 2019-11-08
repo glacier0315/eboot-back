@@ -1,10 +1,10 @@
 package com.glacier.sys.controller;
 
+import com.baomidou.kaptcha.Kaptcha;
 import com.glacier.core.http.HttpResult;
 import com.glacier.security.JwtAuthenticatioToken;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.security.vo.LoginBean;
-import com.google.code.kaptcha.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author hebin
+ * @author glacier
  * @version 1.0
  * @description
  * @date 2019-10-25 17:02
@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class IndexController {
 
+    @Autowired
+    private Kaptcha kaptcha;
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -40,10 +42,8 @@ public class IndexController {
      */
     @PostMapping(value = "/login")
     public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
-        Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        if (kaptcha == null) {
-            return HttpResult.error("验证码已失效！");
-        } else if (!String.valueOf(kaptcha).equals(loginBean.getCaptcha())) {
+        boolean validate = kaptcha.validate(loginBean.getCaptcha(), 60);
+        if (!validate) {
             return HttpResult.error("验证码不正确！");
         }
         // 系统登录认证
