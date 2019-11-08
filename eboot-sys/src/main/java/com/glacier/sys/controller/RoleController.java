@@ -38,7 +38,7 @@ public class RoleController {
      * @param pageRequest
      * @return
      */
-    @GetMapping("page")
+    @PostMapping("page")
     public HttpResult page(@RequestBody PageRequest<Role> pageRequest) {
         return HttpResult.ok(roleService.findPage(pageRequest));
     }
