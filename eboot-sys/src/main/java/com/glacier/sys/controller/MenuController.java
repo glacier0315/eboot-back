@@ -81,4 +81,15 @@ public class MenuController {
         log.debug("userId: {}", userId);
         return HttpResult.ok(menuService.findPermissions(userId));
     }
+
+    /**
+     * 查询所有菜单 树
+     *
+     * @return
+     */
+    @GetMapping("findRoleMenus")
+    public HttpResult findRoleMenus(String roleId) {
+        List<Menu> tree = menuService.findMenusByRoleId(roleId);
+        return HttpResult.ok(tree);
+    }
 }

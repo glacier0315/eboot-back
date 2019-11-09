@@ -110,7 +110,7 @@ public class SysUser implements UserDetails {
         Collection<GrantedAuthority> authorities = new ArrayList<>(1);
         if (roles != null && !roles.isEmpty()) {
             for (Role role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getRoleCode()));
+                authorities.add(new SimpleGrantedAuthority(role.getCode()));
             }
         }
         return authorities;

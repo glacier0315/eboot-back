@@ -24,8 +24,8 @@ create index t_user_3 on t_user ( status );
 
 create table t_role (
 	id varchar ( 64 ) not null comment '主键' primary key,
-	role_name varchar ( 200 ) comment '角色名',
-	role_code varchar ( 255 ) comment '角色编码',
+	name varchar ( 200 ) comment '角色名',
+	code varchar ( 255 ) comment '角色编码',
 	status varchar ( 4 ) comment '状态',
 	create_by varchar ( 64 ) comment '创建人',
 	create_date timestamp null comment '创建时间',
@@ -33,7 +33,7 @@ create table t_role (
 	update_date timestamp null comment '更新时间',
 	del_flag varchar ( 4 ) comment '删除标记'
 ) comment '角色表';
-create index t_role_1 on t_role ( role_code );
+create index t_role_1 on t_role ( code );
 create index t_role_2 on t_role ( status );
 
 

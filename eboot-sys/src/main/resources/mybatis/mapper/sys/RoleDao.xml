@@ -3,7 +3,7 @@
 <mapper namespace="com.glacier.sys.dao.RoleDao">
 
     <sql id="role_columns">
-        a.id, a.role_name, a.role_code, a.status, a.create_by, a.create_date, a.update_by, a.update_date,
+        a.id, a.name, a.code, a.status, a.create_by, a.create_date, a.update_by, a.update_date,
         a.del_flag
     </sql>
 
@@ -24,8 +24,8 @@
         from t_role a
         <where>
             a.del_flag=#{NORMAL_FLAG}
-            <if test="roleName != null and roleName != '' ">
-                and a.role_name=#{roleName}
+            <if test="name != null and name != '' ">
+                and a.name=#{name}
             </if>
         </where>
     </select>
@@ -43,11 +43,11 @@
     </select>
 
     <insert id="insert" parameterType="Role">
-        insert into t_role (id, role_name, role_code,
+        insert into t_role (id, name, code,
             status, create_by, create_date,
             update_by, update_date, del_flag
           )
-        values (#{id}, #{roleName}, #{roleCode},
+        values (#{id}, #{name}, #{code},
             #{status}, #{createBy}, #{createDate},
             #{updateBy}, #{updateDate}, #{delFlag}
           )
@@ -55,8 +55,8 @@
 
     <update id="update" parameterType="Role">
         update t_role
-        set role_name = #{roleName},
-            role_code = #{roleCode},
+        set name = #{name},
+            code = #{code},
             status = #{status},
             update_by = #{updateBy},
             update_date = #{updateDate}
