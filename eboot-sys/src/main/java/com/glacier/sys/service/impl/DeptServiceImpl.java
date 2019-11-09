@@ -109,7 +109,8 @@ public class DeptServiceImpl implements DeptService {
             Iterator<Dept> iterator = depts.iterator();
             while (iterator.hasNext()) {
                 Dept dept = iterator.next();
-                if (dept.getParentId() == null || "0".equals(dept.getParentId())) {
+                if (dept.getParentId() == null || "".equals(dept.getParentId().trim())
+                        || "0".equals(dept.getParentId())) {
                     deptList.add(dept);
                     // 删除
                     iterator.remove();
