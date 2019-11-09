@@ -36,4 +36,14 @@ public interface RoleService extends CurdService<Role> {
      * @return
      */
     List<Role> findAllList();
+
+
+    /**
+     * 保存用户角色
+     *
+     * @param roleId
+     * @param menuIds
+     * @return
+     */
+    int saveRoleMenus(String roleId, List<String> menuIds);
 }

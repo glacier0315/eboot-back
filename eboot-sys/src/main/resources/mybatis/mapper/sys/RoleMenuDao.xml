@@ -53,4 +53,9 @@
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>
+
+    <delete id="deleteByRole">
+        delete from t_role_menu
+        where role_id = #{roleId}
+    </delete>
 </mapper>
