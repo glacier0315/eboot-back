@@ -120,3 +120,22 @@ create table t_role_dept (
 ) comment '角色和组织机构关联表';
 create index t_role_dept_1 on t_role_dept ( dept_id );
 create index t_role_dept_2 on t_role_dept ( role_id );
+
+
+
+create table t_config (
+	id varchar ( 64 ) not null comment '主键' primary key,
+	value varchar ( 255 ) comment '值',
+	label varchar ( 255 ) comment '名称',
+	type varchar ( 255 ) comment '类型',
+	description varchar ( 500 ) comment '描述',
+	sort int ( 4 ) comment '排序',
+	remarks varchar ( 500 ) comment '备注',
+	create_by varchar ( 64 ) comment '创建人',
+	create_date timestamp null comment '创建时间',
+	update_by varchar ( 64 ) comment '更新人',
+	update_date timestamp null comment '更新时间',
+	del_flag varchar ( 4 ) comment '删除标记'
+) comment '设置表';
+create index t_config_1 on t_config ( type );
+create index t_config_2 on t_config ( value );

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glacier.sys.dao.ConfigDao">
+
+    <sql id="config_columns">
+        a.id, a.value, a.label, a.type, a.description, a.sort, a.remarks, a.create_by, a.create_date
+    </sql>
+
+    <select id="findById" resultType="Config">
+        SELECT
+        <include refid="config_columns"/>
+        FROM t_config a
+        where a.id=#{id}
+    </select>
+
+    <select id="findList" resultType="Config">
+        SELECT
+        <include refid="config_columns"/>
+        FROM t_config a
+        <where>
+            a.del_flag=#{NORMAL_FLAG}
+            <if test="type != null and type != '' ">
+                a.type=#{type}
+            </if>
+            <if test="value != null and value != '' ">
+                a.value=#{value}
+            </if>
+        </where>
+        order by a.sort
+    </select>
+
+    <insert id="insert" parameterType="Config">
+        INSERT INTO t_config
+        (id, value, label, type, description, sort, remarks,
+        create_by, create_date, del_flag)
+        VALUES (#{id}, #{value}, #{label}, #{type}, #{description}, #{sort}, #{remarks},
+        #{createBy}, #{createDate}, #{delFlag})
+    </insert>
+
+    <update id="update" parameterType="Config">
+        update t_config
+        set value = #{value},
+            label = #{label},
+            type = #{type},
+            description = #{description},
+            sort = #{sort},
+            remarks = #{remarks},
+            update_by = #{updateBy},
+            update_date = #{updateDate}
+        where id = #{id}
+    </update>
+
+    <update id="delete">
+        update t_config a
+        set a.del_flag=#{DEL_FLAG}
+        where id=#{id}
+    </update>
+</mapper>
