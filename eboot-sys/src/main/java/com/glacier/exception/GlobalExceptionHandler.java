@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         if (kaptchaException instanceof KaptchaIncorrectException) {
             return HttpResult.error("验证码不正确！");
         } else if (kaptchaException instanceof KaptchaNotFoundException) {
-            return HttpResult.error("验证码未找到！");
+            return HttpResult.error("验证码已失效！");
         } else if (kaptchaException instanceof KaptchaTimeoutException) {
             return HttpResult.error("验证码过期！");
         } else {

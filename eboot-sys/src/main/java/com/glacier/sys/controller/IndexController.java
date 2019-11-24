@@ -42,10 +42,10 @@ public class IndexController {
      */
     @PostMapping(value = "/login")
     public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
-//        boolean validate = kaptcha.validate(loginBean.getCaptcha(), 60);
-//        if (!validate) {
-//            return HttpResult.error("验证码不正确！");
-//        }
+        boolean validate = kaptcha.validate(loginBean.getCaptcha(), 60);
+        if (!validate) {
+            return HttpResult.error("验证码不正确！");
+        }
         // 系统登录认证
         JwtAuthenticatioToken token = SecurityUtils.login(request, loginBean.getAccount(), loginBean.getPassword(), authenticationManager);
         return HttpResult.ok(token);
