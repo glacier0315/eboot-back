@@ -2,8 +2,9 @@ package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
 import com.glacier.core.http.HttpResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @author glacier
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/kaptcha")
 public class KaptchaController {
 
-    @Autowired
+    @Resource
     private Kaptcha kaptcha;
 
     /**

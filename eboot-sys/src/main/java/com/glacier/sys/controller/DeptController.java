@@ -5,9 +5,9 @@ import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "dept")
 public class DeptController {
-    @Autowired
+    @Resource
     private DeptService deptService;
 
     /**
@@ -40,7 +40,7 @@ public class DeptController {
      * @param depts
      * @return
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public HttpResult delete(@RequestBody List<Dept> depts) {
         return HttpResult.ok(deptService.batchDelete(depts));
     }
