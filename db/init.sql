@@ -139,3 +139,23 @@ create table t_config (
 ) comment '设置表';
 create index t_config_1 on t_config ( type );
 create index t_config_2 on t_config ( value );
+
+
+create table t_dict (
+	id varchar ( 64 ) not null comment '主键' primary key,
+	code varchar ( 50 ) comment '值',
+	name varchar ( 50 ) comment '名称',
+	type varchar ( 255 ) comment '类型',
+	parent_id varchar ( 255 ) comment '父级id',
+	description varchar ( 500 ) comment '描述',
+	sort int ( 4 ) comment '排序',
+	remarks varchar ( 500 ) comment '备注',
+	create_by varchar ( 64 ) comment '创建人',
+	create_date timestamp null comment '创建时间',
+	update_by varchar ( 64 ) comment '更新人',
+	update_date timestamp null comment '更新时间',
+	del_flag varchar ( 4 ) comment '删除标记'
+) comment '字典表';
+create index t_dict_1 on t_dict ( type );
+create index t_dict_2 on t_dict ( code );
+create index t_dict_3 on t_dict ( parent_id );
