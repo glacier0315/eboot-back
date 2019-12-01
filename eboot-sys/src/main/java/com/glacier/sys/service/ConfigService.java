@@ -1,5 +1,7 @@
 package com.glacier.sys.service;
 
+import com.github.pagehelper.PageInfo;
+import com.glacier.core.page.PageRequest;
 import com.glacier.core.service.CurdService;
 import com.glacier.sys.entity.Config;
 
@@ -10,4 +12,11 @@ import com.glacier.sys.entity.Config;
  * @date 2019-11-21 17:37
  */
 public interface ConfigService extends CurdService<Config> {
+
+    /**
+     * 分页查找配置
+     * @param pageRequest
+     * @return
+     */
+    PageInfo<Config> findPage(PageRequest<Config> pageRequest);
 }

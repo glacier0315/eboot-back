@@ -1,6 +1,9 @@
 package com.glacier.sys.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.glacier.common.utils.IdGen;
+import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.ConfigDao;
 import com.glacier.sys.entity.Config;
 import com.glacier.sys.service.ConfigService;
@@ -91,5 +94,18 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     public List<Config> findList(Config record) {
         return configDao.findList(record);
+    }
+
+    /**
+     * 分页查找
+     * @param pageRequest
+     * @return
+     */
+    @Override
+    public PageInfo<Config> findPage(PageRequest<Config> pageRequest) {
+        //将参数传给这个方法就可实现物理分页.
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+        List<Config> list = configDao.findList(pageRequest.getParams());
+        return new PageInfo<>(list);
     }
 }
