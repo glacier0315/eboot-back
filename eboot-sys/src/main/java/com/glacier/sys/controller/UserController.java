@@ -4,9 +4,12 @@ import com.glacier.core.http.HttpResult;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "user")
 public class UserController {
-    @Autowired
+    @Resource
     private UserService userService;
 
     /**
@@ -49,7 +52,7 @@ public class UserController {
      * @param users
      * @return
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public HttpResult delete(@RequestBody List<User> users) {
         return HttpResult.ok(userService.batchDelete(users));
     }

@@ -5,9 +5,9 @@ import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(value = "menu")
 public class MenuController {
 
-    @Autowired
+    @Resource
     private MenuService menuService;
 
     /**
@@ -41,7 +41,7 @@ public class MenuController {
      * @param menus
      * @return
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public HttpResult delete(@RequestBody List<Menu> menus) {
         return HttpResult.ok(menuService.batchDelete(menus));
     }

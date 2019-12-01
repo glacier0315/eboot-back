@@ -6,9 +6,9 @@ import com.glacier.core.page.PageRequest;
 import com.glacier.core.vo.OneToManyVo;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping(value = "role")
 public class RoleController {
 
-    @Autowired
+    @Resource
     private RoleService roleService;
 
     /**
@@ -62,7 +62,7 @@ public class RoleController {
      * @param roles
      * @return
      */
-    @DeleteMapping("delete")
+    @PostMapping("delete")
     public HttpResult delete(@RequestBody List<Role> roles) {
         return HttpResult.ok(roleService.batchDelete(roles));
     }

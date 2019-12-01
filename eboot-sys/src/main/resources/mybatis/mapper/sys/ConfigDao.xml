@@ -20,10 +20,10 @@
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="type != null and type != '' ">
-                a.type=#{type}
+                and a.type=#{type}
             </if>
             <if test="value != null and value != '' ">
-                a.value=#{value}
+                and a.value=#{value}
             </if>
         </where>
         order by a.sort

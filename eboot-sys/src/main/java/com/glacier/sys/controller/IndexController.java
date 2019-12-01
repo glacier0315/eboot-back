@@ -5,7 +5,6 @@ import com.glacier.core.http.HttpResult;
 import com.glacier.security.JwtAuthenticatioToken;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.security.vo.LoginBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 public class IndexController {
 
-    @Autowired
+    @Resource
     private Kaptcha kaptcha;
-    @Autowired
+    @Resource
     private AuthenticationManager authenticationManager;
 
 
