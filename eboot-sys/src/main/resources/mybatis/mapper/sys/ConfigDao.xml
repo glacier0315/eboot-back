@@ -19,6 +19,9 @@
         FROM t_config a
         <where>
             a.del_flag=#{NORMAL_FLAG}
+            <if test="label != null and label != '' ">
+                and a.label=#{label}
+            </if>
             <if test="type != null and type != '' ">
                 and a.type=#{type}
             </if>
