@@ -1,9 +1,9 @@
 package com.glacier.sys.service;
 
-import com.github.pagehelper.PageInfo;
-import com.glacier.core.page.PageRequest;
 import com.glacier.core.service.CurdService;
 import com.glacier.sys.entity.Dict;
+
+import java.util.List;
 
 /**
  * @author glacier
@@ -14,9 +14,8 @@ import com.glacier.sys.entity.Dict;
 public interface DictService extends CurdService<Dict> {
 
     /**
-     * 分页查找配置
-     * @param pageRequest
+     * 查找字典
      * @return
      */
-    PageInfo<Dict> findPage(PageRequest<Dict> pageRequest);
+    List<Dict> findDictTree();
 }

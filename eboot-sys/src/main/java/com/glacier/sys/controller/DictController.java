@@ -1,14 +1,10 @@
 package com.glacier.sys.controller;
 
 import com.glacier.core.http.HttpResult;
-import com.glacier.core.page.PageRequest;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,18 +23,17 @@ public class DictController {
     private DictService dictService;
 
     /**
-     * 分页查询用户
+     * 查询字典
      *
-     * @param pageRequest
      * @return
      */
-    @PostMapping("findPage")
-    public HttpResult findPage(@RequestBody PageRequest<Dict> pageRequest) {
-        return HttpResult.ok(dictService.findPage(pageRequest));
+    @GetMapping("findDictTree")
+    public HttpResult findDictTree() {
+        return HttpResult.ok(dictService.findDictTree());
     }
 
     /**
-     * 保存用户
+     * 保存字典
      *
      * @param dict
      * @return
@@ -49,7 +44,7 @@ public class DictController {
     }
 
     /**
-     * 删除指定用户
+     * 删除指定字典
      *
      * @param dicts
      * @return

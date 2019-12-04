@@ -1,9 +1,6 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.glacier.common.utils.IdGen;
-import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.DictDao;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
@@ -11,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -65,19 +64,67 @@ public class DictServiceImpl implements DictService {
         return dictDao.findList(record);
     }
 
+    @Override
+    public List<Dict> findDictTree() {
+        Dict entity = new Dict();
+        List<Dict> list = dictDao.findList(entity);
+        return this.findDictTree(list);
+    }
+
     /**
-     * 查找字典目录
-     * @param pageRequest
+     * 组装字典树
+     *
+     * @param dicts
      * @return
      */
-    @Override
-    public PageInfo<Dict> findPage(PageRequest<Dict> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        Dict dict = pageRequest.getParams();
-        // 目录
-        dict.setType("1");
-        List<Dict> list = dictDao.findList(dict);
-        return new PageInfo<>(list);
+    private List<Dict> findDictTree(List<Dict> dicts) {
+        List<Dict> dictList = new ArrayList<>(10);
+        //
+        if (dicts != null && !dicts.isEmpty()) {
+            Iterator<Dict> iterator = dicts.iterator();
+            while (iterator.hasNext()) {
+                Dict menu = iterator.next();
+                if (menu.getParentId() == null || "".equals(menu.getParentId().trim())
+                        || "0".equals(menu.getParentId())) {
+                    dictList.add(menu);
+                    // 删除
+                    iterator.remove();
+                }
+            }
+        }
+        // 排序
+        dictList.sort((o1, o2) -> o1.getSort() - o2.getSort());
+        // 组装子类菜单
+        findChildren(dictList, dicts);
+        return dictList;
+    }
+
+    /**
+     * 递归组装菜单
+     *
+     * @param dictList 当前顶级父级字典
+     * @param dicts    待查询字典
+     */
+    private void findChildren(List<Dict> dictList, List<Dict> dicts) {
+        // 为空则返回
+        if (dictList == null || dictList.isEmpty() || dicts == null || dicts.isEmpty()) {
+            return;
+        }
+        for (Dict parent : dictList) {
+            List<Dict> children = new ArrayList<>(10);
+            Iterator<Dict> iterator = dicts.iterator();
+            while (iterator.hasNext()) {
+                Dict dict = iterator.next();
+                if (parent.getId() != null && parent.getId().equals(dict.getParentId())) {
+                    dict.setParentName(parent.getName());
+                    dict.setLevel(parent.getLevel() + 1);
+                    children.add(dict);
+                    iterator.remove();
+                }
+            }
+            children.sort((o1, o2) -> o1.getSort() - o2.getSort());
+            parent.setChildren(children);
+            findChildren(children, dicts);
+        }
     }
 }

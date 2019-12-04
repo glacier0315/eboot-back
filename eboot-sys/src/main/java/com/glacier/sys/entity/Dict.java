@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * @author glacier
  * @version 1.0
@@ -28,7 +30,7 @@ public class Dict extends BaseEntity {
     private String name;
 
     /**
-     * 字典类型  1 目录  2  父级字典 3 字典
+     * 字典类型
      */
     private String type;
 
@@ -51,4 +53,11 @@ public class Dict extends BaseEntity {
      * 备注
      */
     private String remarks;
+
+    /**
+     * 扩展字段
+     */
+    private String parentName;
+    private int level;
+    private List<Dict> children;
 }
