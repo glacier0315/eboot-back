@@ -3,7 +3,7 @@
 <mapper namespace="com.glacier.sys.dao.ConfigDao">
 
     <sql id="config_columns">
-        a.id, a.value, a.label, a.type, a.description, a.sort, a.remarks, a.create_by, a.create_date
+        a.id, a.value, a.label, a.type, a.description, a.order_num, a.remarks, a.create_by, a.create_date
     </sql>
 
     <select id="findById" resultType="Config">
@@ -29,14 +29,14 @@
                 and a.value=#{value}
             </if>
         </where>
-        order by a.sort
+        order by a.order_num
     </select>
 
     <insert id="insert" parameterType="Config">
         INSERT INTO t_config
-        (id, value, label, type, description, sort, remarks,
+        (id, value, label, type, description, order_num, remarks,
         create_by, create_date, del_flag)
-        VALUES (#{id}, #{value}, #{label}, #{type}, #{description}, #{sort}, #{remarks},
+        VALUES (#{id}, #{value}, #{label}, #{type}, #{description}, #{orderNum}, #{remarks},
         #{createBy}, #{createDate}, #{delFlag})
     </insert>
 
@@ -46,7 +46,7 @@
             label = #{label},
             type = #{type},
             description = #{description},
-            sort = #{sort},
+            order_num = #{orderNum},
             remarks = #{remarks},
             update_by = #{updateBy},
             update_date = #{updateDate}

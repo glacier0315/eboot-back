@@ -18,6 +18,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Config extends BaseEntity {
 
+    private static final long serialVersionUID = 3535850238275216235L;
     private String value;
 
     private String label;
@@ -26,7 +27,7 @@ public class Config extends BaseEntity {
 
     private String description;
 
-    private int sort;
+    private int orderNum;
 
     private String remarks;
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.glacier.sys.dao.DictDao">
 
     <sql id="dict_columns">
-        a.id, a.code, a.name, a.type, a.parent_id, a.description, a.sort, a.remarks, a.create_by, a.create_date
+        a.id, a.code, a.name, a.type, a.parent_id, a.description, a.order_num, a.remarks, a.create_by, a.create_date
     </sql>
 
     <select id="findById" resultType="Dict">
@@ -29,14 +29,14 @@
                 and a.parent_id=#{parentId}
             </if>
         </where>
-        order by a.sort
+        order by a.order_num
     </select>
 
     <insert id="insert" parameterType="Dict">
         INSERT INTO t_dict
-        (id, code, name, type, parent_id, description, sort, remarks,
+        (id, code, name, type, parent_id, description, order_num, remarks,
         create_by, create_date, del_flag)
-        VALUES (#{id}, #{code}, #{name}, #{type}, #{parentId},  #{description}, #{sort}, #{remarks},
+        VALUES (#{id}, #{code}, #{name}, #{type}, #{parentId},  #{description}, #{orderNum}, #{remarks},
         #{createBy}, #{createDate}, #{delFlag})
     </insert>
 
@@ -47,7 +47,7 @@
             type = #{type},
             parent_id = #{parentId},
             description = #{description},
-            sort = #{sort},
+            order_num = #{orderNum},
             remarks = #{remarks},
             update_by = #{updateBy},
             update_date = #{updateDate}

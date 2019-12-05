@@ -19,6 +19,7 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dict extends BaseEntity {
+    private static final long serialVersionUID = -8004367732541881835L;
     /**
      * 编码名称
      */
@@ -47,7 +48,7 @@ public class Dict extends BaseEntity {
     /**
      * 排序号
      */
-    private int sort;
+    private int orderNum;
 
     /**
      * 备注

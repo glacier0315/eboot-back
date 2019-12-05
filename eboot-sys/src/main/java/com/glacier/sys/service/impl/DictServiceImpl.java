@@ -94,7 +94,7 @@ public class DictServiceImpl implements DictService {
             }
         }
         // 排序
-        dictList.sort(Comparator.comparingInt(Dict::getSort));
+        dictList.sort(Comparator.comparingInt(Dict::getOrderNum));
         // 组装子类菜单
         findChildren(dictList, dicts);
         return dictList;
@@ -123,7 +123,7 @@ public class DictServiceImpl implements DictService {
                     iterator.remove();
                 }
             }
-            children.sort(Comparator.comparingInt(Dict::getSort));
+            children.sort(Comparator.comparingInt(Dict::getOrderNum));
             parent.setChildren(children);
             findChildren(children, dicts);
         }
