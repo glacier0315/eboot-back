@@ -4,6 +4,7 @@ import com.glacier.common.utils.IdGen;
 import com.glacier.sys.dao.DictDao;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,9 @@ import java.util.List;
  * @description 字典业务类
  * @date 2019-12-01 21:36
  */
-@Service("dictService")
+@Slf4j
+@Transactional(readOnly = true)
+@Service("DictService")
 public class DictServiceImpl implements DictService {
     @Resource
     private DictDao dictDao;

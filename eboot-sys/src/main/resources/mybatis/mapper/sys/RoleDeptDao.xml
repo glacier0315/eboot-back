@@ -2,55 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.glacier.sys.dao.RoleDeptDao">
 
-    <sql id="role_dept_columns">
-        a.id, a.role_id, a.dept_id, a.create_by, a.create_date, a.update_by, a.update_date
-    </sql>
-
-    <select id="findById" resultType="RoleDept">
-        select
-        <include refid="role_dept_columns"/>
-        from t_role_menu a
-        where id = #{id}
-    </select>
-
-    <select id="findList" resultType="RoleDept">
-        select
-        <include refid="role_dept_columns"/>
-        from t_role_menu a
-        <where>
-            a.del_flag=#{NORMAL_FLAG}
-            <if test="roleId != null and roleId != '' ">
-                and a.role_id=#{roleId}
-            </if>
-            <if test="deptId != null and deptId != '' ">
-                and a.dept_id=#{deptId}
-            </if>
-        </where>
-    </select>
-
-    <insert id="insert" parameterType="RoleDept">
-        insert into t_role_menu (id, dept_id, role_id,
-            create_by, create_date,
-            update_by, update_date, del_flag
-          )
-        values (#{id}, #{deptId}, #{roleId},
-            #{createBy}, #{createDate},
-            #{updateBy}, #{updateDate}, #{delFlag}
-          )
+    <insert id="insertBatch" parameterType="List">
+        insert into t_role_dept
+        (id, role_id, dept_id)
+        values
+        <foreach collection ="list" item="item" separator =",">
+            (#{item.id}, #{item.roleId}, #{item.deptId})
+        </foreach >
     </insert>
 
-    <update id="update" parameterType="RoleDept">
-        update t_role_menu
-        set dept_id = #{deptId},
-            role_id = #{roleId},
-            update_by = #{updateBy},
-            update_date = #{updateDate}
-        where id = #{id}
+    <update id="deleteByDeptId">
+        delete from t_role_dept
+        where dept_id=#{deptId}
     </update>
 
-    <update id="delete">
-        update t_role_menu a
-        set a.del_flag=#{DEL_FLAG}
-        where id=#{id}
+    <update id="deleteByRoleId">
+        delete from t_role_dept
+        where role_id=#{roleId}
     </update>
 </mapper>

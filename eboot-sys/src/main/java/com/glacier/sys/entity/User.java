@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author glacier
@@ -72,8 +71,4 @@ public class User extends BaseEntity {
      * 单位名称
      */
     private String deptName;
-    /**
-     * 角色
-     */
-    private List<Role> roles;
 }

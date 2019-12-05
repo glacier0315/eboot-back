@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2019-09-30 10:15
  */
 @Slf4j
-@Service("userDetailsService")
+@Service("UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
     private UserDao userDao;
@@ -40,11 +40,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userDao.loadUserByUsername(username);
         if (user == null || user.getId() == null || "".equals(user.getId().trim())) {
             throw new UsernameNotFoundException("用户不存在！");
-        } else {
-            // 查找角色
-            List<Role> roles = roleDao.findRolesByUserId(user.getId());
-            user.setRoles(roles);
         }
-        return new SysUser(user);
+        // 查找角色
+        List<Role> roles = roleDao.findByUserId(user.getId());
+        return new SysUser(user, roles);
     }
 }

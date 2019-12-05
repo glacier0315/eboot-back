@@ -19,6 +19,7 @@ import java.util.List;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dept extends BaseEntity {
+    private static final long serialVersionUID = 7605652474322748904L;
     /**
      * 单位编码
      */

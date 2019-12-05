@@ -30,7 +30,7 @@
         </where>
     </select>
 
-    <select id="findRolesByUserId" resultType="Role">
+    <select id="findByUserId" resultType="Role">
         select
         <include refid="role_columns"/>
         from t_role a

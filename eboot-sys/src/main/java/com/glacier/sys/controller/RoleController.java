@@ -5,6 +5,7 @@ import com.glacier.core.http.HttpResult;
 import com.glacier.core.page.PageRequest;
 import com.glacier.core.vo.OneToManyVo;
 import com.glacier.sys.entity.Role;
+import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +24,8 @@ public class RoleController {
 
     @Resource
     private RoleService roleService;
+    @Resource
+    private RoleMenuService roleMenuService;
 
     /**
      * 查找所有角色
@@ -75,7 +78,7 @@ public class RoleController {
      */
     @GetMapping("findByUserId")
     public HttpResult findByUserId(String userId) {
-        return HttpResult.ok(roleService.findRolesByUserId(userId));
+        return HttpResult.ok(roleService.findByUserId(userId));
     }
 
     /**
@@ -95,6 +98,6 @@ public class RoleController {
                 return HttpResult.error("超级管理员拥有所有菜单权限，不允许修改！");
             }
         }
-        return HttpResult.ok(roleService.saveRoleMenus(oneToManyVo.getParentId(), oneToManyVo.getChildrenIds()));
+        return HttpResult.ok(roleMenuService.insert(oneToManyVo.getParentId(), oneToManyVo.getChildrenIds()));
     }
 }

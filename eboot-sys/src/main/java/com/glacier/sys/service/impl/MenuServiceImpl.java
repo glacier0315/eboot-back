@@ -20,7 +20,7 @@ import java.util.*;
  */
 @Slf4j
 @Transactional(readOnly = true)
-@Service("menuService")
+@Service("MenuService")
 public class MenuServiceImpl implements MenuService {
     @Resource
     private MenuDao menuDao;

@@ -18,6 +18,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SysUser implements UserDetails {
 
+    private static final long serialVersionUID = -678551169862434131L;
     /**
      * 用户id
      */
@@ -35,10 +36,6 @@ public class SysUser implements UserDetails {
      */
     private String nickname;
     /**
-     * 盐值
-     */
-    private String salt;
-    /**
      * 角色
      */
     private List<Role> roles;
@@ -46,13 +43,12 @@ public class SysUser implements UserDetails {
     public SysUser() {
     }
 
-    public SysUser(User user) {
+    public SysUser(User user, List<Role> roles) {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
-        this.salt = user.getSalt();
-        this.roles = user.getRoles();
+        this.roles = roles;
     }
 
     public String getUserId() {
@@ -87,14 +83,6 @@ public class SysUser implements UserDetails {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public List<Role> getRoles() {

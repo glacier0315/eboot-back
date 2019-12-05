@@ -5,6 +5,7 @@ import com.glacier.common.utils.IdGen;
 import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +21,9 @@ import java.util.List;
  * @description
  * @date 2019-10-24 17:12
  */
-@Service("deptService")
+@Slf4j
+@Transactional(readOnly = true)
+@Service("DeptService")
 public class DeptServiceImpl implements DeptService {
     @Resource
     private DeptDao deptDao;

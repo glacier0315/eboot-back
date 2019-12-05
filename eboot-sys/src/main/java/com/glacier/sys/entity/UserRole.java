@@ -1,12 +1,10 @@
 package com.glacier.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author glacier
@@ -19,6 +17,7 @@ import java.util.Date;
 @ToString
 public class UserRole implements Serializable {
 
+    private static final long serialVersionUID = -7193974752669679122L;
     /**
      * id
      */
@@ -31,13 +30,4 @@ public class UserRole implements Serializable {
      * 角色id
      */
     private String roleId;
-    /**
-     * 创建人
-     */
-    @JsonIgnore
-    private String createBy;
-    /**
-     * 创建时间
-     */
-    private Date createDate;
 }

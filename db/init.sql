@@ -40,9 +40,7 @@ create index t_role_2 on t_role ( status );
 create table t_user_role (
 	id varchar ( 64 ) not null comment '主键' primary key,
 	user_id varchar ( 64 ) comment '用户主键',
-	role_id varchar ( 64 ) comment '角色主键',
-	create_by varchar ( 64 ) comment '创建人',
-	create_date timestamp null comment '创建时间'
+	role_id varchar ( 64 ) comment '角色主键'
 ) comment '用户角色关联表';
 create index t_user_role_1 on t_user_role ( user_id );
 create index t_user_role_2 on t_user_role ( role_id );
@@ -72,12 +70,7 @@ create index t_menu_3 on t_menu ( status );
 create table t_role_menu (
 	id varchar ( 64 ) not null comment '主键' primary key,
 	role_id varchar ( 255 ) comment '角色主键',
-	menu_id varchar ( 255 ) comment '菜单主键',
-	create_by varchar ( 64 ) comment '创建人',
-	create_date timestamp null comment '创建时间',
-	update_by varchar ( 64 ) comment '更新人',
-	update_date timestamp null comment '更新时间',
-	del_flag varchar ( 4 ) comment '删除标记'
+	menu_id varchar ( 255 ) comment '菜单主键'
 ) comment '角色菜单关联表';
 create index t_role_menu_1 on t_role_menu ( menu_id );
 create index t_role_menu_2 on t_role_menu ( role_id );
@@ -108,12 +101,7 @@ create index t_dept_4 on t_dept ( code );
 create table t_role_dept (
 	id varchar ( 64 ) not null comment '主键' primary key,
 	role_id varchar ( 255 ) comment '角色主键',
-	dept_id varchar ( 255 ) comment '组织机构主键',
-	create_by varchar ( 64 ) comment '创建人',
-	create_date timestamp null comment '创建时间',
-	update_by varchar ( 64 ) comment '更新人',
-	update_date timestamp null comment '更新时间',
-	del_flag varchar ( 4 ) comment '删除标记'
+	dept_id varchar ( 255 ) comment '组织机构主键'
 ) comment '角色和组织机构关联表';
 create index t_role_dept_1 on t_role_dept ( dept_id );
 create index t_role_dept_2 on t_role_dept ( role_id );

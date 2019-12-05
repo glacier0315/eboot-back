@@ -6,7 +6,6 @@ import com.glacier.common.utils.IdGen;
 import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.User;
-import com.glacier.sys.service.UserRoleService;
 import com.glacier.sys.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,12 +23,10 @@ import java.util.List;
  */
 @Slf4j
 @Transactional(readOnly = true)
-@Service(value = "userService")
+@Service(value = "UserService")
 public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
-    @Resource
-    private UserRoleService userRoleService;
     @Resource
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -72,7 +69,6 @@ public class UserServiceImpl implements UserService {
             }
             return userDao.insert(user);
         } else {
-            userRoleService.insertUserRole(user.getId(), user.getRoles());
             return userDao.update(user);
         }
     }

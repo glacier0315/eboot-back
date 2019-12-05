@@ -17,5 +17,5 @@ public interface RoleDao extends CurdDao<Role> {
      * 根绝用户id 查询用户所拥有的角色
      * @return
      */
-    List<Role> findRolesByUserId(@Param("userId") String userId);
+    List<Role> findByUserId(@Param("userId") String userId);
 }

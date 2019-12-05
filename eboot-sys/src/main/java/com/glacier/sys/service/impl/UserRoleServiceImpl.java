@@ -2,14 +2,14 @@ package com.glacier.sys.service.impl;
 
 import com.glacier.common.utils.IdGen;
 import com.glacier.sys.dao.UserRoleDao;
-import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.UserRole;
 import com.glacier.sys.service.UserRoleService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -18,6 +18,8 @@ import java.util.List;
  * @description
  * @date 2019-12-05 16:37
  */
+@Slf4j
+@Transactional(readOnly = false)
 @Service("UserRoleService")
 public class UserRoleServiceImpl implements UserRoleService {
     @Resource
@@ -33,21 +35,22 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public int insertUserRole(String userId, List<Role> roleList) {
-        // 删除原 用户与角色关联
-        int success = userRoleDao.deleteByUserId(userId);
+    public int insert(String userId, List<String> roleList) {
+        // 删除原数据
+        int success = this.deleteByUserId(userId);
         // 重新保存
         if (roleList != null && !roleList.isEmpty()) {
             List<UserRole> userRoles = new ArrayList<>(10);
             UserRole userRole = null;
-            Calendar calendar = Calendar.getInstance();
-            for (Role role : roleList) {
+            for (String roleId : roleList) {
+                if (roleId == null || roleId.trim().length() == 0) {
+                    continue;
+                }
                 userRole = new UserRole();
                 // 生成id
                 userRole.setId(IdGen.uuid());
                 userRole.setUserId(userId);
-                userRole.setRoleId(role.getId());
-                userRole.setCreateDate(calendar.getTime());
+                userRole.setRoleId(roleId);
 
                 userRoles.add(userRole);
             }

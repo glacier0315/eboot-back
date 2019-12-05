@@ -1,8 +1,9 @@
 package com.glacier.sys.dao;
 
-import com.glacier.core.dao.CurdDao;
 import com.glacier.sys.entity.RoleMenu;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author glacier
@@ -10,13 +11,31 @@ import org.apache.ibatis.annotations.Param;
  * @description 角色菜单关联dao层
  * @date 2019-10-09 14:51
  */
-public interface RoleMenuDao extends CurdDao<RoleMenu> {
+public interface RoleMenuDao {
 
     /**
-     * 根据角色删除 角色菜单关系
+     * 插入操作
+     *
+     * @param list
+     * @return
+     */
+    int insertBatch(List<RoleMenu> list);
+
+
+    /**
+     * 根据菜单id 删除
+     *
+     * @param menuId
+     * @return
+     */
+    int deleteByMenuId(@Param("menuId") String menuId);
+
+
+    /**
+     * 根据角色id 删除
      *
      * @param roleId
      * @return
      */
-    int deleteByRole(@Param("roleId") String roleId);
+    int deleteByRoleId(@Param("roleId") String roleId);
 }

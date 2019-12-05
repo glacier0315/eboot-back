@@ -7,6 +7,7 @@ import com.glacier.core.page.PageRequest;
 import com.glacier.sys.dao.ConfigDao;
 import com.glacier.sys.entity.Config;
 import com.glacier.sys.service.ConfigService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,9 @@ import java.util.List;
  * @description
  * @date 2019-11-21 17:37
  */
-@Service("configService")
+@Slf4j
+@Transactional(readOnly = true)
+@Service("ConfigService")
 public class ConfigServiceImpl implements ConfigService {
 
     @Resource

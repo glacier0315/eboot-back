@@ -20,6 +20,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Menu extends BaseEntity {
 
+    private static final long serialVersionUID = 1207728347319595982L;
     private String name;
 
     private String url;

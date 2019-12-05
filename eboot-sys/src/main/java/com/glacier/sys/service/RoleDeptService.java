@@ -6,17 +6,17 @@ import java.util.List;
  * @author glacier
  * @version 1.0
  * @description
- * @date 2019-12-05 16:35
+ * @date 2019-12-05 20:53
  */
-public interface UserRoleService {
+public interface RoleDeptService {
 
     /**
-     * 根据用户id 删除
+     * 根据单位id 删除
      *
-     * @param userId
+     * @param deptId
      * @return
      */
-    int deleteByUserId(String userId);
+    int deleteByDeptId(String deptId);
 
 
     /**
@@ -28,10 +28,10 @@ public interface UserRoleService {
     int deleteByRoleId(String roleId);
 
     /**
-     * 保存用户角色
-     * @param userId
-     * @param roleList
+     * 保存
+     * @param roleId
+     * @param deptList
      * @return
      */
-    int insert(String userId, List<String> roleList);
+    int insert(String roleId, List<String> deptList);
 }

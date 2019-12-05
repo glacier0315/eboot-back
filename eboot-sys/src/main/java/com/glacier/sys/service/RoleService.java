@@ -28,7 +28,7 @@ public interface RoleService extends CurdService<Role> {
      * @param userId
      * @return
      */
-    List<Role> findRolesByUserId(String userId);
+    List<Role> findByUserId(String userId);
 
     /**
      * 查询所有
@@ -36,14 +36,4 @@ public interface RoleService extends CurdService<Role> {
      * @return
      */
     List<Role> findAllList();
-
-
-    /**
-     * 保存用户角色
-     *
-     * @param roleId
-     * @param menuIds
-     * @return
-     */
-    int saveRoleMenus(String roleId, List<String> menuIds);
 }
