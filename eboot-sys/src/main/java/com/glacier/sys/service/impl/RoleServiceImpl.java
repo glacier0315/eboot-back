@@ -118,15 +118,4 @@ public class RoleServiceImpl implements RoleService {
         List<Role> list = roleDao.findList(pageRequest.getParams());
         return new PageInfo<>(list);
     }
-
-    /**
-     * 查询用户及用户拥有的角色
-     *
-     * @param userId
-     * @return
-     */
-    @Override
-    public List<Role> findByUserId(String userId) {
-        return roleDao.findByUserId(userId);
-    }
 }

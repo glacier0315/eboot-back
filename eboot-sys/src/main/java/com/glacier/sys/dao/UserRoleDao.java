@@ -14,6 +14,13 @@ import java.util.List;
 public interface UserRoleDao {
 
     /**
+     * 根据用户id 删除
+     *
+     * @param userId
+     * @return
+     */
+    List<String> findByUserId(@Param("userId") String userId);
+    /**
      * 插入操作
      *
      * @param list

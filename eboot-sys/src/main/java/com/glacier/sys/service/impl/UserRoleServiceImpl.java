@@ -19,21 +19,30 @@ import java.util.List;
  * @date 2019-12-05 16:37
  */
 @Slf4j
-@Transactional(readOnly = false)
+@Transactional(readOnly = true)
 @Service("UserRoleService")
 public class UserRoleServiceImpl implements UserRoleService {
     @Resource
     private UserRoleDao userRoleDao;
+
+    @Override
+    public List<String> findByUserId(String userId) {
+        return userRoleDao.findByUserId(userId);
+    }
+
+    @Transactional(rollbackFor = {})
     @Override
     public int deleteByUserId(String userId) {
         return userRoleDao.deleteByUserId(userId);
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int deleteByRoleId(String roleId) {
         return userRoleDao.deleteByRoleId(roleId);
     }
 
+    @Transactional(rollbackFor = {})
     @Override
     public int insert(String userId, List<String> roleList) {
         // 删除原数据

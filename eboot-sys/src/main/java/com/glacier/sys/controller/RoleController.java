@@ -7,6 +7,7 @@ import com.glacier.core.vo.OneToManyVo;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
+import com.glacier.sys.service.UserRoleService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,6 +27,8 @@ public class RoleController {
     private RoleService roleService;
     @Resource
     private RoleMenuService roleMenuService;
+    @Resource
+    private UserRoleService userRoleService;
 
     /**
      * 查找所有角色
@@ -78,7 +81,7 @@ public class RoleController {
      */
     @GetMapping("findByUserId")
     public HttpResult findByUserId(String userId) {
-        return HttpResult.ok(roleService.findByUserId(userId));
+        return HttpResult.ok(userRoleService.findByUserId(userId));
     }
 
     /**

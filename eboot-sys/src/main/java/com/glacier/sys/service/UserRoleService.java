@@ -11,6 +11,13 @@ import java.util.List;
 public interface UserRoleService {
 
     /**
+     * 根据用户id 查询角色id 集合
+     * @param userId
+     * @return
+     */
+    List<String> findByUserId(String userId);
+
+    /**
      * 根据用户id 删除
      *
      * @param userId
