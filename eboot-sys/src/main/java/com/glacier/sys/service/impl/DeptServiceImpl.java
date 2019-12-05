@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -118,7 +119,7 @@ public class DeptServiceImpl implements DeptService {
             }
         }
         // 排序
-        deptList.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+        deptList.sort(Comparator.comparingInt(Dept::getOrderNum));
         // 组装子类菜单
         findChildren(deptList, depts);
         return deptList;
@@ -148,7 +149,7 @@ public class DeptServiceImpl implements DeptService {
                 }
             }
             parent.setChildren(children);
-            children.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+            children.sort(Comparator.comparingInt(Dept::getOrderNum));
             findChildren(children, depts);
         }
     }

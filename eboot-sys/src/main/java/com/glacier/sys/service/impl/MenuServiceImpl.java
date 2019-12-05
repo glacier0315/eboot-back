@@ -175,7 +175,7 @@ public class MenuServiceImpl implements MenuService {
             }
         }
         // 排序
-        menuList.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+        menuList.sort(Comparator.comparingInt(Menu::getOrderNum));
         // 组装子类菜单
         findChildren(menuList, menus);
         return menuList;
@@ -214,7 +214,7 @@ public class MenuServiceImpl implements MenuService {
                 }
             }
             parent.setChildren(children);
-            children.sort((o1, o2) -> o1.getOrderNum() - o2.getOrderNum());
+            children.sort(Comparator.comparingInt(Menu::getOrderNum));
             findChildren(children, menus);
         }
     }

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,7 +94,7 @@ public class DictServiceImpl implements DictService {
             }
         }
         // 排序
-        dictList.sort((o1, o2) -> o1.getSort() - o2.getSort());
+        dictList.sort(Comparator.comparingInt(Dict::getSort));
         // 组装子类菜单
         findChildren(dictList, dicts);
         return dictList;
@@ -122,7 +123,7 @@ public class DictServiceImpl implements DictService {
                     iterator.remove();
                 }
             }
-            children.sort((o1, o2) -> o1.getSort() - o2.getSort());
+            children.sort(Comparator.comparingInt(Dict::getSort));
             parent.setChildren(children);
             findChildren(children, dicts);
         }
