@@ -2,27 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.glacier.sys.dao.UserDao">
 
-    <resultMap id="userMap" type="User">
-        <id column="id" property="id" javaType="java.lang.String"/>
-        <collection property="roles" select="com.glacier.sys.dao.RoleDao.findRolesByUserId"
-                    column="{userId:id}" fetchType="lazy"></collection>
-    </resultMap>
-
     <sql id="user_columns">
-        a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id, a.create_by, a.create_date
+        a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id
+    </sql>
+
+    <sql id="join_columns">
+        ,b.name as deptName
+    </sql>
+
+    <sql id="joins">
+        left join t_dept b on a.dept_id=b.id
     </sql>
 
     <select id="findById" resultType="User">
         SELECT
         <include refid="user_columns"/>
+        <include refid="join_columns"/>
         FROM t_user a
+        <include refid="joins"/>
         where a.id=#{id}
     </select>
 
     <select id="findList" resultType="User">
         SELECT
         <include refid="user_columns"/>
+        <include refid="join_columns"/>
         FROM t_user a
+        <include refid="joins"/>
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="sex != null and sex != '' ">
@@ -40,7 +46,7 @@
         </where>
     </select>
 
-    <select id="loadUserByUsername" resultMap="userMap">
+    <select id="loadUserByUsername" resultType="User">
         SELECT
         <include refid="user_columns"/>
         FROM t_user a

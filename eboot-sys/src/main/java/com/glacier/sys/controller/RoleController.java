@@ -68,6 +68,17 @@ public class RoleController {
     }
 
     /**
+     * 根据用户id查询角色
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("findByUserId")
+    public HttpResult findByUserId(String userId) {
+        return HttpResult.ok(roleService.findRolesByUserId(userId));
+    }
+
+    /**
      * 保存角色菜单
      *
      * @param oneToManyVo

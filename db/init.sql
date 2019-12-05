@@ -39,13 +39,10 @@ create index t_role_2 on t_role ( status );
 
 create table t_user_role (
 	id varchar ( 64 ) not null comment '主键' primary key,
-	user_id varchar ( 200 ) comment '用户主键',
-	role_id varchar ( 255 ) comment '角色主键',
+	user_id varchar ( 64 ) comment '用户主键',
+	role_id varchar ( 64 ) comment '角色主键',
 	create_by varchar ( 64 ) comment '创建人',
-	create_date timestamp null comment '创建时间',
-	update_by varchar ( 64 ) comment '更新人',
-	update_date timestamp null comment '更新时间',
-	del_flag varchar ( 4 ) comment '删除标记'
+	create_date timestamp null comment '创建时间'
 ) comment '用户角色关联表';
 create index t_user_role_1 on t_user_role ( user_id );
 create index t_user_role_2 on t_user_role ( role_id );

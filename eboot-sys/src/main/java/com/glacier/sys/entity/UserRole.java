@@ -1,10 +1,12 @@
 package com.glacier.sys.entity;
 
-import com.glacier.core.entity.BaseEntity;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author glacier
@@ -15,8 +17,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(callSuper = true)
-public class UserRole extends BaseEntity {
+public class UserRole implements Serializable {
+
+    /**
+     * id
+     */
+    private String id;
     /**
      * 用户id
      */
@@ -25,4 +31,13 @@ public class UserRole extends BaseEntity {
      * 角色id
      */
     private String roleId;
+    /**
+     * 创建人
+     */
+    @JsonIgnore
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
 }

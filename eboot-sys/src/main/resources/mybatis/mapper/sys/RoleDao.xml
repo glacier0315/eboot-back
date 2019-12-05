@@ -8,7 +8,7 @@
     </sql>
 
     <sql id="roleJoins">
-        inner join t_user_role b on b.del_flag='0' and a.id=b.role_id
+        inner join t_user_role b on a.id=b.role_id
     </sql>
 
     <select id="findById" resultType="Role">
@@ -37,7 +37,6 @@
         <include refid="roleJoins"/>
         <where>
             a.del_flag='0'
-            and b.del_flag='0'
             and b.user_id = #{userId}
         </where>
     </select>
