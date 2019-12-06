@@ -28,4 +28,11 @@ public interface RoleService extends CurdService<Role> {
      * @return
      */
     List<Role> findAllList();
+
+    /**
+     * 校验
+     * @param role
+     * @return
+     */
+    boolean checkCode(Role role);
 }

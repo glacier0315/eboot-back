@@ -54,12 +54,12 @@ public class RoleController {
     /**
      * 保存角色
      *
-     * @param user
+     * @param role
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Role user) {
-        return HttpResult.ok(roleService.save(user));
+    public HttpResult save(@RequestBody Role role) {
+        return HttpResult.ok(roleService.save(role));
     }
 
     /**
@@ -71,6 +71,19 @@ public class RoleController {
     @PostMapping("delete")
     public HttpResult delete(@RequestBody List<Role> roles) {
         return HttpResult.ok(roleService.batchDelete(roles));
+    }
+
+    /**
+     * 检验角色编码
+     *
+     * @param role
+     * @return
+     */
+    @PostMapping("checkCode")
+    public HttpResult checkCode(@RequestBody Role role) {
+        HttpResult httpResult = HttpResult.ok();
+        httpResult.setData(String.valueOf(roleService.checkCode(role)));
+        return httpResult;
     }
 
     /**
