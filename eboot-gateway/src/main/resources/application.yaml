@@ -1,0 +1,30 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eboot-gateway
+  boot:
+    admin:
+      client:
+        url: "http://192.168.10.1:8091"
+        instance:
+          prefer-ip: true
+  cloud:
+    consul:
+      host: 192.168.10.130
+      port: 8500
+      discovery:
+        # 注册到consul的服务名称
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+
+server:
+  port: 8141
+
+

@@ -1,4 +1,4 @@
 rootProject.name = 'eboot-platform'
 include('eboot-common', 'eboot-core', 'eboot-sys', 'eboot-monitor',
-        'eboot-producer1', 'eboot-producer2', 'eboot-consumer', 'eboot-hystrix', 'eboot-zuul'
+        'eboot-producer1', 'eboot-producer2', 'eboot-consumer', 'eboot-hystrix', 'eboot-zuul', 'eboot-gateway'
 )
