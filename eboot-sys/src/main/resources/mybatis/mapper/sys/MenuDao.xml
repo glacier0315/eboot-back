@@ -3,8 +3,8 @@
 <mapper namespace="com.glacier.sys.dao.MenuDao">
 
     <sql id="menu_columns">
-        a.id, a.name, a.url, a.perms,  a.type,  a.status,  a.order_num,  a.icon,  a.parent_id,
-        a.create_by, a.create_date, a.update_by, a.update_date,a.del_flag
+        a.id, a.name, a.url, a.perms,  a.type, a.open, a.status,  a.order_num,  a.icon,  a.parent_id,
+        a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag
     </sql>
 
     <select id="findById" resultType="Menu">
@@ -90,11 +90,11 @@
 
     <insert id="insert" parameterType="Menu">
         insert into t_menu (
-            id, name, url, perms, type, status, order_num, icon, parent_id,
+            id, name, url, perms, type, status, open, order_num, icon, parent_id,
             create_by, create_date, update_by, update_date, del_flag
         )
         values (
-            #{id}, #{name}, #{url}, #{perms}, #{type}, #{status}, #{orderNum}, #{icon}, #{parentId},
+            #{id}, #{name}, #{url}, #{perms}, #{type}, #{status}, #{open}, #{orderNum}, #{icon}, #{parentId},
             #{createBy}, #{createDate},#{updateBy}, #{updateDate}, #{delFlag}
           )
     </insert>
@@ -106,6 +106,7 @@
             perms = #{perms},
             type = #{type},
             status = #{status},
+            open = #{open},
             order_num = #{orderNum},
             icon = #{icon},
             parent_id = #{parentId},

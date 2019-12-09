@@ -31,6 +31,10 @@ public class Menu extends BaseEntity {
      */
     private int type;
     /**
+     * 打开方式  默认 1 正常  2 iframe  3 新窗口
+     */
+    private int open;
+    /**
      * 1 正常  2 隐藏
      */
     private int status;

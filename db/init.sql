@@ -53,6 +53,7 @@ create table t_menu (
 	perms varchar ( 255 ) comment '权限',
 	type int ( 4 ) comment '类型',
 	status int ( 4 ) comment '状态',
+	open int ( 4 ) comment '打开方式' default 1,
 	order_num int ( 4 ) comment '排序号',
 	icon varchar ( 255 ) comment '图标',
 	parent_id varchar ( 255 ) comment '父级id',
