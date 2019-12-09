@@ -22,7 +22,18 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            exposedHeaders:
+              - content-type
+            allowedHeaders:
+              - content-type
+            allowCredentials: true
+            allowedMethods:
+              - GET
+              - POST
 
 server:
   port: 8141
