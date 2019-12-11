@@ -54,7 +54,6 @@ public class SecurityUtils {
     public static void checkAuthentication(HttpServletRequest request) {
         // 获取令牌并根据令牌获取登录认证信息
         Authentication authentication = JwtTokenUtils.getAuthenticationeFromToken(request);
-        log.info("authentication: {}" , authentication);
         // 设置登录认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -82,10 +81,8 @@ public class SecurityUtils {
         User user = null;
         String username = getUsername();
         if (username != null) {
-            UserService userService = SpringContextUtil.getBean(UserService.class);
-            user = userService.loadUserByUsername(username);
+            user = getUserByUsername(username);
         }
-        log.info("user: {}", user);
         return user;
     }
 
@@ -111,7 +108,6 @@ public class SecurityUtils {
                 username = ((UserDetails) principal).getUsername();
             }
         }
-        log.info("username: {}", username);
         return username;
     }
 
@@ -128,5 +124,8 @@ public class SecurityUtils {
         return authentication;
     }
 
-
+    private static User getUserByUsername(String username) {
+        UserService userService = SpringContextUtil.getBean(UserService.class);
+        return userService.loadUserByUsername(username);
+    }
 }

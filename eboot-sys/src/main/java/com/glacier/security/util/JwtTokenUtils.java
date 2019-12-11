@@ -1,16 +1,19 @@
 package com.glacier.security.util;
 
-import com.glacier.security.GrantedAuthorityImpl;
 import com.glacier.security.JwtAuthenticatioToken;
+import com.glacier.util.SpringContextUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author glacier
@@ -110,14 +113,10 @@ public class JwtTokenUtils {
                 if (isTokenExpired(token)) {
                     return null;
                 }
-                Object authors = claims.get(AUTHORITIES);
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                if (authors != null && authors instanceof List) {
-                    for (Object object : (List) authors) {
-                        authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
-                    }
+                UserDetails userDetails = getUserByUsername(username);
+                if (userDetails != null) {
+                    authentication = new JwtAuthenticatioToken(userDetails, null, userDetails.getAuthorities(), token);
                 }
-                authentication = new JwtAuthenticatioToken(username, null, authorities, token);
                 log.info("从toke获取authentication: {}" , authentication);
             } else {
                 if (validateToken(token, SecurityUtils.getUsername())) {
@@ -145,7 +144,6 @@ public class JwtTokenUtils {
         } catch (Exception e) {
             claims = null;
         }
-        log.info("从token中后去claims: {}", claims);
         return claims;
     }
 
@@ -213,5 +211,15 @@ public class JwtTokenUtils {
             token = null;
         }
         return token;
+    }
+
+    /**
+     * 根据用户名查找  用户
+     * @param username
+     * @return
+     */
+    private static UserDetails getUserByUsername(String username) {
+        UserDetailsService userDetailsService = SpringContextUtil.getBean(UserDetailsService.class);
+        return userDetailsService.loadUserByUsername(username);
     }
 }
