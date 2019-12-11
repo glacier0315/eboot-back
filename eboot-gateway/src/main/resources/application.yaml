@@ -35,6 +35,13 @@ spring:
               - GET
               - POST
 
+
+gateway:
+  token:
+    ignored-path:
+      - /eboot-sys/kaptcha/render
+      - /eboot-sys/login
+
 server:
   port: 8141
 
