@@ -5,6 +5,7 @@ import com.glacier.security.JwtAuthenticatioToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -17,6 +18,7 @@ import java.util.*;
  * @description
  * @date 2019-10-28 09:11
  */
+@Slf4j
 public class JwtTokenUtils {
 
 
@@ -116,10 +118,14 @@ public class JwtTokenUtils {
                     }
                 }
                 authentication = new JwtAuthenticatioToken(username, null, authorities, token);
+                log.info("从toke获取authentication: {}" , authentication);
             } else {
                 if (validateToken(token, SecurityUtils.getUsername())) {
                     // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
                     authentication = SecurityUtils.getAuthentication();
+                    log.info("获取原authentication: {}" , authentication);
+                } else {
+                    log.info("authentication信息不同");
                 }
             }
         }
@@ -139,6 +145,7 @@ public class JwtTokenUtils {
         } catch (Exception e) {
             claims = null;
         }
+        log.info("从token中后去claims: {}", claims);
         return claims;
     }
 

@@ -4,6 +4,7 @@ import com.glacier.security.JwtAuthenticatioToken;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import com.glacier.util.SpringContextUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  * @description
  * @date 2019-10-28 09:08
  */
+@Slf4j
 public class SecurityUtils {
 
     private SecurityUtils() {
@@ -52,6 +54,7 @@ public class SecurityUtils {
     public static void checkAuthentication(HttpServletRequest request) {
         // 获取令牌并根据令牌获取登录认证信息
         Authentication authentication = JwtTokenUtils.getAuthenticationeFromToken(request);
+        log.info("authentication: {}" , authentication);
         // 设置登录认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
@@ -82,6 +85,7 @@ public class SecurityUtils {
             UserService userService = SpringContextUtil.getBean(UserService.class);
             user = userService.loadUserByUsername(username);
         }
+        log.info("user: {}", user);
         return user;
     }
 
@@ -107,6 +111,7 @@ public class SecurityUtils {
                 username = ((UserDetails) principal).getUsername();
             }
         }
+        log.info("username: {}", username);
         return username;
     }
 
