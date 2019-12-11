@@ -41,6 +41,7 @@ gateway:
     ignored-path:
       - /eboot-sys/kaptcha/render
       - /eboot-sys/login
+      - /eboot-sys/swagger-ui.html
 
 server:
   port: 8141
