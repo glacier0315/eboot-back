@@ -2,11 +2,14 @@ package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
 import com.glacier.core.http.HttpResult;
-import com.glacier.security.JwtAuthenticatioToken;
-import com.glacier.security.util.SecurityUtils;
+import com.glacier.security.util.JwtTokenUtils;
 import com.glacier.security.vo.LoginBean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,8 @@ public class IndexController {
     private Kaptcha kaptcha;
     @Resource
     private AuthenticationManager authenticationManager;
+    @Resource
+    private JwtTokenUtils jwtTokenUtils;
 
 
     @GetMapping("/")
@@ -46,8 +51,16 @@ public class IndexController {
         if (!validate) {
             return HttpResult.error("验证码不正确！");
         }
-        // 系统登录认证
-        JwtAuthenticatioToken token = SecurityUtils.login(request, loginBean.getAccount(), loginBean.getPassword(), authenticationManager);
-        return HttpResult.ok(token);
+        UsernamePasswordAuthenticationToken authenticatioToken = new UsernamePasswordAuthenticationToken(loginBean.getAccount(), loginBean.getPassword());
+        authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        // 执行登录认证过程
+        Authentication authentication = authenticationManager.authenticate(authenticatioToken);
+        // 认证成功存储认证信息到上下文
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        //生成JWT
+        String token = jwtTokenUtils.generateToken((UserDetails) authentication.getPrincipal());
+        HttpResult result = HttpResult.ok();
+        result.setData(token);
+        return result;
     }
 }

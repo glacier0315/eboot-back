@@ -39,10 +39,12 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理 认证异常
+     *
      * @return
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public HttpResult authenticationException(AuthenticationException e) {
         return HttpResult.error("用户名或者密码错误！");
     }
+
 }

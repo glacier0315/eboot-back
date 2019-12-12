@@ -1,19 +1,17 @@
 package com.glacier.security.util;
 
-import com.glacier.security.JwtAuthenticatioToken;
-import com.glacier.util.SpringContextUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.DefaultClaims;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author glacier
@@ -22,53 +20,61 @@ import java.util.Map;
  * @date 2019-10-28 09:11
  */
 @Slf4j
+@Setter
+@Component
+@ConfigurationProperties(prefix = "config.token")
 public class JwtTokenUtils {
 
-
-    /**
-     * 用户名称
-     */
-    private static final String USERNAME = Claims.SUBJECT;
-    /**
-     * 创建时间
-     */
-    private static final String CREATED = "created";
     /**
      * 权限列表
      */
     private static final String AUTHORITIES = "authorities";
-    /**
-     * 密钥
-     */
-    private static final String SECRET = "abcdefgh";
-    /**
-     * 有效期12小时
-     */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
+    private String header;
+    private String secret;
+    private long expireTime;
 
     /**
      * 生成令牌
      *
-     * @param authentication 用户
+     * @param user 用户
      * @return 令牌
      */
-    public static String generateToken(Authentication authentication) {
-        Map<String, Object> claims = new HashMap<>(3);
-        claims.put(USERNAME, SecurityUtils.getUsername(authentication));
-        claims.put(CREATED, new Date());
-        claims.put(AUTHORITIES, authentication.getAuthorities());
-        return generateToken(claims);
+    public String generateToken(UserDetails user) {
+        long currentTimeMillis = System.currentTimeMillis();
+        Claims claims = new DefaultClaims();
+        claims.setSubject(user.getUsername())
+                .setIssuedAt(new Date(currentTimeMillis))
+                .setExpiration(new Date(currentTimeMillis + expireTime));
+        claims.put(AUTHORITIES, user.getAuthorities());
+        return Jwts.builder().setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
     }
 
     /**
-     * 从数据声明生成令牌
+     * 刷新令牌
      *
-     * @param claims 数据声明
-     * @return 令牌
+     * @param token
+     * @return
      */
-    private static String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+    public String refreshToken(String token) {
+        Claims claims = getClaimsFromToken(token);
+        claims.setExpiration(new Date(System.currentTimeMillis() + expireTime));
+        return Jwts.builder().setClaims(claims)
+                .signWith(SignatureAlgorithm.HS512, secret)
+                .compact();
+    }
+
+
+
+    /**
+     * 从令牌中获取数据声明
+     *
+     * @param token 令牌
+     * @return 数据声明
+     */
+    private Claims getClaimsFromToken(String token) {
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     /**
@@ -77,74 +83,8 @@ public class JwtTokenUtils {
      * @param token 令牌
      * @return 用户名
      */
-    public static String getUsernameFromToken(String token) {
-        String username;
-        try {
-            Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
-        } catch (Exception e) {
-            username = null;
-        }
-        return username;
-    }
-
-    /**
-     * 根据请求令牌获取登录认证信息
-     *
-     * @param request 令牌
-     * @return 用户名
-     */
-    public static Authentication getAuthenticationeFromToken(HttpServletRequest request) {
-        Authentication authentication = null;
-        // 获取请求携带的令牌
-        String token = JwtTokenUtils.getToken(request);
-        if (token != null) {
-            // 请求令牌不能为空
-            if (SecurityUtils.getAuthentication() == null) {
-                // 上下文中Authentication为空
-                Claims claims = getClaimsFromToken(token);
-                if (claims == null) {
-                    return null;
-                }
-                String username = claims.getSubject();
-                if (username == null) {
-                    return null;
-                }
-                if (isTokenExpired(token)) {
-                    return null;
-                }
-                UserDetails userDetails = getUserByUsername(username);
-                if (userDetails != null) {
-                    authentication = new JwtAuthenticatioToken(userDetails, null, userDetails.getAuthorities(), token);
-                }
-                log.info("从toke获取authentication: {}" , authentication);
-            } else {
-                if (validateToken(token, SecurityUtils.getUsername())) {
-                    // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
-                    authentication = SecurityUtils.getAuthentication();
-                    log.info("获取原authentication: {}" , authentication);
-                } else {
-                    log.info("authentication信息不同");
-                }
-            }
-        }
-        return authentication;
-    }
-
-    /**
-     * 从令牌中获取数据声明
-     *
-     * @param token 令牌
-     * @return 数据声明
-     */
-    private static Claims getClaimsFromToken(String token) {
-        Claims claims;
-        try {
-            claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
-        } catch (Exception e) {
-            claims = null;
-        }
-        return claims;
+    public String getUsernameFromToken(String token) {
+        return getClaimsFromToken(token).getSubject();
     }
 
     /**
@@ -154,28 +94,12 @@ public class JwtTokenUtils {
      * @param username
      * @return
      */
-    public static Boolean validateToken(String token, String username) {
+    public Boolean validateToken(String token, String username) {
         String userName = getUsernameFromToken(token);
         return (userName.equals(username) && !isTokenExpired(token));
     }
 
-    /**
-     * 刷新令牌
-     *
-     * @param token
-     * @return
-     */
-    public static String refreshToken(String token) {
-        String refreshedToken;
-        try {
-            Claims claims = getClaimsFromToken(token);
-            claims.put(CREATED, new Date());
-            refreshedToken = generateToken(claims);
-        } catch (Exception e) {
-            refreshedToken = null;
-        }
-        return refreshedToken;
-    }
+
 
     /**
      * 判断令牌是否过期
@@ -183,14 +107,13 @@ public class JwtTokenUtils {
      * @param token 令牌
      * @return 是否过期
      */
-    public static Boolean isTokenExpired(String token) {
-        try {
-            Claims claims = getClaimsFromToken(token);
-            Date expiration = claims.getExpiration();
-            return expiration.before(new Date());
-        } catch (Exception e) {
-            return false;
+    public Boolean isTokenExpired(String token) {
+        Claims claims = getClaimsFromToken(token);
+        Date expiration = claims.getExpiration();
+        if (expiration == null) {
+            return true;
         }
+        return expiration.before(new Date(System.currentTimeMillis()));
     }
 
     /**
@@ -199,11 +122,11 @@ public class JwtTokenUtils {
      * @param request
      * @return
      */
-    public static String getToken(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         String tokenHead = "Bearer ";
         if (token == null) {
-            token = request.getHeader("token");
+            token = request.getHeader(header);
         } else if (token.contains(tokenHead)) {
             token = token.substring(tokenHead.length());
         }
@@ -211,15 +134,5 @@ public class JwtTokenUtils {
             token = null;
         }
         return token;
-    }
-
-    /**
-     * 根据用户名查找  用户
-     * @param username
-     * @return
-     */
-    private static UserDetails getUserByUsername(String username) {
-        UserDetailsService userDetailsService = SpringContextUtil.getBean(UserDetailsService.class);
-        return userDetailsService.loadUserByUsername(username);
     }
 }

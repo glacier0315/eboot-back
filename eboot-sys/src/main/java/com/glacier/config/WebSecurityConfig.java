@@ -1,6 +1,6 @@
 package com.glacier.config;
 
-import com.glacier.security.JwtAuthenticationFilter;
+import com.glacier.security.filter.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -30,6 +30,8 @@ import javax.annotation.Resource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsService userDetailsService;
+    @Resource
+    private JwtTokenFilter jwtTokenFilter;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -56,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 对于获取token的rest api要允许匿名访问
-                .antMatchers("oauth/**").permitAll()
+                .antMatchers("/oauth/**").permitAll()
                 // 查看sql监控 druid
                 .antMatchers("/druid/**").permitAll()
                 // 登录
@@ -74,8 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         // tolen 验证过滤器
-        http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-
+        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
