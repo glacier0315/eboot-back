@@ -35,8 +35,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Value("${config.authenticate.ignored-path}")
     private List<String> ignoredPath;
-    @Value("${config.token.header}")
-    private String header;
 
     @Resource
     private JwtTokenUtils jwtTokenUtils;
@@ -78,9 +76,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             response.sendError(HttpStatus.FORBIDDEN.value(), "TOKEN无效，请重新登录！");
             return;
         }
-        // 刷新token
-        String refreshToken = jwtTokenUtils.refreshToken(token);
-        response.addHeader(header, refreshToken);
         filterChain.doFilter(request, response);
     }
 
