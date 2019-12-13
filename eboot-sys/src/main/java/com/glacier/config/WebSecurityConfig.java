@@ -71,7 +71,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 服务监控
                 .antMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated();
-        http.cors().and().csrf().disable(); // 禁用自带的跨域管理
+        // 禁用自带的跨域管理
+        http.cors().and().csrf().disable();
+        // 解决iframe 显示问题
+        http.headers().frameOptions().disable();
 
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
