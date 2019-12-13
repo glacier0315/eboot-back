@@ -47,7 +47,7 @@ gateway:
     # 忽略路径
     ignored-path:
       - /eboot-sys/oauth/
-      - /eboot-sys/druid/
+      - /eboot-sys/druid
       - /eboot-sys/swagger-ui.html
       - /eboot-sys/swagger-resources
       - /eboot-sys/v2/api-docs
