@@ -49,13 +49,15 @@ gateway:
       - /eboot-sys/oauth/
       - /eboot-sys/druid/
       - /eboot-sys/swagger-ui.html
-      - /eboot-sys/swagger-resources/
+      - /eboot-sys/swagger-resources
       - /eboot-sys/v2/api-docs
       - /eboot-sys/webjars/
       - /eboot-sys/kaptcha/
-      - /eboot-sys/actuator/
+      - /eboot-sys/actuator
       - /eboot-sys/login
       - /eboot-sys/logout
+      - /eboot-sys/csrf
+      - /eboot-sys/favicon.ico
 
 server:
   port: 8141
