@@ -2,6 +2,7 @@ package com.glacier.security.filter;
 
 import com.glacier.core.http.HttpStatus;
 import com.glacier.security.util.JwtTokenUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +27,7 @@ import java.util.List;
  * @description token 过滤器
  * @date 2019-12-12 12:43
  */
+@Slf4j
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
@@ -40,6 +42,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        log.info("TOKEN过滤器,请求路径: {}", request.getServletPath());
         if (ignoreMath(request.getServletPath())) {
             filterChain.doFilter(request, response);
             return;
@@ -47,6 +50,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String token = jwtTokenUtils.getToken(request);
         if (token != null) {
             if (jwtTokenUtils.isTokenExpired(token)) {
+                log.info("TOKEN已过期,请求路径: {}", request.getServletPath());
                 response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN已过期，请重新登录！");
                 return;
             } else {
@@ -54,7 +58,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 if (username != null && !username.isEmpty()) {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     if (authentication != null && authentication.getPrincipal() != null) {
-
+                        log.info("会话上下文authentication: {}", authentication);
                     } else {
                         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                         //加载用户、角色、权限信息，Spring Security根据这些信息判断接口的访问权限
@@ -63,13 +67,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                         authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         // 处理上下文
                         SecurityContextHolder.getContext().setAuthentication(authenticatioToken);
+                        log.info("重建会话上下文authentication: {}", authentication);
                     }
                 } else {
+                    log.info("TOKEN无效,请求路径: {}", request.getServletPath());
                     response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN无效，请重新登录！");
                     return;
                 }
             }
         } else {
+            log.info("TOKEN无效,请求路径: {}", request.getServletPath());
             response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN无效，请重新登录！");
             return;
         }
