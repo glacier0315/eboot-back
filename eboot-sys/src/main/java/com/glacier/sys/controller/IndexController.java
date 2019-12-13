@@ -58,7 +58,7 @@ public class IndexController {
         // 认证成功存储认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成JWT
-        String token = jwtTokenUtils.generateToken((UserDetails) authentication.getPrincipal());
+        String token = jwtTokenUtils.generateToken(((UserDetails) authentication.getPrincipal()).getUsername());
         HttpResult result = HttpResult.ok();
         result.setData(token);
         return result;

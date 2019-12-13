@@ -1,6 +1,10 @@
 package com.glacier.gateway.filter;
 
+import com.glacier.core.http.HttpResult;
+import com.glacier.gateway.utils.JwtTokenUtils;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -20,25 +24,30 @@ import java.util.List;
  * @date 2019-12-11 12:38
  */
 @Slf4j
+@Setter
 @Component
-@ConfigurationProperties(prefix="gateway.token")
+@ConfigurationProperties(prefix = "gateway.token")
 public class TokenFilter implements GlobalFilter, Ordered {
 
     private List<String> ignoredPath;
+    private String header;
+
+    @Autowired
+    private JwtTokenUtils jwtTokenUtils;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        String token = request.getHeaders().getFirst("token");
-        log.info("ignoredPath: {}", ignoredPath);
-        log.info("path: {}", request.getURI().getPath());
-        log.info("token: {}", token);
-        if (!ignoredPath.contains(request.getURI().getPath())) {
-            if (token == null || token.isEmpty()) {
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        String token = request.getHeaders().getFirst(header);
+        if (!this.ignoreMath(request.getURI().getPath())) {
+            HttpResult httpResult = jwtTokenUtils.validateToken(token);
+            if (httpResult.getCode() != HttpStatus.OK.value()) {
+                log.info("无效TOKEN: {}", token);
+                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
                 return exchange.getResponse().setComplete();
             }
         }
+        // 刷新token
         return chain.filter(exchange);
     }
 
@@ -47,7 +56,21 @@ public class TokenFilter implements GlobalFilter, Ordered {
         return 0;
     }
 
-    public void setIgnoredPath(List<String> ignoredPath) {
-        this.ignoredPath = ignoredPath;
+    /**
+     * 验证是否是忽略验证
+     * @param path
+     * @return
+     */
+    private boolean ignoreMath(String path) {
+        boolean ignore = false;
+        if (ignoredPath !=null && !ignoredPath.isEmpty()) {
+            for (String prifx : ignoredPath) {
+                if (path.startsWith(prifx)) {
+                    ignore = true;
+                    break;
+                }
+            }
+        }
+        return ignore;
     }
 }

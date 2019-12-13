@@ -1,9 +1,11 @@
 package com.glacier.security.filter;
 
-import com.glacier.core.http.HttpStatus;
+import com.glacier.core.http.HttpResult;
 import com.glacier.security.util.JwtTokenUtils;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,8 +33,10 @@ import java.util.List;
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    @Value("${config.authenticate.ignore-path}")
-    private List<String> ignorePath;
+    @Value("${config.authenticate.ignored-path}")
+    private List<String> ignoredPath;
+    @Value("${config.token.header}")
+    private String header;
 
     @Resource
     private JwtTokenUtils jwtTokenUtils;
@@ -48,50 +52,48 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
         String token = jwtTokenUtils.getToken(request);
-        if (token != null) {
-            if (jwtTokenUtils.isTokenExpired(token)) {
-                log.info("TOKEN已过期,请求路径: {}", request.getServletPath());
-                response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN已过期，请重新登录！");
-                return;
+        HttpResult httpResult = jwtTokenUtils.validateToken(token);
+        if (httpResult.getCode() != HttpStatus.OK.value()) {
+            log.info("{},请求路径: {}", httpResult.getMsg(), request.getServletPath());
+            response.sendError(httpResult.getCode(), httpResult.getMsg());
+            return;
+        }
+        String username = ((Claims) httpResult.getData()).getSubject();
+        if (username != null && !username.isEmpty()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.getPrincipal() != null) {
+                log.info("会话上下文authentication: {}", authentication);
             } else {
-                String username = jwtTokenUtils.getUsernameFromToken(token);
-                if (username != null && !username.isEmpty()) {
-                    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    if (authentication != null && authentication.getPrincipal() != null) {
-                        log.info("会话上下文authentication: {}", authentication);
-                    } else {
-                        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                        //加载用户、角色、权限信息，Spring Security根据这些信息判断接口的访问权限
-                        UsernamePasswordAuthenticationToken authenticatioToken = new UsernamePasswordAuthenticationToken(userDetails, null,
-                                userDetails.getAuthorities());
-                        authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        // 处理上下文
-                        SecurityContextHolder.getContext().setAuthentication(authenticatioToken);
-                        log.info("重建会话上下文authentication: {}", authentication);
-                    }
-                } else {
-                    log.info("TOKEN无效,请求路径: {}", request.getServletPath());
-                    response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN无效，请重新登录！");
-                    return;
-                }
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                //加载用户、角色、权限信息，Spring Security根据这些信息判断接口的访问权限
+                UsernamePasswordAuthenticationToken authenticatioToken = new UsernamePasswordAuthenticationToken(userDetails, null,
+                        userDetails.getAuthorities());
+                authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                // 处理上下文
+                SecurityContextHolder.getContext().setAuthentication(authenticatioToken);
+                log.info("重建会话上下文authentication: {}", authentication);
             }
         } else {
             log.info("TOKEN无效,请求路径: {}", request.getServletPath());
-            response.sendError(HttpStatus.SC_FORBIDDEN, "TOKEN无效，请重新登录！");
+            response.sendError(HttpStatus.FORBIDDEN.value(), "TOKEN无效，请重新登录！");
             return;
         }
+        // 刷新token
+        String refreshToken = jwtTokenUtils.refreshToken(token);
+        response.addHeader(header, refreshToken);
         filterChain.doFilter(request, response);
     }
 
     /**
      * 验证是否是忽略验证
+     *
      * @param path
      * @return
      */
     private boolean ignoreMath(String path) {
         boolean ignore = false;
-        if (ignorePath !=null && !ignorePath.isEmpty()) {
-            for (String prifx : ignorePath) {
+        if (ignoredPath != null && !ignoredPath.isEmpty()) {
+            for (String prifx : ignoredPath) {
                 if (path.startsWith(prifx)) {
                     ignore = true;
                     break;

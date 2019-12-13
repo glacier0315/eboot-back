@@ -38,10 +38,24 @@ spring:
 
 gateway:
   token:
+    # 头
+    header: token
+    # 加密密钥
+    secret: abcdefgh
+    # 有效期  30 * 60 * 1000 毫秒
+    expire_time: 1800000
+    # 忽略路径
     ignored-path:
-      - /eboot-sys/kaptcha/render
-      - /eboot-sys/login
+      - /eboot-sys/oauth/
+      - /eboot-sys/druid/
       - /eboot-sys/swagger-ui.html
+      - /eboot-sys/swagger-resources/
+      - /eboot-sys/v2/api-docs
+      - /eboot-sys/webjars/
+      - /eboot-sys/kaptcha/
+      - /eboot-sys/actuator/
+      - /eboot-sys/login
+      - /eboot-sys/logout
 
 server:
   port: 8141

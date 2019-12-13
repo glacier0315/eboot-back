@@ -1,15 +1,13 @@
-package com.glacier.security.util;
+package com.glacier.gateway.utils;
 
 import com.glacier.core.http.HttpResult;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -24,29 +22,12 @@ public class JwtTokenUtils {
 
     private static final int SC_FORBIDDEN = 403;
 
-    @Value("${config.token.header}")
+    @Value("${gateway.token.header}")
     private String header;
-    @Value("${config.token.secret}")
+    @Value("${gateway.token.secret}")
     private String secret;
-    @Value("${config.token.expire_time}")
+    @Value("${gateway.token.expire_time}")
     private long expireTime;
-
-    /**
-     * 生成令牌
-     *
-     * @param username 用户名
-     * @return 令牌
-     */
-    public String generateToken(String username) {
-        long currentTimeMillis = System.currentTimeMillis();
-        Claims claims = new DefaultClaims();
-        claims.setSubject(username)
-                .setIssuedAt(new Date(currentTimeMillis))
-                .setExpiration(new Date(currentTimeMillis + expireTime));
-        return Jwts.builder().setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, secret)
-                .compact();
-    }
 
     /**
      * 刷新令牌
@@ -109,25 +90,5 @@ public class JwtTokenUtils {
         }
         httpResult.setMsg("TOKEN验证通过");
         return httpResult;
-    }
-
-    /**
-     * 获取请求token
-     *
-     * @param request
-     * @return
-     */
-    public String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String tokenHead = "Bearer ";
-        if (token == null) {
-            token = request.getHeader(header);
-        } else if (token.contains(tokenHead)) {
-            token = token.substring(tokenHead.length());
-        }
-        if ("".equals(token)) {
-            token = null;
-        }
-        return token;
     }
 }

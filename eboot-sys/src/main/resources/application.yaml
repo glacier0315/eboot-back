@@ -98,7 +98,7 @@ kaptcha:
 
 config:
   authenticate:
-    ignore-path: /oauth/, /druid/, /swagger-ui.html, /swagger-resources/, /v2/api-docs, /webjars/, /kaptcha/, /actuator/, /login, /logout
+    ignored-path: /oauth/, /druid/, /swagger-ui.html, /swagger-resources/, /v2/api-docs, /webjars/, /kaptcha/, /actuator/, /login, /logout
   token:
     # 头
     header: token

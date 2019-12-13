@@ -18,6 +18,11 @@ dependencies {
             "org.springframework.cloud:spring-cloud-starter-consul-discovery"
     )
 
+    compile project(':eboot-core')
+
+    // jwt
+    implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")
+
     // spring-boot-admin
     implementation("de.codecentric:spring-boot-admin-client:${springBootAdminVersion}")
 
