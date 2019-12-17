@@ -1,32 +1,3 @@
-allprojects {
-    group = 'com.glacier'
-    version = '0.0.1-SNAPSHOT'
-
-    ext {
-        springBootVersion = "2.1.9.RELEASE"
-        springCloudVersion = "Greenwich.SR3"
-        mybatisGeneratorVersion = "1.4"
-    }
-    // 指定仓库
-    repositories {
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://repo.spring.io/snapshot' }
-        maven { url 'https://repo.spring.io/milestone' }
-    }
-    // 设置编码
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-    }
-
-    //删除文件
-    task cleanTempFiles() {
-        println("delete $project out")
-        delete "out"
-        println("delete $project logs")
-        delete "logs"
-    }
-}
-
 subprojects {
     apply plugin: 'java'
 
@@ -34,7 +5,14 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    group = 'com.glacier'
+    version = '0.0.1-SNAPSHOT'
+
     ext {
+        springBootVersion = "2.1.9.RELEASE"
+        springCloudVersion = "Greenwich.SR3"
+        mybatisGeneratorVersion = "1.4"
+
         swaggerVersion = '2.9.2'
         mybatisBootVersion = '2.1.0'
         druidVersion = '1.1.18'
@@ -47,6 +25,13 @@ subprojects {
         springBootAdminVersion = "2.1.6"
     }
 
+    // 指定仓库
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://repo.spring.io/snapshot' }
+        maven { url 'https://repo.spring.io/milestone' }
+    }
+
     dependencies {
         // lombok
         compileOnly("org.projectlombok:lombok:${lombokVersion}")
@@ -54,5 +39,18 @@ subprojects {
 
         testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
         testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    }
+
+    // 设置编码
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    //删除文件
+    task cleanTempFiles() {
+        println("delete $project out")
+        delete "out"
+        println("delete $project logs")
+        delete "logs"
     }
 }
