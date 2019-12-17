@@ -104,6 +104,16 @@ public class RoleServiceImpl implements RoleService {
         return roleDao.findList(role);
     }
 
+    /**
+     * 根据用户id 查询角色
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Role> findByUserId(String userId) {
+        return roleDao.findByUserId(userId);
+    }
+
     @Override
     public boolean checkCode(Role role) {
         if (role != null && role.getCode() != null && role.getCode().trim().length() > 0) {

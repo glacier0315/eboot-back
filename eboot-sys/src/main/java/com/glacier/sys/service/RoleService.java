@@ -23,6 +23,12 @@ public interface RoleService extends CurdService<Role> {
     PageInfo<Role> findPage(PageRequest<Role> pageRequest);
 
     /**
+     * 根绝用户id 查询用户所拥有的角色
+     * @return
+     */
+    List<Role> findByUserId(String userId);
+
+    /**
      * 查询所有
      *
      * @return

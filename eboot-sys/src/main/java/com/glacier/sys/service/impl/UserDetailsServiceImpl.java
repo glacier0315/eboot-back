@@ -1,10 +1,10 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.sys.dao.RoleDao;
-import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.SysUser;
 import com.glacier.sys.entity.User;
+import com.glacier.sys.service.RoleService;
+import com.glacier.sys.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,9 +24,9 @@ import java.util.List;
 @Service("UserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Resource
-    private UserDao userDao;
+    private UserService userService;
     @Resource
-    private RoleDao roleDao;
+    private RoleService roleService;
 
     /**
      * 根据用户名查用户
@@ -37,12 +37,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.loadUserByUsername(username);
+        User user = userService.loadUserByUsername(username);
         if (user == null || user.getId() == null || "".equals(user.getId().trim())) {
             throw new UsernameNotFoundException("用户不存在！");
         }
         // 查找角色
-        List<Role> roles = roleDao.findByUserId(user.getId());
+        List<Role> roles = roleService.findByUserId(user.getId());
         return new SysUser(user, roles);
     }
 }
