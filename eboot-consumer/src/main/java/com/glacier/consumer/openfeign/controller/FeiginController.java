@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
+
 /**
  * @author glacier
  * @version 1.0
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("feign")
 public class FeiginController {
 
-    @Autowired
+    @Resource
     private EbootProducerService ebootProducerService;
 
     @GetMapping("call")
