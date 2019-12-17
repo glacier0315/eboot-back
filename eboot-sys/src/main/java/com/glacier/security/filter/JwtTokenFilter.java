@@ -69,7 +69,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 // 处理上下文
                 SecurityContextHolder.getContext().setAuthentication(authenticatioToken);
-                log.info("重建会话上下文authentication: {}", authentication);
+                log.info("重建会话上下文authentication: {}", authenticatioToken);
             }
         } else {
             log.info("TOKEN无效,请求路径: {}", request.getServletPath());
