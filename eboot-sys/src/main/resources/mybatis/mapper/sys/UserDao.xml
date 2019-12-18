@@ -14,7 +14,7 @@
         left join t_dept b on a.dept_id=b.id
     </sql>
 
-    <select id="findById" resultType="User">
+    <select id="findById" resultType="com.glacier.sys.entity.User">
         SELECT
         <include refid="user_columns"/>
         <include refid="join_columns"/>
@@ -23,7 +23,7 @@
         where a.id=#{id}
     </select>
 
-    <select id="findList" resultType="User">
+    <select id="findList" resultType="com.glacier.sys.entity.User">
         SELECT
         <include refid="user_columns"/>
         <include refid="join_columns"/>
@@ -46,7 +46,7 @@
         </where>
     </select>
 
-    <select id="loadUserByUsername" resultType="User">
+    <select id="loadUserByUsername" resultType="com.glacier.sys.entity.User">
         SELECT
         <include refid="user_columns"/>
         FROM t_user a
@@ -56,7 +56,7 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="User">
+    <insert id="insert" parameterType="com.glacier.sys.entity.User">
         INSERT INTO t_user
         (id, username, password, nickname, id_card, birthday, sex, status, salt, email, mobile, dept_id,
         create_by, create_date, del_flag)
@@ -64,7 +64,7 @@
         #{createBy}, #{createDate}, #{delFlag})
     </insert>
 
-    <update id="update" parameterType="User">
+    <update id="update" parameterType="com.glacier.sys.entity.User">
         update t_user
         set id_card = #{idCard},
             birthday = #{birthday},
@@ -79,7 +79,7 @@
         where id = #{id}
     </update>
 
-    <update id="updatePassword" parameterType="User">
+    <update id="updatePassword" parameterType="com.glacier.sys.entity.User">
         update t_user
         set password = #{password},
             update_by = #{updateBy},

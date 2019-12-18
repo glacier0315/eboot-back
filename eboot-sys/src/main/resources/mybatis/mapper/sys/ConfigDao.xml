@@ -6,14 +6,14 @@
         a.id, a.value, a.label, a.type, a.description, a.order_num, a.remarks, a.create_by, a.create_date
     </sql>
 
-    <select id="findById" resultType="Config">
+    <select id="findById" resultType="com.glacier.sys.entity.Config">
         SELECT
         <include refid="config_columns"/>
         FROM t_config a
         where a.id=#{id}
     </select>
 
-    <select id="findList" resultType="Config">
+    <select id="findList" resultType="com.glacier.sys.entity.Config">
         SELECT
         <include refid="config_columns"/>
         FROM t_config a
@@ -32,7 +32,7 @@
         order by a.order_num
     </select>
 
-    <insert id="insert" parameterType="Config">
+    <insert id="insert" parameterType="com.glacier.sys.entity.Config">
         INSERT INTO t_config
         (id, value, label, type, description, order_num, remarks,
         create_by, create_date, del_flag)
@@ -40,7 +40,7 @@
         #{createBy}, #{createDate}, #{delFlag})
     </insert>
 
-    <update id="update" parameterType="Config">
+    <update id="update" parameterType="com.glacier.sys.entity.Config">
         update t_config
         set value = #{value},
             label = #{label},

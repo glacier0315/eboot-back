@@ -11,14 +11,14 @@
         inner join t_role_dept b on a.id=b.dept_id
     </sql>
 
-    <select id="findById" resultType="Dept">
+    <select id="findById" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
         from t_dept a
         where id = #{id}
     </select>
 
-    <select id="findList" resultType="Dept">
+    <select id="findList" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
         from t_dept a
@@ -33,7 +33,7 @@
         </where>
     </select>
 
-    <select id="findAllList" resultType="Dept">
+    <select id="findAllList" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
         from t_dept a
@@ -42,7 +42,7 @@
         </where>
     </select>
 
-    <select id="findDeptsByRoleId" resultType="Dept">
+    <select id="findDeptsByRoleId" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
         from t_dept a
@@ -53,7 +53,7 @@
         </where>
     </select>
 
-    <select id="findDeptsByUserId" resultType="Dept">
+    <select id="findDeptsByUserId" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
         from t_dept a
@@ -68,7 +68,7 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="Dept">
+    <insert id="insert" parameterType="com.glacier.sys.entity.Dept">
         insert into t_dept (
             id, name, code, type, status, order_num, level, parent_id,
             create_by, create_date, update_by, update_date, del_flag
@@ -79,7 +79,7 @@
           )
     </insert>
 
-    <update id="update" parameterType="Dept">
+    <update id="update" parameterType="com.glacier.sys.entity.Dept">
         update t_dept
         set name = #{name},
             code = #{code},

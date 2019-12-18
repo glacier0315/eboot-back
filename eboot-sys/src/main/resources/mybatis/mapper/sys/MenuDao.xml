@@ -7,14 +7,14 @@
         a.create_by, a.create_date, a.update_by, a.update_date, a.del_flag
     </sql>
 
-    <select id="findById" resultType="Menu">
+    <select id="findById" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
         from t_menu a
         where id = #{id}
     </select>
 
-    <select id="findList" resultType="Menu">
+    <select id="findList" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
         from t_menu a
@@ -29,7 +29,7 @@
         </where>
     </select>
 
-    <select id="findAllList" resultType="Menu">
+    <select id="findAllList" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
         from t_menu a
@@ -38,7 +38,7 @@
         </where>
     </select>
 
-    <select id="findMenusByRoleId" resultType="Menu">
+    <select id="findMenusByRoleId" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
         from t_menu a
@@ -49,7 +49,7 @@
         </where>
     </select>
 
-    <select id="findMenusByUserId" resultType="Menu">
+    <select id="findMenusByUserId" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
         from t_menu a
@@ -88,7 +88,7 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="Menu">
+    <insert id="insert" parameterType="com.glacier.sys.entity.Menu">
         insert into t_menu (
             id, name, url, perms, type, status, open, order_num, icon, parent_id,
             create_by, create_date, update_by, update_date, del_flag
@@ -99,7 +99,7 @@
           )
     </insert>
 
-    <update id="update" parameterType="Menu">
+    <update id="update" parameterType="com.glacier.sys.entity.Menu">
         update t_menu
         set name = #{name},
             url = #{url},

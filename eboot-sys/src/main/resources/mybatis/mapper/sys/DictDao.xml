@@ -6,14 +6,14 @@
         a.id, a.code, a.name, a.type, a.parent_id, a.description, a.order_num, a.remarks, a.create_by, a.create_date
     </sql>
 
-    <select id="findById" resultType="Dict">
+    <select id="findById" resultType="com.glacier.sys.entity.Dict">
         SELECT
         <include refid="dict_columns"/>
         FROM t_dict a
         where a.id=#{id}
     </select>
 
-    <select id="findList" resultType="Dict">
+    <select id="findList" resultType="com.glacier.sys.entity.Dict">
         SELECT
         <include refid="dict_columns"/>
         FROM t_dict a
@@ -32,7 +32,7 @@
         order by a.order_num
     </select>
 
-    <insert id="insert" parameterType="Dict">
+    <insert id="insert" parameterType="com.glacier.sys.entity.Dict">
         INSERT INTO t_dict
         (id, code, name, type, parent_id, description, order_num, remarks,
         create_by, create_date, del_flag)
@@ -40,7 +40,7 @@
         #{createBy}, #{createDate}, #{delFlag})
     </insert>
 
-    <update id="update" parameterType="Dict">
+    <update id="update" parameterType="com.glacier.sys.entity.Dict">
         update t_dict
         set code = #{code},
             name = #{name},

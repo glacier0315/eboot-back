@@ -11,14 +11,14 @@
         inner join t_user_role b on a.id=b.role_id
     </sql>
 
-    <select id="findById" resultType="Role">
+    <select id="findById" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
         from t_role a
         where id = #{id}
     </select>
 
-    <select id="findList" resultType="Role">
+    <select id="findList" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
         from t_role a
@@ -30,7 +30,7 @@
         </where>
     </select>
 
-    <select id="findByUserId" resultType="Role">
+    <select id="findByUserId" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
         from t_role a
@@ -41,7 +41,7 @@
         </where>
     </select>
 
-    <insert id="insert" parameterType="Role">
+    <insert id="insert" parameterType="com.glacier.sys.entity.Role">
         insert into t_role (id, name, code,
             status, create_by, create_date,
             update_by, update_date, del_flag
@@ -52,7 +52,7 @@
           )
     </insert>
 
-    <update id="update" parameterType="Role">
+    <update id="update" parameterType="com.glacier.sys.entity.Role">
         update t_role
         set name = #{name},
             code = #{code},
