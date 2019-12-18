@@ -8,20 +8,20 @@
     </sql>
 
     <sql id="roleJoins">
-        inner join t_role_dept b on a.id=b.dept_id
+        inner join sys_role_dept b on a.id=b.dept_id
     </sql>
 
     <select id="findById" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
-        from t_dept a
+        from sys_dept a
         where id = #{id}
     </select>
 
     <select id="findList" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
-        from t_dept a
+        from sys_dept a
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="name != null and name != '' ">
@@ -36,7 +36,7 @@
     <select id="findAllList" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
-        from t_dept a
+        from sys_dept a
         <where>
             a.del_flag='0'
         </where>
@@ -45,7 +45,7 @@
     <select id="findDeptsByRoleId" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
-        from t_dept a
+        from sys_dept a
         <include refid="roleJoins"/>
         <where>
             a.del_flag='0'
@@ -56,7 +56,7 @@
     <select id="findDeptsByUserId" resultType="com.glacier.sys.entity.Dept">
         select
         <include refid="dept_columns"/>
-        from t_dept a
+        from sys_dept a
         <include refid="roleJoins"/>
         inner join t_user_role c on c.role_id=b.role_id
         <where>
@@ -69,7 +69,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Dept">
-        insert into t_dept (
+        insert into sys_dept (
             id, name, code, type, status, order_num, level, parent_id,
             create_by, create_date, update_by, update_date, del_flag
         )
@@ -80,7 +80,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.Dept">
-        update t_dept
+        update sys_dept
         set name = #{name},
             code = #{code},
             type = #{type},
@@ -94,7 +94,7 @@
     </update>
 
     <update id="delete">
-        update t_dept a
+        update sys_dept a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>

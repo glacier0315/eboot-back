@@ -9,14 +9,14 @@
     <select id="findById" resultType="com.glacier.sys.entity.Config">
         SELECT
         <include refid="config_columns"/>
-        FROM t_config a
+        FROM sys_config a
         where a.id=#{id}
     </select>
 
     <select id="findList" resultType="com.glacier.sys.entity.Config">
         SELECT
         <include refid="config_columns"/>
-        FROM t_config a
+        FROM sys_config a
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="label != null and label != '' ">
@@ -33,7 +33,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Config">
-        INSERT INTO t_config
+        INSERT INTO sys_config
         (id, value, label, type, description, order_num, remarks,
         create_by, create_date, del_flag)
         VALUES (#{id}, #{value}, #{label}, #{type}, #{description}, #{orderNum}, #{remarks},
@@ -41,7 +41,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.Config">
-        update t_config
+        update sys_config
         set value = #{value},
             label = #{label},
             type = #{type},
@@ -54,7 +54,7 @@
     </update>
 
     <update id="delete">
-        update t_config a
+        update sys_config a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>

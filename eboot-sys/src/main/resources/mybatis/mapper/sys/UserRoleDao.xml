@@ -4,14 +4,14 @@
 
     <select id="findByUserId" resultType="String">
         select a.role_id
-        from t_user_role a
+        from sys_user_role a
         <where>
            a.user_id = #{userId}
         </where>
     </select>
 
     <insert id="insertBatch" parameterType="List">
-        insert into t_user_role
+        insert into sys_user_role
             (id, user_id, role_id)
         values
         <foreach collection ="list" item="item" separator =",">
@@ -20,12 +20,12 @@
     </insert>
 
     <update id="deleteByUserId">
-        delete from t_user_role
+        delete from sys_user_role
         where user_id=#{userId}
     </update>
 
     <update id="deleteByRoleId">
-        delete from t_user_role
+        delete from sys_user_role
         where role_id=#{roleId}
     </update>
 </mapper>

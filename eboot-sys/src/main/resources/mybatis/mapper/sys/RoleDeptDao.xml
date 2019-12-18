@@ -3,7 +3,7 @@
 <mapper namespace="com.glacier.sys.dao.RoleDeptDao">
 
     <insert id="insertBatch" parameterType="List">
-        insert into t_role_dept
+        insert into sys_role_dept
         (id, role_id, dept_id)
         values
         <foreach collection ="list" item="item" separator =",">
@@ -12,12 +12,12 @@
     </insert>
 
     <update id="deleteByDeptId">
-        delete from t_role_dept
+        delete from sys_role_dept
         where dept_id=#{deptId}
     </update>
 
     <update id="deleteByRoleId">
-        delete from t_role_dept
+        delete from sys_role_dept
         where role_id=#{roleId}
     </update>
 </mapper>

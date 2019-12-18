@@ -11,14 +11,14 @@
     </sql>
 
     <sql id="joins">
-        left join t_dept b on a.dept_id=b.id
+        left join sys_dept b on a.dept_id=b.id
     </sql>
 
     <select id="findById" resultType="com.glacier.sys.entity.User">
         SELECT
         <include refid="user_columns"/>
         <include refid="join_columns"/>
-        FROM t_user a
+        FROM sys_user a
         <include refid="joins"/>
         where a.id=#{id}
     </select>
@@ -27,7 +27,7 @@
         SELECT
         <include refid="user_columns"/>
         <include refid="join_columns"/>
-        FROM t_user a
+        FROM sys_user a
         <include refid="joins"/>
         <where>
             a.del_flag=#{NORMAL_FLAG}
@@ -49,7 +49,7 @@
     <select id="loadUserByUsername" resultType="com.glacier.sys.entity.User">
         SELECT
         <include refid="user_columns"/>
-        FROM t_user a
+        FROM sys_user a
         <where>
             a.del_flag='0'
             and a.username=#{username}
@@ -57,7 +57,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.User">
-        INSERT INTO t_user
+        INSERT INTO sys_user
         (id, username, password, nickname, id_card, birthday, sex, status, salt, email, mobile, dept_id,
         create_by, create_date, del_flag)
         VALUES (#{id}, #{username}, #{password}, #{nickname}, #{idCard}, #{birthday}, #{sex}, #{status}, #{salt}, #{email}, #{mobile}, #{deptId},
@@ -65,7 +65,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.User">
-        update t_user
+        update sys_user
         set id_card = #{idCard},
             birthday = #{birthday},
             sex = #{sex},
@@ -80,7 +80,7 @@
     </update>
 
     <update id="updatePassword" parameterType="com.glacier.sys.entity.User">
-        update t_user
+        update sys_user
         set password = #{password},
             update_by = #{updateBy},
             update_date = #{updateDate}
@@ -88,7 +88,7 @@
     </update>
 
     <update id="delete">
-        update t_user a
+        update sys_user a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>

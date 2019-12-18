@@ -9,14 +9,14 @@
     <select id="findById" resultType="com.glacier.sys.entity.Dict">
         SELECT
         <include refid="dict_columns"/>
-        FROM t_dict a
+        FROM sys_dict a
         where a.id=#{id}
     </select>
 
     <select id="findList" resultType="com.glacier.sys.entity.Dict">
         SELECT
         <include refid="dict_columns"/>
-        FROM t_dict a
+        FROM sys_dict a
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="code != null and code != '' ">
@@ -33,7 +33,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Dict">
-        INSERT INTO t_dict
+        INSERT INTO sys_dict
         (id, code, name, type, parent_id, description, order_num, remarks,
         create_by, create_date, del_flag)
         VALUES (#{id}, #{code}, #{name}, #{type}, #{parentId},  #{description}, #{orderNum}, #{remarks},
@@ -41,7 +41,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.Dict">
-        update t_dict
+        update sys_dict
         set code = #{code},
             name = #{name},
             type = #{type},
@@ -55,7 +55,7 @@
     </update>
 
     <update id="delete">
-        update t_dict a
+        update sys_dict a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>

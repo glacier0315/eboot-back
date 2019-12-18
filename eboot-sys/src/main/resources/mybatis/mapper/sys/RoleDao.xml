@@ -8,20 +8,20 @@
     </sql>
 
     <sql id="roleJoins">
-        inner join t_user_role b on a.id=b.role_id
+        inner join sys_user_role b on a.id=b.role_id
     </sql>
 
     <select id="findById" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
-        from t_role a
+        from sys_role a
         where id = #{id}
     </select>
 
     <select id="findList" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
-        from t_role a
+        from sys_role a
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="name != null and name != '' ">
@@ -33,7 +33,7 @@
     <select id="findByUserId" resultType="com.glacier.sys.entity.Role">
         select
         <include refid="role_columns"/>
-        from t_role a
+        from sys_role a
         <include refid="roleJoins"/>
         <where>
             a.del_flag='0'
@@ -42,7 +42,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Role">
-        insert into t_role (id, name, code,
+        insert into sys_role (id, name, code,
             status, create_by, create_date,
             update_by, update_date, del_flag
           )
@@ -53,7 +53,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.Role">
-        update t_role
+        update sys_role
         set name = #{name},
             code = #{code},
             status = #{status},
@@ -63,7 +63,7 @@
     </update>
 
     <update id="delete">
-        update t_role a
+        update sys_role a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>

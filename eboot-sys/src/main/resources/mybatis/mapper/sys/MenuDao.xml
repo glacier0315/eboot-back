@@ -10,14 +10,14 @@
     <select id="findById" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
-        from t_menu a
+        from sys_menu a
         where id = #{id}
     </select>
 
     <select id="findList" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
-        from t_menu a
+        from sys_menu a
         <where>
             a.del_flag=#{NORMAL_FLAG}
             <if test="name != null and name != '' ">
@@ -32,7 +32,7 @@
     <select id="findAllList" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
-        from t_menu a
+        from sys_menu a
         <where>
             a.del_flag='0'
         </where>
@@ -41,8 +41,8 @@
     <select id="findMenusByRoleId" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
-        from t_menu a
-        inner join t_role_menu b on a.id=b.menu_id
+        from sys_menu a
+        inner join sys_role_menu b on a.id=b.menu_id
         <where>
             a.del_flag='0'
             and b.role_id = #{roleId}
@@ -52,13 +52,13 @@
     <select id="findMenusByUserId" resultType="com.glacier.sys.entity.Menu">
         select
         <include refid="menu_columns"/>
-        from t_menu a
-        inner join t_role_menu b on a.id=b.menu_id
-        inner join t_user_role c on c.role_id=b.role_id
+        from sys_menu a
+        inner join sys_role_menu b on a.id=b.menu_id
+        inner join sys_user_role c on c.role_id=b.role_id
         <where>
             a.del_flag='0'
             and exists (
-            select 1 from t_role r where r.del_flag='0' and r.id=b.role_id and r.status = '1'
+            select 1 from sys_role r where r.del_flag='0' and r.id=b.role_id and r.status = '1'
             )
             and c.user_id = #{userId}
         </where>
@@ -66,13 +66,13 @@
 
     <select id="findPermissionsByUserId" resultType="String">
         select a.perms
-        from t_menu a
-        inner join t_role_menu b on a.id=b.menu_id
-        inner join t_user_role c on c.role_id=b.role_id
+        from sys_menu a
+        inner join sys_role_menu b on a.id=b.menu_id
+        inner join sys_user_role c on c.role_id=b.role_id
         <where>
             a.del_flag='0'
             and exists (
-            select 1 from t_role r where r.del_flag='0' and r.id=b.role_id and r.status = '1'
+            select 1 from sys_role r where r.del_flag='0' and r.id=b.role_id and r.status = '1'
             )
             and a.type = 3
             and c.user_id = #{userId}
@@ -81,7 +81,7 @@
 
     <select id="findAllPermissions" resultType="String">
         select a.perms
-        from t_menu a
+        from sys_menu a
         <where>
             a.del_flag='0'
             and a.type = 3
@@ -89,7 +89,7 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Menu">
-        insert into t_menu (
+        insert into sys_menu (
             id, name, url, perms, type, status, open, order_num, icon, parent_id,
             create_by, create_date, update_by, update_date, del_flag
         )
@@ -100,7 +100,7 @@
     </insert>
 
     <update id="update" parameterType="com.glacier.sys.entity.Menu">
-        update t_menu
+        update sys_menu
         set name = #{name},
             url = #{url},
             perms = #{perms},
@@ -116,7 +116,7 @@
     </update>
 
     <update id="delete">
-        update t_menu a
+        update sys_menu a
         set a.del_flag=#{DEL_FLAG}
         where id=#{id}
     </update>
