@@ -2,13 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.glacier.sys.dao.LogDao">
     <sql id="Base_Column_List">
-        a.id, a.user_id, a.url, a.ip, a.method, a.params, a.user_agent, a.use_time
+        a.id, a.user_id, a.url, a.ip, a.method, a.params, a.user_agent, a.use_time, a.create_date
+    </sql>
+
+    <sql id="join_columns">
+            ,b.username
+    </sql>
+
+    <sql id="joins">
+        left join sys_user b on a.user_id=b.id
     </sql>
 
     <select id="findList" resultType="com.glacier.sys.entity.Log">
         select
         <include refid="Base_Column_List"/>
+        <include refid="join_columns"/>
         from sys_log a
+        <include refid="joins"/>
         <where>
             <if test="userId != null and userId != '' ">
                 and a.user_id=#{userId}
@@ -17,8 +27,8 @@
     </select>
 
     <insert id="insert" parameterType="com.glacier.sys.entity.Log">
-        insert into sys_log (id, user_id, url, ip, method, params, user_agent, use_time)
-        values (#{id}, #{userId}, #{url}, #{ip}, #{method}, #{params}, #{userAgent}, #{useTime})
+        insert into sys_log (id, user_id, url, ip, method, params, user_agent, use_time, create_date)
+        values (#{id}, #{userId}, #{url}, #{ip}, #{method}, #{params}, #{userAgent}, #{useTime}, #{createDate})
     </insert>
 
     <insert id="insertSelective" parameterType="com.glacier.sys.entity.Log">
@@ -48,6 +58,9 @@
             <if test="useTime != null and useTime != ''">
                 use_time,
             </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null and id != ''">
@@ -73,6 +86,9 @@
             </if>
             <if test="useTime != null and useTime != ''">
                 #{useTime},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
             </if>
         </trim>
     </insert>
@@ -100,6 +116,9 @@
             </if>
             <if test="useTime != null and useTime != ''">
                 use_time = #{useTime},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
             </if>
         </set>
         where id = #{id}

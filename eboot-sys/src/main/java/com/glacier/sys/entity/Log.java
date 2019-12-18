@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author glacier
@@ -54,4 +55,14 @@ public class Log implements Serializable {
      * 耗时
      */
     long useTime;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /* 非数据哭字段 */
+    /**
+     * 登录用户名
+     */
+    private String username;
 }

@@ -154,7 +154,8 @@ create table sys_log (
     method varchar ( 255 ) comment '请求方法',
 	params varchar ( 255 ) comment '请求参数',
 	user_agent varchar ( 255 ) comment '登录客户端',
-    use_time int ( 10 ) comment '耗时微秒'
+    use_time int ( 10 ) comment '耗时毫秒',
+    create_date timestamp null comment '创建时间'
 ) comment '操作日志表';
 create index sys_log_1 on sys_log ( user_id );
 

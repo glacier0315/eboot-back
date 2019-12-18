@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -73,6 +74,7 @@ public class LogServiceImpl implements LogService {
         log.setUrl(url);
         log.setUserAgent(userAgent);
         log.setUseTime(useTime);
+        log.setCreateDate(Calendar.getInstance().getTime());
         logDao.insert(log);
     }
 }
