@@ -54,18 +54,22 @@ public class LogServiceImpl implements LogService {
      * @param userId
      * @param url
      * @param ip
+     * @param method
+     * @param params
      * @param userAgent
      * @param useTime
      * @return
      */
     @Async
     @Override
-    public void insert(String userId, String url, String ip, String userAgent, long useTime) {
+    public void insert(String userId, String url, String ip, String method, String params, String userAgent, long useTime) {
         Log log = new Log();
         // 生成id
         log.setId(IdGen.uuid());
         log.setUserId(userId);
         log.setIp(ip);
+        log.setMethod(method);
+        log.setParams(params);
         log.setUrl(url);
         log.setUserAgent(userAgent);
         log.setUseTime(useTime);

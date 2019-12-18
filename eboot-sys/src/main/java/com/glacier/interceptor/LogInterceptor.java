@@ -1,5 +1,6 @@
 package com.glacier.interceptor;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.service.LogService;
 import com.glacier.util.IpUtils;
@@ -52,7 +53,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 String userId = SecurityUtils.geUserId();
 
                 long time = endTime - startTime;
-                logService.insert(userId, url, remoteIp, request.getHeader("user-agent"), time);
+                logService.insert(userId, url, remoteIp, request.getMethod(), JSONUtils.toJSONString(request.getParameterMap()), request.getHeader("user-agent"), time);
                 log.info("用户 {} 访问 {} ,IP： {}, {}::{}, 耗时: {} ms", userId, url, remoteIp, className, methodName, time);
             }
         } finally {

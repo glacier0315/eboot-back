@@ -36,7 +36,15 @@ public class Log implements Serializable {
     * 登录ip
     */
     private String ip;
+    /**
+     * 请求方法
+     */
+    private String method;
 
+    /**
+     * 请求参数
+     */
+    private String params;
     /**
     * 登录客户端
     */

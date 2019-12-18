@@ -29,6 +29,7 @@ public interface LogService {
 
     /**
      * 异步插入
+     *
      * @param userId
      * @param url
      * @param ip
@@ -36,5 +37,5 @@ public interface LogService {
      * @param useTime
      * @return
      */
-    void insert(String userId, String url, String ip, String userAgent, long useTime);
+    void insert(String userId, String url, String ip, String method, String params, String userAgent, long useTime);
 }

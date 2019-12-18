@@ -151,6 +151,8 @@ create table sys_log (
 	user_id varchar ( 64 ) comment '登录id',
 	url varchar ( 255 ) comment 'url',
 	ip varchar ( 255 ) comment '登录ip',
+    method varchar ( 255 ) comment '请求方法',
+	params varchar ( 255 ) comment '请求参数',
 	user_agent varchar ( 255 ) comment '登录客户端',
     use_time int ( 10 ) comment '耗时微秒'
 ) comment '操作日志表';
