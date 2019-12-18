@@ -1,0 +1,49 @@
+package com.glacier.sys.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+
+/**
+ * @author glacier
+ * @version 1.0
+ * @description 
+ * @date 2019-12-18 15:29
+ */
+@Getter
+@Setter
+@ToString
+public class Log implements Serializable {
+    private static final long serialVersionUID = 2402303891367907111L;
+    /**
+    * 主键
+    */
+    private String id;
+
+    /**
+    * 登录id
+    */
+    private String userId;
+
+    /**
+    * url
+    */
+    private String url;
+
+    /**
+    * 登录ip
+    */
+    private String ip;
+
+    /**
+    * 登录客户端
+    */
+    private String userAgent;
+
+    /**
+     * 耗时
+     */
+    long useTime;
+}

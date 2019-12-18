@@ -1,11 +1,14 @@
 package com.glacier.interceptor;
 
+import com.glacier.security.util.SecurityUtils;
+import com.glacier.sys.service.LogService;
 import com.glacier.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +26,8 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
      * 单例多线程 开始时间绑定在线程上
      */
     private ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<>();
+    @Resource
+    private LogService logService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -40,14 +45,15 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
                 String className = method.getBeanType().getName();
                 String methodName = method.getMethod().getName();
                 Long startTime = startTimeThreadLocal.get();
-                Long endTime = System.currentTimeMillis();
-                StringBuilder logs = new StringBuilder();
                 //可在此处获取当前用户放日志信息里
-                logs.append(" IP:").append(IpUtils.getRemoteIp(request));
-                logs.append(" ").append(className).append("::").append(methodName);
+                String remoteIp = IpUtils.getRemoteIp(request);
+                Long endTime = System.currentTimeMillis();
+                String url = request.getServletPath();
+                String userId = SecurityUtils.geUserId();
+
                 long time = endTime - startTime;
-                logs.append(" 耗时：").append(time).append("(ms)");
-                log.info(logs.toString());
+                logService.insert(userId, url, remoteIp, request.getHeader("user-agent"), time);
+                log.info("用户 {} 访问 {} ,IP： {}, {}::{}, 耗时: {} ms", userId, url, remoteIp, className, methodName, time);
             }
         } finally {
             //清理开始时间
