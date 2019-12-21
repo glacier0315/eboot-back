@@ -1,7 +1,8 @@
 package com.glacier.sys.controller;
 
-import com.glacier.core.http.HttpResult;
-import com.glacier.core.page.PageRequest;
+import com.github.pagehelper.PageInfo;
+import com.glacier.common.core.http.HttpResult;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,7 @@ public class UserController {
      * @return
      */
     @PostMapping("findPage")
-    public HttpResult findPage(@RequestBody PageRequest<User> pageRequest) {
+    public HttpResult<PageInfo<User>> findPage(@RequestBody PageRequest<User> pageRequest) {
         return HttpResult.ok(userService.findPage(pageRequest));
     }
 
@@ -42,7 +43,7 @@ public class UserController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody User user) {
+    public HttpResult<Integer> save(@RequestBody User user) {
         return HttpResult.ok(userService.save(user));
     }
 
@@ -53,7 +54,7 @@ public class UserController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<User> users) {
+    public HttpResult<Integer> delete(@RequestBody List<User> users) {
         return HttpResult.ok(userService.batchDelete(users));
     }
 }

@@ -1,7 +1,8 @@
 package com.glacier.sys.controller;
 
-import com.glacier.core.http.HttpResult;
-import com.glacier.core.page.PageRequest;
+import com.github.pagehelper.PageInfo;
+import com.glacier.common.core.http.HttpResult;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Config;
 import com.glacier.sys.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ public class ConfigController {
      * @return
      */
     @PostMapping("findPage")
-    public HttpResult findPage(@RequestBody PageRequest<Config> pageRequest) {
+    public HttpResult<PageInfo<Config>> findPage(@RequestBody PageRequest<Config> pageRequest) {
         return HttpResult.ok(configService.findPage(pageRequest));
     }
 
@@ -45,7 +46,7 @@ public class ConfigController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Config config) {
+    public HttpResult<Integer> save(@RequestBody Config config) {
         return HttpResult.ok(configService.save(config));
     }
 
@@ -56,7 +57,7 @@ public class ConfigController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<Config> configs) {
+    public HttpResult<Integer> delete(@RequestBody List<Config> configs) {
         return HttpResult.ok(configService.batchDelete(configs));
     }
 }

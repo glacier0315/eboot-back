@@ -1,5 +1,6 @@
 package com.glacier.security.vo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,9 +13,7 @@ import java.io.Serializable;
  * @description
  * @date 2019-10-28 10:49
  */
-@Getter
-@Setter
-@ToString
+@Data
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = -6313334282278917574L;
     /**

@@ -4,7 +4,7 @@ import com.baomidou.kaptcha.exception.KaptchaException;
 import com.baomidou.kaptcha.exception.KaptchaIncorrectException;
 import com.baomidou.kaptcha.exception.KaptchaNotFoundException;
 import com.baomidou.kaptcha.exception.KaptchaTimeoutException;
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = KaptchaException.class)
-    public HttpResult kaptchaExceptionHandler(KaptchaException kaptchaException) {
+    public HttpResult<?> kaptchaExceptionHandler(KaptchaException kaptchaException) {
         if (kaptchaException instanceof KaptchaIncorrectException) {
             return HttpResult.error("验证码不正确！");
         } else if (kaptchaException instanceof KaptchaNotFoundException) {
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(value = AuthenticationException.class)
-    public HttpResult authenticationException(AuthenticationException e) {
+    public HttpResult<?> authenticationException(AuthenticationException e) {
         return HttpResult.error("用户名或者密码错误！");
     }
 

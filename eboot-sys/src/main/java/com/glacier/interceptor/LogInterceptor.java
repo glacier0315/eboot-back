@@ -1,10 +1,10 @@
 package com.glacier.interceptor;
 
 import com.alibaba.druid.support.json.JSONUtils;
+import com.glacier.common.utils.IpUtils;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.controller.LogController;
 import com.glacier.sys.service.LogService;
-import com.glacier.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;

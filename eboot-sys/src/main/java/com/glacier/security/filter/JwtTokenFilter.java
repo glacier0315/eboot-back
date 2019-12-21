@@ -1,6 +1,6 @@
 package com.glacier.security.filter;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
@@ -50,13 +50,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
         String token = jwtTokenUtils.getToken(request);
-        HttpResult httpResult = jwtTokenUtils.validateToken(token);
+        HttpResult<Claims> httpResult = jwtTokenUtils.validateToken(token);
         if (httpResult.getCode() != HttpStatus.OK.value()) {
             log.info("{},请求路径: {}", httpResult.getMsg(), request.getServletPath());
             response.sendError(httpResult.getCode(), httpResult.getMsg());
             return;
         }
-        String username = ((Claims) httpResult.getData()).getSubject();
+        String username = httpResult.getData().getSubject();
         if (username != null && !username.isEmpty()) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication != null && authentication.getPrincipal() != null) {

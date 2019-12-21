@@ -1,6 +1,6 @@
 package com.glacier.sys.controller;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ public class DictController {
      * @return
      */
     @GetMapping("findDictTree")
-    public HttpResult findDictTree() {
+    public HttpResult<List<Dict>> findDictTree() {
         return HttpResult.ok(dictService.findDictTree());
     }
 
@@ -39,7 +39,7 @@ public class DictController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Dict dict) {
+    public HttpResult<Integer> save(@RequestBody Dict dict) {
         return HttpResult.ok(dictService.save(dict));
     }
 
@@ -50,7 +50,7 @@ public class DictController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<Dict> dicts) {
+    public HttpResult<Integer> delete(@RequestBody List<Dict> dicts) {
         return HttpResult.ok(dictService.batchDelete(dicts));
     }
 }

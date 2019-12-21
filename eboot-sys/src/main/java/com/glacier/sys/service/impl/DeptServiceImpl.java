@@ -1,7 +1,7 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.common.constant.Constant;
-import com.glacier.common.utils.IdGen;
+import com.glacier.common.core.constant.Constant;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
@@ -37,7 +37,7 @@ public class DeptServiceImpl implements DeptService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Dept dept) {
-        if (dept.newRecord()) {
+        if (dept.isNewRecord()) {
             if (!dept.isNewRecord()) {
                 dept.setId(IdGen.uuid());
             }

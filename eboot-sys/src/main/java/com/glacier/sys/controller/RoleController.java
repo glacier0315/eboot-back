@@ -1,9 +1,10 @@
 package com.glacier.sys.controller;
 
-import com.glacier.common.constant.Constant;
-import com.glacier.core.http.HttpResult;
-import com.glacier.core.page.PageRequest;
-import com.glacier.core.vo.OneToManyVo;
+import com.github.pagehelper.PageInfo;
+import com.glacier.common.core.constant.Constant;
+import com.glacier.common.core.http.HttpResult;
+import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.vo.OneToManyVo;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
@@ -36,7 +37,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("findAll")
-    public HttpResult findAll() {
+    public HttpResult<List<Role>> findAll() {
         return HttpResult.ok(roleService.findAllList());
     }
 
@@ -47,7 +48,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("findPage")
-    public HttpResult findPage(@RequestBody PageRequest<Role> pageRequest) {
+    public HttpResult<PageInfo<Role>> findPage(@RequestBody PageRequest<Role> pageRequest) {
         return HttpResult.ok(roleService.findPage(pageRequest));
     }
 
@@ -58,7 +59,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Role role) {
+    public HttpResult<Integer> save(@RequestBody Role role) {
         return HttpResult.ok(roleService.save(role));
     }
 
@@ -69,7 +70,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<Role> roles) {
+    public HttpResult<Integer> delete(@RequestBody List<Role> roles) {
         return HttpResult.ok(roleService.batchDelete(roles));
     }
 
@@ -80,8 +81,8 @@ public class RoleController {
      * @return
      */
     @PostMapping("checkCode")
-    public HttpResult checkCode(@RequestBody Role role) {
-        HttpResult httpResult = HttpResult.ok();
+    public HttpResult<String> checkCode(@RequestBody Role role) {
+        HttpResult<String> httpResult = HttpResult.ok();
         httpResult.setData(String.valueOf(roleService.checkCode(role)));
         return httpResult;
     }
@@ -93,7 +94,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("findByUserId")
-    public HttpResult findByUserId(String userId) {
+    public HttpResult<List<String>> findByUserId(String userId) {
         return HttpResult.ok(userRoleService.findByUserId(userId));
     }
 
@@ -104,7 +105,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("saveRoleMenus")
-    public HttpResult saveRoleMenus(@RequestBody OneToManyVo oneToManyVo) {
+    public HttpResult<Integer> saveRoleMenus(@RequestBody OneToManyVo oneToManyVo) {
         if (oneToManyVo != null && oneToManyVo.getParentId() != null
                 && oneToManyVo.getParentId().trim().length() > 0) {
             // 判断超级管理员

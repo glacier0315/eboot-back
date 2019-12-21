@@ -1,6 +1,6 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.common.utils.IdGen;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.RoleDeptDao;
 import com.glacier.sys.entity.RoleDept;
 import com.glacier.sys.service.RoleDeptService;

@@ -1,6 +1,6 @@
 package com.glacier.gateway.utils;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -65,8 +65,8 @@ public class JwtTokenUtils {
      * @param token
      * @return
      */
-    public HttpResult validateToken(String token) {
-        HttpResult httpResult = HttpResult.ok();
+    public HttpResult<Claims> validateToken(String token) {
+        HttpResult<Claims> httpResult = HttpResult.ok();
         if (token != null) {
             Claims claims = getClaimsFromToken(token);
             if (claims != null && claims.getExpiration() != null

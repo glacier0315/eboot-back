@@ -18,7 +18,7 @@ dependencies {
             "org.springframework.cloud:spring-cloud-starter-consul-discovery"
     )
 
-    implementation project(':eboot-core')
+    implementation project(':eboot-common:eboot-common-core')
 
     // jwt
     implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")

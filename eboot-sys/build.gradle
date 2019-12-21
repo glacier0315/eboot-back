@@ -16,8 +16,8 @@ dependencies {
     // 本地依赖
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation project(':eboot-common')
-    implementation project(':eboot-core')
+    implementation project(':eboot-common:eboot-common-core')
+    implementation project(':eboot-common:eboot-common-utils')
 
     // spring boot
     implementation(
@@ -26,7 +26,6 @@ dependencies {
             "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
             "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
             "org.springframework.cloud:spring-cloud-starter-consul-discovery",
-            // "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:${oauth2Version}",
             "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
 

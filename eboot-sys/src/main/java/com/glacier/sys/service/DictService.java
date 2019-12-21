@@ -1,6 +1,6 @@
 package com.glacier.sys.service;
 
-import com.glacier.core.service.CurdService;
+import com.glacier.common.core.service.CurdService;
 import com.glacier.sys.entity.Dict;
 
 import java.util.List;

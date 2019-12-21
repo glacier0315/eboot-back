@@ -1,7 +1,7 @@
 package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -33,7 +33,7 @@ public class KaptchaController {
      * @param code
      */
     @PostMapping("/valid")
-    public HttpResult validDefaultTime(@RequestParam String code) {
+    public HttpResult<Boolean> validDefaultTime(@RequestParam String code) {
         //default timeout 900 seconds
         return HttpResult.ok(kaptcha.validate(code));
     }
@@ -44,7 +44,7 @@ public class KaptchaController {
      * @param code
      */
     @PostMapping("/validTime")
-    public HttpResult validWithTime(@RequestParam String code) {
+    public HttpResult<Boolean> validWithTime(@RequestParam String code) {
         return HttpResult.ok(kaptcha.validate(code, 60));
     }
 }

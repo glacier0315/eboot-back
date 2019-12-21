@@ -2,8 +2,8 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.utils.IdGen;
-import com.glacier.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
@@ -42,7 +42,7 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Role role) {
-        if (role.newRecord()) {
+        if (role.isNewRecord()) {
             if (!role.isNewRecord()) {
                 role.setId(IdGen.uuid());
             }

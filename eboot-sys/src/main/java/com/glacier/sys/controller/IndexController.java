@@ -1,7 +1,7 @@
 package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.JwtTokenUtils;
 import com.glacier.security.vo.LoginBean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,7 +46,7 @@ public class IndexController {
      * @return
      */
     @PostMapping(value = "/login")
-    public HttpResult login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
+    public HttpResult<String> login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
         boolean validate = kaptcha.validate(loginBean.getCaptcha(), 60);
         if (!validate) {
             return HttpResult.error("验证码不正确！");
@@ -59,7 +59,7 @@ public class IndexController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成JWT
         String token = jwtTokenUtils.generateToken(((UserDetails) authentication.getPrincipal()).getUsername());
-        HttpResult result = HttpResult.ok();
+        HttpResult<String> result = HttpResult.ok();
         result.setData(token);
         return result;
     }

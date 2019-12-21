@@ -2,8 +2,8 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.utils.IdGen;
-import com.glacier.core.page.PageRequest;
+import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.ConfigDao;
 import com.glacier.sys.entity.Config;
 import com.glacier.sys.service.ConfigService;
@@ -37,7 +37,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Config record) {
-        if (record.newRecord()) {
+        if (record.isNewRecord()) {
             if (!record.isNewRecord()) {
                 record.setId(IdGen.uuid());
             }

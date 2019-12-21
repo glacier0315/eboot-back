@@ -1,7 +1,7 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.common.constant.Constant;
-import com.glacier.common.utils.IdGen;
+import com.glacier.common.core.constant.Constant;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
@@ -34,7 +34,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Menu menu) {
-        if (menu.newRecord()) {
+        if (menu.isNewRecord()) {
             if (!menu.isNewRecord()) {
                 menu.setId(IdGen.uuid());
             }

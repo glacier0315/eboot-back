@@ -1,6 +1,6 @@
 package com.glacier.sys.controller;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
@@ -30,7 +30,7 @@ public class DeptController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Dept dept) {
+    public HttpResult<Integer> save(@RequestBody Dept dept) {
         return HttpResult.ok(deptService.save(dept));
     }
 
@@ -41,7 +41,7 @@ public class DeptController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<Dept> depts) {
+    public HttpResult<Integer> delete(@RequestBody List<Dept> depts) {
         return HttpResult.ok(deptService.batchDelete(depts));
     }
 
@@ -51,7 +51,7 @@ public class DeptController {
      * @return
      */
     @GetMapping("findTree")
-    public HttpResult findTree() {
+    public HttpResult<List<Dept>> findTree() {
         String userId = SecurityUtils.geUserId();
         log.debug("userId: {}", userId);
         List<Dept> tree = deptService.findTree(userId);

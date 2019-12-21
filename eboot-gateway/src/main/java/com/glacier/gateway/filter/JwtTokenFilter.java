@@ -1,7 +1,8 @@
 package com.glacier.gateway.filter;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.gateway.utils.JwtTokenUtils;
+import io.jsonwebtoken.Claims;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class JwtTokenFilter implements GlobalFilter, Ordered {
         String token = request.getHeaders().getFirst(header);
         ServerHttpResponse response = exchange.getResponse();
         if (!this.ignoreMath(request.getURI().getPath())) {
-            HttpResult httpResult = jwtTokenUtils.validateToken(token);
+            HttpResult<Claims> httpResult = jwtTokenUtils.validateToken(token);
             if (httpResult.getCode() != HttpStatus.OK.value()) {
                 log.info("无效TOKEN: {}", token);
                 response.setStatusCode(HttpStatus.FORBIDDEN);

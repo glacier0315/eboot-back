@@ -2,7 +2,7 @@ package com.glacier.sys.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.glacier.EbootSysApplication;
-import com.glacier.core.page.PageRequest;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import org.junit.Before;
 import org.junit.Test;

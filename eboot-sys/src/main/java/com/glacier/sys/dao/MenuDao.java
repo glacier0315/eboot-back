@@ -1,6 +1,6 @@
 package com.glacier.sys.dao;
 
-import com.glacier.core.dao.CurdDao;
+import com.glacier.common.core.dao.CurdDao;
 import com.glacier.sys.entity.Menu;
 import org.apache.ibatis.annotations.Param;
 

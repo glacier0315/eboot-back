@@ -2,8 +2,8 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.utils.IdGen;
-import com.glacier.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.dao.LogDao;
 import com.glacier.sys.entity.Log;
 import com.glacier.sys.service.LogService;

@@ -1,6 +1,6 @@
 package com.glacier.sys.controller;
 
-import com.glacier.core.http.HttpResult;
+import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author glacier
@@ -31,7 +32,7 @@ public class MenuController {
      * @return
      */
     @PostMapping("save")
-    public HttpResult save(@RequestBody Menu menu) {
+    public HttpResult<Integer> save(@RequestBody Menu menu) {
         return HttpResult.ok(menuService.save(menu));
     }
 
@@ -42,7 +43,7 @@ public class MenuController {
      * @return
      */
     @PostMapping("delete")
-    public HttpResult delete(@RequestBody List<Menu> menus) {
+    public HttpResult<Integer> delete(@RequestBody List<Menu> menus) {
         return HttpResult.ok(menuService.batchDelete(menus));
     }
 
@@ -52,7 +53,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("findMenuTree")
-    public HttpResult findMenuTree() {
+    public HttpResult<List<Menu>> findMenuTree() {
         List<Menu> tree = menuService.findMenuTree();
         return HttpResult.ok(tree);
     }
@@ -63,7 +64,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("findNavTree")
-    public HttpResult findNavTree() {
+    public HttpResult<List<Menu>> findNavTree() {
         String userId = SecurityUtils.geUserId();
         log.debug("userId: {}", userId);
         List<Menu> tree = menuService.findTree(userId);
@@ -76,7 +77,7 @@ public class MenuController {
      * @return
      */
     @GetMapping(value = "/findPermissions")
-    public HttpResult findPermissions() {
+    public HttpResult<Set<String>> findPermissions() {
         String userId = SecurityUtils.geUserId();
         log.debug("userId: {}", userId);
         return HttpResult.ok(menuService.findPermissions(userId));
@@ -88,7 +89,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("findRoleMenus")
-    public HttpResult findRoleMenus(String roleId) {
+    public HttpResult<List<Menu>> findRoleMenus(String roleId) {
         List<Menu> tree = menuService.findMenusByRoleId(roleId);
         return HttpResult.ok(tree);
     }

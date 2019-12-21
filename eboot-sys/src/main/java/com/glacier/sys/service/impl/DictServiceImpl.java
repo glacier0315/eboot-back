@@ -1,6 +1,6 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.common.utils.IdGen;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.DictDao;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
@@ -30,7 +30,7 @@ public class DictServiceImpl implements DictService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Dict record) {
-        if (record.newRecord()) {
+        if (record.isNewRecord()) {
             if (!record.isNewRecord()) {
                 record.setId(IdGen.uuid());
             }

@@ -1,7 +1,7 @@
 package com.glacier.sys.service;
 
 import com.github.pagehelper.PageInfo;
-import com.glacier.core.page.PageRequest;
+import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Log;
 
 /**

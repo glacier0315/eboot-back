@@ -1,8 +1,8 @@
 package com.glacier.sys.service;
 
 import com.github.pagehelper.PageInfo;
-import com.glacier.core.page.PageRequest;
-import com.glacier.core.service.CurdService;
+import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.service.CurdService;
 import com.glacier.sys.entity.Role;
 
 import java.util.List;
