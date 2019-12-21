@@ -1,4 +1,4 @@
-subprojects {
+allprojects {
     apply plugin: 'java'
 
     // 指定jdk版本
@@ -6,7 +6,7 @@ subprojects {
     targetCompatibility = 1.8
 
     group = 'com.glacier'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.1'
 
     ext {
         springBootVersion = "2.1.9.RELEASE"
@@ -28,9 +28,10 @@ subprojects {
     // 指定仓库
     repositories {
         mavenLocal()
-        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
-        maven { url 'https://repo.spring.io/snapshot' }
-        maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/spring' }
+        maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
     }
 
     dependencies {
@@ -40,6 +41,7 @@ subprojects {
 
         testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
         testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+        testImplementation "junit:junit:4.12"
     }
 
     // 设置编码
@@ -49,9 +51,8 @@ subprojects {
 
     //删除文件
     task cleanTempFiles() {
-        println("delete $project out")
+        println("delete $project out & logs")
         delete "out"
-        println("delete $project logs")
         delete "logs"
     }
 }
