@@ -4,6 +4,9 @@ import com.glacier.auth.common.constant.CommonConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
@@ -13,10 +16,13 @@ import java.util.Date;
  * @description
  * @date 2019-12-20 15:55
  */
+@Setter
+@Getter
+@AllArgsConstructor
 public class JwtUtils {
 
-    private JwtUtils() {
-    }
+    private String secret;
+    private long expireTime;
 
     /**
      * 生成令牌
@@ -24,7 +30,7 @@ public class JwtUtils {
      * @param ijwtInfo
      * @return 令牌
      */
-    public static String generateToken(IjwtInfo ijwtInfo, String secret, long expireTime) {
+    public String generateToken(IjwtInfo ijwtInfo) {
         long currentTimeMillis = System.currentTimeMillis();
         return Jwts.builder()
                 .setSubject(ijwtInfo.getUsername())
@@ -41,8 +47,8 @@ public class JwtUtils {
      * @param token
      * @return
      */
-    public static String refreshToken(String token, String secret, long expireTime) throws Exception {
-        Claims claims = parserToken(token, secret);
+    public String refreshToken(String token) throws Exception {
+        Claims claims = parserToken(token);
         return Jwts.builder().setClaims(claims)
                 .setExpiration(new Date(System.currentTimeMillis() + expireTime))
                 .signWith(SignatureAlgorithm.HS512, secret)
@@ -55,7 +61,7 @@ public class JwtUtils {
      * @param token 令牌
      * @return 数据声明
      */
-    public static Claims parserToken(String token, String secret) throws Exception {
+    public Claims parserToken(String token) throws Exception {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
@@ -65,8 +71,8 @@ public class JwtUtils {
      * @param token 令牌
      * @return 数据声明
      */
-    public static IjwtInfo getInfoFromToken(String token, String secret) throws Exception {
-        Claims claims = parserToken(token, secret);
+    public IjwtInfo getInfoFromToken(String token) throws Exception {
+        Claims claims = parserToken(token);
         return new JwtInfo(claims.getSubject(), String.valueOf(claims.get(CommonConstants.JWT_KEY_USER_ID)));
     }
 }

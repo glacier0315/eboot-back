@@ -97,15 +97,27 @@ kaptcha:
     thickness: 1
 
 config:
-  authenticate:
-    ignored-path: /oauth/, /druid, /swagger-ui.html, /swagger-resources, /v2/api-docs, /webjars/, /kaptcha/, /actuator, /login, /logout, /favicon.ico, /csrf
-  token:
+  jwt-token:
     # 头
     header: token
     # 加密密钥
     secret: abcdefgh
     # 有效期  30 * 60 * 1000 毫秒
     expire_time: 1800000
+    # 认证忽略路径
+    ignored-path:
+      - /oauth/
+      - /druid
+      - /swagger-ui.html
+      - /swagger-resources
+      - /v2/api-docs
+      - /webjars/
+      - /kaptcha/
+      - /actuator
+      - /login
+      - /logout
+      - /favicon.ico
+      - /csrf
 
 
 management:

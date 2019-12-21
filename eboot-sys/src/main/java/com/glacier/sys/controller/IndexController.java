@@ -1,14 +1,15 @@
 package com.glacier.sys.controller;
 
 import com.baomidou.kaptcha.Kaptcha;
+import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.common.core.http.HttpResult;
-import com.glacier.security.util.JwtTokenUtils;
+import com.glacier.config.JwtConfig;
 import com.glacier.security.vo.LoginBean;
+import com.glacier.sys.entity.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,9 @@ public class IndexController {
     @Resource
     private AuthenticationManager authenticationManager;
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private JwtUtils jwtUtils;
+    @Resource
+    private JwtConfig jwtConfig;
 
 
     @GetMapping("/")
@@ -58,7 +61,7 @@ public class IndexController {
         // 认证成功存储认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成JWT
-        String token = jwtTokenUtils.generateToken(((UserDetails) authentication.getPrincipal()).getUsername());
+        String token = jwtUtils.generateToken((SysUser) authentication.getPrincipal());
         HttpResult<String> result = HttpResult.ok();
         result.setData(token);
         return result;

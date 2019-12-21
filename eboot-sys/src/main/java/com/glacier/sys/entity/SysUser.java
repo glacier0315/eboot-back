@@ -1,6 +1,7 @@
 package com.glacier.sys.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.glacier.auth.common.utils.jwt.IjwtInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,7 @@ import java.util.List;
  * @date 2019-10-25 15:27
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SysUser implements UserDetails {
+public class SysUser implements UserDetails, IjwtInfo {
 
     private static final long serialVersionUID = -678551169862434131L;
     /**
@@ -51,6 +52,7 @@ public class SysUser implements UserDetails {
         this.roles = roles;
     }
 
+    @Override
     public String getUserId() {
         return userId;
     }

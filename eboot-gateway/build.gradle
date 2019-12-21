@@ -19,6 +19,7 @@ dependencies {
     )
 
     implementation project(':eboot-common:eboot-common-core')
+    implementation project(':eboot-auth:eboot-auth-common')
 
     // jwt
     implementation("io.jsonwebtoken:jjwt:${jjwtVersion}")

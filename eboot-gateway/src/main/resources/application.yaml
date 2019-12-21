@@ -35,16 +35,15 @@ spring:
               - GET
               - POST
 
-
-gateway:
-  token:
+config:
+  jwt-token:
     # 头
     header: token
     # 加密密钥
     secret: abcdefgh
     # 有效期  30 * 60 * 1000 毫秒
     expire_time: 1800000
-    # 忽略路径
+    # 认证忽略路径
     ignored-path:
       - /eboot-sys/oauth/
       - /eboot-sys/druid
@@ -58,6 +57,7 @@ gateway:
       - /eboot-sys/logout
       - /eboot-sys/csrf
       - /eboot-sys/favicon.ico
+
 
 server:
   port: 8141
