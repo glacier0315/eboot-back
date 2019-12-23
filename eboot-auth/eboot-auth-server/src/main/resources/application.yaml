@@ -1,0 +1,41 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eboot-auth-server
+  boot:
+    admin:
+      client:
+        url: "http://192.168.10.1:8091"
+        instance:
+          prefer-ip: true
+  cloud:
+    consul:
+      host: 192.168.10.130
+      port: 8500
+      discovery:
+        # 注册到consul的服务名称
+        serviceName: ${spring.application.name}
+        prefer-ip-address: true
+
+server:
+  port: 8510
+
+config:
+  jwt-token:
+    # 头
+    header: token
+    # 加密密钥
+    secret: abcdefgh
+    # 有效期  30 * 60 * 1000 毫秒
+    expire_time: 1800000
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

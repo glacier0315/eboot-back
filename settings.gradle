@@ -13,5 +13,6 @@ include(
 )
 
 include(
-        'eboot-auth:eboot-auth-common'
+        'eboot-auth:eboot-auth-common',
+        'eboot-auth:eboot-auth-server'
 )
