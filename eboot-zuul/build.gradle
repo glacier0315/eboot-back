@@ -8,6 +8,7 @@ dependencyManagement {
     imports {
         //spring bom helps us to declare dependencies without specifying version numbers.
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
     }
 }
 
@@ -16,7 +17,7 @@ dependencies {
     implementation(
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.cloud:spring-cloud-starter-netflix-zuul",
-            "org.springframework.cloud:spring-cloud-starter-consul-discovery"
+            "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
     )
 
     // spring-boot-admin

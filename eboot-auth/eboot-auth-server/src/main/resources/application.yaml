@@ -10,13 +10,9 @@ spring:
         instance:
           prefer-ip: true
   cloud:
-    consul:
-      host: 192.168.10.130
-      port: 8500
+    nacos:
       discovery:
-        # 注册到consul的服务名称
-        serviceName: ${spring.application.name}
-        prefer-ip-address: true
+        server-addr: 192.168.10.130:8848
 
 server:
   port: 8510

@@ -10,6 +10,7 @@ allprojects {
 
     ext {
         springBootVersion = "2.1.9.RELEASE"
+        springCloudAlibabaVersion = "2.1.1.RELEASE"
         springCloudVersion = "Greenwich.SR3"
         mybatisGeneratorVersion = "1.4"
 
