@@ -1,9 +1,8 @@
 package com.glacier.sys.controller;
 
-import com.baomidou.kaptcha.Kaptcha;
 import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.common.core.http.HttpResult;
-import com.glacier.security.vo.LoginBean;
+import com.glacier.sys.entity.dto.LoginUserDto;
 import com.glacier.sys.entity.dto.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 public class IndexController {
 
     @Resource
-    private Kaptcha kaptcha;
-    @Resource
     private AuthenticationManager authenticationManager;
     @Resource
     private JwtUtils jwtUtils;
@@ -41,17 +38,13 @@ public class IndexController {
     }
 
     /**
-     * @param loginBean
+     * @param loginUserDto
      * @param request
      * @return
      */
     @PostMapping(value = "/login")
-    public HttpResult<String> login(@RequestBody LoginBean loginBean, HttpServletRequest request) {
-        boolean validate = kaptcha.validate(loginBean.getCaptcha(), 60);
-        if (!validate) {
-            return HttpResult.error("验证码不正确！");
-        }
-        UsernamePasswordAuthenticationToken authenticatioToken = new UsernamePasswordAuthenticationToken(loginBean.getAccount(), loginBean.getPassword());
+    public HttpResult<String> login(@RequestBody LoginUserDto loginUserDto, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authenticatioToken = new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(), loginUserDto.getPassword());
         authenticatioToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         // 执行登录认证过程
         Authentication authentication = authenticationManager.authenticate(authenticatioToken);
