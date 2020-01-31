@@ -1,10 +1,10 @@
 package com.glacier.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.common.core.entity.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
  * @description  用户
  * @date 2019-08-04 13:45
  */
-@Getter
-@Setter
-@ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User extends BaseEntity {
     private static final long serialVersionUID = -3083387263445135811L;
     /**
@@ -41,7 +41,6 @@ public class User extends BaseEntity {
      * 出生日期
      */
     private Date birthday;
-
     /**
      * 性别 1=男 2=女 其他=保密
      */
@@ -67,10 +66,13 @@ public class User extends BaseEntity {
      */
     private String deptId;
 
-    // 非数据库字段
+    /*非数据库字段*/
     /**
      * 单位名称
      */
     private String deptName;
+    /**
+     * 角色
+     */
     private List<String> roleIds;
 }

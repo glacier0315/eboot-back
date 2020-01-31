@@ -1,8 +1,9 @@
 package com.glacier.sys.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,9 +13,10 @@ import java.io.Serializable;
  * @description 角色菜单关联表
  * @date 2019-10-09 14:49
  */
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RoleMenu implements Serializable {
 
     private static final long serialVersionUID = -234428421997899712L;

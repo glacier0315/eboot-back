@@ -1,12 +1,10 @@
 package com.glacier.sys.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.glacier.common.core.entity.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-import java.util.List;
+import com.glacier.common.core.entity.BaseTreeEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author hebin
@@ -14,41 +12,39 @@ import java.util.List;
  * @description 菜单
  * @date 2019-10-09 11:03
  */
-@Getter
-@Setter
-@ToString
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Menu extends BaseEntity {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Menu extends BaseTreeEntity<Menu> {
 
     private static final long serialVersionUID = 1207728347319595982L;
+    /**
+     * 资源名称
+     */
     private String name;
-
+    /**
+     * 端点路径
+     */
     private String url;
-
+    /**
+     * 权限
+     */
     private String perms;
     /**
-     * 1 目录  2 菜单  3 权限标识
+     * 1 目录  2 端点  3 权限标识
      */
     private int type;
     /**
-     * 打开方式  默认 1 正常  2 iframe  3 新窗口
+     * 端点打开方式  默认 1 正常  2 iframe  3 新窗口
      */
     private int open;
     /**
      * 1 正常  2 隐藏
      */
     private int status;
-
-    private String icon;
-
-    private int orderNum;
-
-    private String parentId;
-
     /**
-     * 扩展字段
+     * 图标
      */
-    private String parentName;
-    private int level;
-    private List<Menu> children;
+    private String icon;
 }

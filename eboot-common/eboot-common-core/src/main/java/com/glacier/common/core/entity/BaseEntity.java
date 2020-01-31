@@ -27,10 +27,6 @@ public abstract class BaseEntity implements Serializable {
      */
     private String id;
     /**
-     * 删除标记
-     */
-    private String delFlag = NORMAL_FLAG;
-    /**
      * 创建人
      */
     private String createBy;
@@ -46,6 +42,10 @@ public abstract class BaseEntity implements Serializable {
      * 更新时间
      */
     private Date updateDate;
+    /**
+     * 删除标记
+     */
+    private String delFlag = NORMAL_FLAG;
     /**
      * 是否新记录 默认为false
      */

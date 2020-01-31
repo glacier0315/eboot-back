@@ -1,8 +1,9 @@
 package com.glacier.sys.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,9 +13,10 @@ import java.io.Serializable;
  * @description
  * @date 2019-08-11 21:18
  */
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserRole implements Serializable {
 
     private static final long serialVersionUID = -7193974752669679122L;
