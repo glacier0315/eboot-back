@@ -1,7 +1,9 @@
-package com.glacier.sys.entity;
+package com.glacier.sys.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.auth.common.utils.jwt.IjwtInfo;
+import com.glacier.sys.entity.Role;
+import com.glacier.sys.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

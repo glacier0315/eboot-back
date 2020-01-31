@@ -1,8 +1,6 @@
-package com.glacier.common.core.vo;
+package com.glacier.common.core.entity.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,10 +11,8 @@ import java.util.List;
  * @description
  * @date 2019-11-09 22:05
  */
-@Getter
-@Setter
-@ToString
-public class OneToManyVo implements Serializable {
+@Data
+public class ParentChildrenDto implements Serializable {
 
     private static final long serialVersionUID = -3487750758987093736L;
     /**

@@ -3,9 +3,8 @@ package com.glacier.sys.controller;
 import com.baomidou.kaptcha.Kaptcha;
 import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.common.core.http.HttpResult;
-import com.glacier.config.JwtConfig;
 import com.glacier.security.vo.LoginBean;
-import com.glacier.sys.entity.SysUser;
+import com.glacier.sys.entity.dto.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,8 +33,6 @@ public class IndexController {
     private AuthenticationManager authenticationManager;
     @Resource
     private JwtUtils jwtUtils;
-    @Resource
-    private JwtConfig jwtConfig;
 
 
     @GetMapping("/")

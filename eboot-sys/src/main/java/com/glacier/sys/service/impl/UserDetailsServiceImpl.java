@@ -1,8 +1,8 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.sys.entity.Role;
-import com.glacier.sys.entity.SysUser;
 import com.glacier.sys.entity.User;
+import com.glacier.sys.entity.dto.SysUser;
 import com.glacier.sys.service.RoleService;
 import com.glacier.sys.service.UserService;
 import lombok.extern.slf4j.Slf4j;

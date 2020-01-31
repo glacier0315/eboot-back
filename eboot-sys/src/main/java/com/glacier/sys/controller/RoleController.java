@@ -2,9 +2,9 @@ package com.glacier.sys.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.glacier.common.core.constant.Constant;
+import com.glacier.common.core.entity.dto.ParentChildrenDto;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
-import com.glacier.common.core.vo.OneToManyVo;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
@@ -101,20 +101,20 @@ public class RoleController {
     /**
      * 保存角色菜单
      *
-     * @param oneToManyVo
+     * @param parentChildrenDto
      * @return
      */
     @PostMapping("saveRoleMenus")
-    public HttpResult<Integer> saveRoleMenus(@RequestBody OneToManyVo oneToManyVo) {
-        if (oneToManyVo != null && oneToManyVo.getParentId() != null
-                && oneToManyVo.getParentId().trim().length() > 0) {
+    public HttpResult<Integer> saveRoleMenus(@RequestBody ParentChildrenDto parentChildrenDto) {
+        if (parentChildrenDto != null && parentChildrenDto.getParentId() != null
+                && parentChildrenDto.getParentId().trim().length() > 0) {
             // 判断超级管理员
-            Role role = roleService.findById(oneToManyVo.getParentId());
+            Role role = roleService.findById(parentChildrenDto.getParentId());
             if (Constant.ADMIN.equals(role.getCode())) {
                 // 如果是超级管理员，不允许修改
                 return HttpResult.error("超级管理员拥有所有菜单权限，不允许修改！");
             }
         }
-        return HttpResult.ok(roleMenuService.insert(oneToManyVo.getParentId(), oneToManyVo.getChildrenIds()));
+        return HttpResult.ok(roleMenuService.insert(parentChildrenDto.getParentId(), parentChildrenDto.getChildrenIds()));
     }
 }
