@@ -5,13 +5,13 @@ import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Log;
 import com.glacier.sys.service.LogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author glacier
@@ -22,10 +22,10 @@ import javax.annotation.Resource;
 @Slf4j
 @RestController
 @RequestMapping("log")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LogController {
 
-    @Resource
-    private LogService logService;
+    private final LogService logService;
 
     /**
      * 分页查询

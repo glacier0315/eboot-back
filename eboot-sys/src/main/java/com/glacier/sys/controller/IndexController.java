@@ -4,6 +4,8 @@ import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.sys.entity.dto.LoginUserDto;
 import com.glacier.sys.entity.dto.SysUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -24,12 +25,11 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019-10-25 17:02
  */
 @RestController
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class IndexController {
 
-    @Resource
-    private AuthenticationManager authenticationManager;
-    @Resource
-    private JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
 
     @GetMapping("/")

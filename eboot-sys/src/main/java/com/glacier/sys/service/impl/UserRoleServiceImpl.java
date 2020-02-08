@@ -4,11 +4,12 @@ import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.UserRoleDao;
 import com.glacier.sys.entity.UserRole;
 import com.glacier.sys.service.UserRoleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,9 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("UserRoleService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserRoleServiceImpl implements UserRoleService {
-    @Resource
-    private UserRoleDao userRoleDao;
+    private final UserRoleDao userRoleDao;
 
     @Override
     public List<String> findByUserId(String userId) {

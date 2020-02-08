@@ -4,12 +4,13 @@ import com.glacier.common.utils.IpUtils;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.controller.LogController;
 import com.glacier.sys.service.LogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,14 +22,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 单例多线程 开始时间绑定在线程上
      */
     private ThreadLocal<Long> startTimeThreadLocal = new ThreadLocal<>();
-    @Resource
-    private LogService logService;
+    private final LogService logService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

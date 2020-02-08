@@ -9,9 +9,10 @@ import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
 import com.glacier.sys.service.UserRoleService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -22,14 +23,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "role")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleController {
 
-    @Resource
-    private RoleService roleService;
-    @Resource
-    private RoleMenuService roleMenuService;
-    @Resource
-    private UserRoleService userRoleService;
+    private final RoleService roleService;
+    private final RoleMenuService roleMenuService;
+    private final UserRoleService userRoleService;
 
     /**
      * 查找所有角色

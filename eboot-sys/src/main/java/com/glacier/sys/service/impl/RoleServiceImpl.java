@@ -2,16 +2,17 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.core.utils.IdGen;
 import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.service.RoleService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,10 +24,10 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("RoleService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleServiceImpl implements RoleService {
 
-    @Resource
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
     @Override
     public Role findById(String id) {

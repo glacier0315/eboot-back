@@ -2,16 +2,17 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.core.utils.IdGen;
 import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.LogDao;
 import com.glacier.sys.entity.Log;
 import com.glacier.sys.service.LogService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,10 +24,10 @@ import java.util.List;
  */
 @Slf4j
 @Service("SysLogService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LogServiceImpl implements LogService {
 
-    @Resource
-    private LogDao logDao;
+    private final LogDao logDao;
 
     @Override
     public PageInfo<Log> findPage(PageRequest<Log> pageRequest) {

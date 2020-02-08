@@ -2,18 +2,19 @@ package com.glacier.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.glacier.common.core.utils.IdGen;
 import com.glacier.common.core.page.PageRequest;
+import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserRoleService;
 import com.glacier.sys.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -25,13 +26,11 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service(value = "UserService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
-    @Resource
-    private UserDao userDao;
-    @Resource
-    private UserRoleService userRoleService;
-    @Resource
-    private BCryptPasswordEncoder passwordEncoder;
+    private final UserDao userDao;
+    private final UserRoleService userRoleService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 根据用户id 查找用户

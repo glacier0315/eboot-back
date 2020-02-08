@@ -5,11 +5,12 @@ import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
 import com.glacier.sys.service.MenuService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -21,9 +22,10 @@ import java.util.*;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("MenuService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MenuServiceImpl implements MenuService {
-    @Resource
-    private MenuDao menuDao;
+
+    private final MenuDao menuDao;
 
     /**
      * 保存

@@ -7,11 +7,12 @@ import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.ConfigDao;
 import com.glacier.sys.entity.Config;
 import com.glacier.sys.service.ConfigService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,10 +24,10 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("ConfigService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConfigServiceImpl implements ConfigService {
 
-    @Resource
-    private ConfigDao configDao;
+    private final ConfigDao configDao;
 
     /**
      * 保存

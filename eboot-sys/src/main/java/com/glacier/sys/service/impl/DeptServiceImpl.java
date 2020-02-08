@@ -5,11 +5,12 @@ import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -24,9 +25,10 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("DeptService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DeptServiceImpl implements DeptService {
-    @Resource
-    private DeptDao deptDao;
+
+    private final DeptDao deptDao;
 
     /**
      * 保存

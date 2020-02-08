@@ -5,12 +5,13 @@ import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,9 +22,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping(value = "user")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
-    @Resource
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * 分页查询用户

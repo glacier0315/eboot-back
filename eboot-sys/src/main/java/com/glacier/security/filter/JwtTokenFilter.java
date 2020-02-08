@@ -3,7 +3,9 @@ package com.glacier.security.filter;
 import com.glacier.auth.common.utils.jwt.IjwtInfo;
 import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.config.JwtConfig;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,7 +16,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +30,12 @@ import java.io.IOException;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-    @Resource
-    private JwtUtils jwtUtils;
-    @Resource
-    private JwtConfig jwtConfig;
-    @Resource
-    private UserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;
+    private final JwtConfig jwtConfig;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

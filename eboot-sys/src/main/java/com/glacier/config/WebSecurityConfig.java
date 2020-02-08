@@ -1,6 +1,8 @@
 package com.glacier.config;
 
 import com.glacier.security.filter.JwtTokenFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,22 +18,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
-import javax.annotation.Resource;
-
 /**
  * @author glacier
  * @version 1.0
  * @description 权限认证配置
+ *  EnableWebSecurity // 开启security
+ *  EnableGlobalMethodSecurity(prePostEnabled = true) // 开启权限注解
  * @date 2019-09-30 15:51
  */
 @Configuration
-@EnableWebSecurity // 开启security
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 开启权限注解
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Resource
-    private UserDetailsService userDetailsService;
-    @Resource
-    private JwtTokenFilter jwtTokenFilter;
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenFilter jwtTokenFilter;
 
     @Override
     public void configure(WebSecurity web) throws Exception {

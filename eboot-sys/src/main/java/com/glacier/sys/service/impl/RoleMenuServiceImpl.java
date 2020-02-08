@@ -4,11 +4,12 @@ import com.glacier.common.core.utils.IdGen;
 import com.glacier.sys.dao.RoleMenuDao;
 import com.glacier.sys.entity.RoleMenu;
 import com.glacier.sys.service.RoleMenuService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,9 @@ import java.util.List;
 @Slf4j
 @Transactional(readOnly = true)
 @Service("RoleMenuService")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleMenuServiceImpl implements RoleMenuService {
-    @Resource
-    private RoleMenuDao roleMenuDao;
+    private final RoleMenuDao roleMenuDao;
 
     @Transactional(rollbackFor = {})
     @Override

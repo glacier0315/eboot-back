@@ -3,10 +3,11 @@ package com.glacier.sys.controller;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.sys.entity.Dict;
 import com.glacier.sys.service.DictService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -18,9 +19,9 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(value = "dict")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DictController {
-    @Resource
-    private DictService dictService;
+    private final DictService dictService;
 
     /**
      * 查询字典

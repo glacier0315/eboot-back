@@ -1,7 +1,9 @@
 package com.glacier.exception;
 
 import com.glacier.common.core.http.HttpResult;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,7 +23,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = AuthenticationException.class)
     public HttpResult<?> authenticationException(AuthenticationException e) {
-        return HttpResult.error("用户名或者密码错误！");
+        if (e instanceof UsernameNotFoundException || e instanceof BadCredentialsException) {
+            return HttpResult.error("用户名或者密码错误！");
+        }
+        return HttpResult.error("登陆错误，请稍后重试！");
     }
 
 }

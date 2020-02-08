@@ -4,10 +4,11 @@ import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Dept;
 import com.glacier.sys.service.DeptService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -19,9 +20,10 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(value = "dept")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DeptController {
-    @Resource
-    private DeptService deptService;
+
+    private final DeptService deptService;
 
     /**
      * 保存组织机构
