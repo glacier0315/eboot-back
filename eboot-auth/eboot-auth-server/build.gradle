@@ -17,13 +17,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':eboot-common:eboot-common-core')
-    implementation project(':eboot-auth:eboot-auth-common')
 
 
     // spring boot
     implementation(
             "org.springframework.boot:spring-boot-starter-web",
+            "org.springframework.cloud:spring-cloud-starter-oauth2",
             "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
+    )
+
+    implementation(
+            "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisBootVersion}",
+            "com.github.pagehelper:pagehelper-spring-boot-starter:${pageHelperVersion}",
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}"
     )
 
     // spring-boot-admin
@@ -37,6 +43,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-actuator'
     runtimeOnly "org.springframework.boot:spring-boot-devtools"
+    runtimeOnly "mysql:mysql-connector-java"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 
 }

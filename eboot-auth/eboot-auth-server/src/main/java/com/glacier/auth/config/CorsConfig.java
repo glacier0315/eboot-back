@@ -1,4 +1,4 @@
-package com.glacier.auth.server.config;
+package com.glacier.auth.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
