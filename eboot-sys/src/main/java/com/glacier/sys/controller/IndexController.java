@@ -3,7 +3,7 @@ package com.glacier.sys.controller;
 import com.glacier.auth.common.utils.jwt.JwtUtils;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.sys.entity.dto.LoginUserDto;
-import com.glacier.sys.entity.dto.SysUser;
+import com.glacier.sys.entity.dto.UserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,7 +51,7 @@ public class IndexController {
         // 认证成功存储认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成JWT
-        String token = jwtUtils.generateToken((SysUser) authentication.getPrincipal());
+        String token = jwtUtils.generateToken((UserDetailsDto) authentication.getPrincipal());
         HttpResult<String> result = HttpResult.ok();
         result.setData(token);
         return result;

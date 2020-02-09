@@ -1,10 +1,7 @@
 package com.glacier.sys.entity;
 
 import com.glacier.common.core.entity.BaseTreeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author hebin
@@ -13,6 +10,7 @@ import lombok.NoArgsConstructor;
  * @date 2019-10-14 17:06
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

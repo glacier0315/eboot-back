@@ -4,7 +4,7 @@ import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
-import com.glacier.sys.entity.dto.SysUser;
+import com.glacier.sys.entity.dto.UserDetailsDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -38,11 +40,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.loadUserByUsername(username);
-        if (user == null || user.getId() == null || "".equals(user.getId().trim())) {
-            throw new UsernameNotFoundException("用户不存在！");
+        if (user != null) {
+            // 查找角色
+            List<Role> roles = roleDao.findByUserId(user.getId());
+            List<String> authorityList = new ArrayList<>(5);
+            if (roles != null && !roles.isEmpty()) {
+                authorityList = roles.stream().map(Role::getCode).collect(Collectors.toList());
+            }
+            return new UserDetailsDto(user, authorityList);
         }
-        // 查找角色
-        List<Role> roles = roleDao.findByUserId(user.getId());
-        return new SysUser(user, roles);
+        throw new UsernameNotFoundException("用户不存在！");
+
     }
 }

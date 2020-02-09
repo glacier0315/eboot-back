@@ -1,9 +1,10 @@
 package com.glacier.sys.entity.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.glacier.auth.common.utils.jwt.IjwtInfo;
-import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author hebin
@@ -18,10 +20,12 @@ import java.util.List;
  * @description
  * @date 2019-10-25 15:27
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class SysUser implements UserDetails, IjwtInfo {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserDetailsDto implements UserDetails, IjwtInfo {
 
-    private static final long serialVersionUID = -678551169862434131L;
+    private static final long serialVersionUID = 1919626455523490177L;
     /**
      * 用户id
      */
@@ -39,19 +43,16 @@ public class SysUser implements UserDetails, IjwtInfo {
      */
     private String nickname;
     /**
-     * 角色
+     * 权限
      */
-    private List<Role> roles;
+    private List<String> authorityList;
 
-    public SysUser() {
-    }
-
-    public SysUser(User user, List<Role> roles) {
+    public UserDetailsDto(User user, List<String> authorityList) {
         this.userId = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.nickname = user.getNickname();
-        this.roles = roles;
+        this.authorityList = authorityList;
     }
 
     @Override
@@ -89,21 +90,11 @@ public class SysUser implements UserDetails, IjwtInfo {
         this.nickname = nickname;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>(1);
-        if (roles != null && !roles.isEmpty()) {
-            for (Role role : roles) {
-                authorities.add(new SimpleGrantedAuthority(role.getCode()));
-            }
+        if (authorityList != null && !authorityList.isEmpty()) {
+            authorities = authorityList.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         }
         return authorities;
     }
