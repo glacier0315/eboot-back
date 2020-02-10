@@ -40,6 +40,9 @@ dependencies {
     // spring-boot-admin
     implementation("de.codecentric:spring-boot-admin-client:${springBootAdminVersion}")
 
+    // hutool
+    // implementation("cn.hutool:hutool-all:${hutoolVersion}")
+
     // swagger
     implementation(
             "io.springfox:springfox-swagger-ui:${swaggerVersion}",

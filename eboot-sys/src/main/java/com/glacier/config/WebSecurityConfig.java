@@ -15,8 +15,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author glacier
@@ -33,11 +37,17 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final JwtTokenFilter jwtTokenFilter;
+    private final JwtConfig jwtConfig;
 
+    /**
+     * 配置静态资源拦截问题
+     * @param web
+     * @throws Exception
+     */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //解决静态资源被拦截的问题
-        web.ignoring().antMatchers("/favicon.ico", "/error", "/static/**", "/webjars/**");
+        web.ignoring()
+                .antMatchers("/favicon.ico", "/error", "/static/**", "/webjars/**");
     }
 
     /**
@@ -46,45 +56,57 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     /**
+     * 配置权限
      * @param http
      * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        List<String> ignoredPath = jwtConfig.getIgnoredPath();
+        if (ignoredPath == null || ignoredPath.isEmpty()) {
+            ignoredPath = new ArrayList<>(1);
+        }
+        ignoredPath.add("/");
         http.authorizeRequests()
                 // 跨域预检请求
-                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/oauth/**").permitAll()
-                // 查看sql监控 druid
-                .antMatchers("/druid/**").permitAll()
-                // 登录
-                .antMatchers("/login", "/logout").permitAll()
-                // swagger
-                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/api-docs",
-                        "/webjars/springfox-swagger-ui/**").permitAll()
-                // 验证码
-                .antMatchers("/kaptcha/**").permitAll()
-                // 服务监控
-                .antMatchers("/actuator/**").permitAll()
-                .anyRequest().authenticated();
-        // 禁用自带的跨域管理
-        http.cors().and().csrf().disable();
-        // 解决iframe 显示问题
-        http.headers().frameOptions().disable();
-
-        // 退出登录处理器
-        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-        // tolen 验证过滤器
-        http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .antMatchers(HttpMethod.OPTIONS, "/**")
+                .permitAll()
+                .antMatchers(ignoredPath.toArray(new String[ignoredPath.size()]))
+                .permitAll()
+                // 其他请求 判断权限
+                .anyRequest()
+                .authenticated()
+                .and()
+                // 禁用自带的跨域管理
+                .cors()
+                .disable()
+                // 禁用自带的csrf管理
+                .csrf()
+                .disable()
+                // 解决iframe 显示问题
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                // 退出登录处理器
+                .logout()
+                .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                .and()
+                // tolen 验证过滤器
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+    /**
+     * 密码工具类
+     * @return
+     */
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

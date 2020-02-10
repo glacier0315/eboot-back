@@ -31,17 +31,27 @@ public class SwaggerConfiguration {
         // 添加请求参数，我们这里把token作为请求头部参数传入后端
         ParameterBuilder parameterBuilder = new ParameterBuilder();
         List<Parameter> parameters = new ArrayList<Parameter>();
-        parameterBuilder.name("token").description("令牌")
-                .modelRef(new ModelRef("string")).parameterType("header").required(false).build();
+        parameterBuilder.name("token")
+                .description("令牌")
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(false)
+                .build();
         parameters.add(parameterBuilder.build());
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.any()).paths(PathSelectors.any())
-                .build().globalOperationParameters(parameters);
-        /*return new Docket(DocumentationType.SWAGGER_2).apiInfo(this.apiInfo())
-                .select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();*/
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                .globalOperationParameters(parameters);
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("glacier接口文档").description("").version("1.0").build();
+        return new ApiInfoBuilder()
+                .title("glacier接口文档")
+                .description("")
+                .version("1.0")
+                .build();
     }
 }

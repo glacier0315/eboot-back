@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author glacier
@@ -17,7 +19,7 @@ import java.util.List;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "config.jwt-token")
+@ConfigurationProperties(prefix = "config.jwt")
 public class JwtConfig {
     private String header;
     private String secret;
@@ -37,9 +39,18 @@ public class JwtConfig {
      */
     public boolean ignoreMath(String path) {
         boolean ignore = false;
-        if (this.getIgnoredPath() != null && !this.getIgnoredPath().isEmpty()) {
-            for (String prifx : this.getIgnoredPath()) {
+        List<String> ignoredPath = this.getIgnoredPath();
+        if (ignoredPath != null && !ignoredPath.isEmpty()) {
+            for (String prifx : ignoredPath) {
+                // 开头
                 if (path.startsWith(prifx)) {
+                    ignore = true;
+                    break;
+                }
+                // 正则表达式判断
+                Pattern pattern = Pattern.compile("^" + prifx.replaceAll("\\*\\*", "\\*"));
+                Matcher matcher = pattern.matcher(path);
+                if (matcher.find()) {
                     ignore = true;
                     break;
                 }
