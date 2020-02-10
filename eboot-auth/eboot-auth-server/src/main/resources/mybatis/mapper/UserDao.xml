@@ -6,7 +6,7 @@
         a.id, a.username, a.password, a.salt, a.id_card, a.birthday, a.sex, a.status, a.email, a.mobile, a.dept_id
     </sql>
 
-    <select id="loadUserByUsername" resultType="User">
+    <select id="loadUserByUsername" resultType="com.glacier.auth.entity.User">
         SELECT
         <include refid="user_columns"/>
         FROM sys_user a

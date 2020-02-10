@@ -1,6 +1,5 @@
 package com.glacier.auth.controller;
 
-import com.glacier.auth.entity.dto.UserDetailsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping(value = "/current")
-    public UserDetailsDto getUser(Authentication authentication) {
-        UserDetailsDto userDetailsDto = (UserDetailsDto) authentication.getPrincipal();
+    public Object getUser(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");
-        log.info(userDetailsDto.toString());
+        log.info(principal.toString());
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");
-        return userDetailsDto;
+        return principal;
     }
 }
