@@ -12,6 +12,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan("com.glacier.auth.**.dao")
+@MapperScan("com.glacier.auth.dao")
 public class MybatisConfig {
 }
