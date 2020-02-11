@@ -14,8 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.sql.DataSource;
 
@@ -36,11 +36,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private final PasswordEncoder passwordEncoder;
     private final DataSource dataSource;
     private final TokenStore tokenStore;
-    private final JwtAccessTokenConverter jwtAccessTokenConverter;
+    private final TokenEnhancerChain tokenEnhancerChain;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-        security.tokenKeyAccess("isAuthenticated()")
+        security.tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
                 // 允许表单验证
                 .allowFormAuthenticationForClients();
@@ -79,7 +79,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 设置令牌存储策略
         defaultTokenServices.setTokenStore(tokenStore);
         // 配置jwt 转换
-        defaultTokenServices.setTokenEnhancer(jwtAccessTokenConverter);
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
         // 是否产生刷新令牌
         defaultTokenServices.setSupportRefreshToken(true);
         // 设置令牌有效期2小时

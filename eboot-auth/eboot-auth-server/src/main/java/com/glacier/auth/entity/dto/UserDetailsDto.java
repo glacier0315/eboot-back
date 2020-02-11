@@ -1,9 +1,9 @@
 package com.glacier.auth.entity.dto;
 
-import com.glacier.auth.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * @description
  * @date 2019-10-25 15:27
  */
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -45,14 +46,6 @@ public class UserDetailsDto implements UserDetails {
      * 权限
      */
     private List<String> authorityList;
-
-    public UserDetailsDto(User user, List<String> authorityList) {
-        this.userId = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.nickname = user.getNickname();
-        this.authorityList = authorityList;
-    }
 
     public String getUserId() {
         return userId;

@@ -42,7 +42,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             List<String> authorityList = new ArrayList<>(1);
             authorityList.add("ADMIN");
             authorityList.add("USER");
-            return new UserDetailsDto(user, authorityList);
+            return UserDetailsDto.builder()
+                    .userId(user.getId())
+                    .password(user.getPassword())
+                    .nickname(user.getNickname())
+                    .authorityList(authorityList)
+                    .build();
         }
         throw new UsernameNotFoundException("用户不存在！");
     }
