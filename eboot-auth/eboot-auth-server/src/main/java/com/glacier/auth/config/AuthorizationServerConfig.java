@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author glacier
@@ -41,7 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated()")
+                .checkTokenAccess("permitAll()")
                 // 允许表单验证
                 .allowFormAuthenticationForClients();
     }
@@ -83,9 +84,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         // 是否产生刷新令牌
         defaultTokenServices.setSupportRefreshToken(true);
         // 设置令牌有效期2小时
-        defaultTokenServices.setAccessTokenValiditySeconds(7200);
+        defaultTokenServices.setAccessTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(2));
         // 设置刷新令牌有效期3天  默认3天
-        defaultTokenServices.setRefreshTokenValiditySeconds(259200);
+        defaultTokenServices.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(3));
         return defaultTokenServices;
     }
 }

@@ -47,9 +47,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             if (roles != null && !roles.isEmpty()) {
                 authorityList = roles.stream().map(Role::getCode).collect(Collectors.toList());
             }
-            return new UserDetailsDto(user, authorityList);
+            return UserDetailsDto.builder()
+                    .userId(user.getId())
+                    .username(user.getUsername())
+                    .password(user.getPassword())
+                    .nickname(user.getNickname())
+                    .authorityList(authorityList)
+                    .build();
         }
         throw new UsernameNotFoundException("用户不存在！");
-
     }
 }

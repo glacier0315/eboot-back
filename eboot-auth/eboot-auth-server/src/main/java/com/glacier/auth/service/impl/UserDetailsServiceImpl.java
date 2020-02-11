@@ -44,6 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             authorityList.add("USER");
             return UserDetailsDto.builder()
                     .userId(user.getId())
+                    .username(user.getUsername())
                     .password(user.getPassword())
                     .nickname(user.getNickname())
                     .authorityList(authorityList)

@@ -1,7 +1,6 @@
 package com.glacier.sys.entity.dto;
 
 import com.glacier.auth.common.utils.jwt.IjwtInfo;
-import com.glacier.sys.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -48,14 +47,6 @@ public class UserDetailsDto implements UserDetails, IjwtInfo {
      * 权限
      */
     private List<String> authorityList;
-
-    public UserDetailsDto(User user, List<String> authorityList) {
-        this.userId = user.getId();
-        this.username = user.getUsername();
-        this.password = user.getPassword();
-        this.nickname = user.getNickname();
-        this.authorityList = authorityList;
-    }
 
     @Override
     public String getUserId() {

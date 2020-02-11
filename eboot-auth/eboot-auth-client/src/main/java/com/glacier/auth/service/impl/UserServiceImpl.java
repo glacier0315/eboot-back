@@ -24,14 +24,6 @@ public class UserServiceImpl implements UserService {
     private final ClientCredentialsResourceDetails clientCredentialsResourceDetails;
     @Override
     public HttpResult<JwtDto> login(LoginUserDto loginUserDto) {
-//        JwtDto jwtDto = authServiceClient.getToken(AuthDto.builder()
-//                .client_id(clientCredentialsResourceDetails.getClientId())
-//                .client_secret(clientCredentialsResourceDetails.getClientSecret())
-//                .grant_type("password")
-//                .username(loginUserDto.getUsername())
-//                .password(loginUserDto.getPassword())
-//                .build());
-
         JwtDto jwtDto = authServiceClient.getToken("password",
                 clientCredentialsResourceDetails.getClientId(),
                 clientCredentialsResourceDetails.getClientSecret(),

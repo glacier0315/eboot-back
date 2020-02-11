@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
@@ -14,7 +15,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +27,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class TokenStoreConfig {
+    private final UserDetailsService userDetailsService;
 
     /**
      * 设置jwt 存储token
@@ -64,12 +65,19 @@ public class TokenStoreConfig {
         delegates.add(jwtAccessTokenConverter());
         // jwt 内容增强
         delegates.add((accessToken, authentication) -> {
-            UserDetailsDto userDetailsDto = (UserDetailsDto) authentication.getUserAuthentication().getPrincipal();
-            /* 自定义一些token属性 ***/
-            final Map<String, Object> additionalInformation = new HashMap<>(2);
-            additionalInformation.put("userId", userDetailsDto.getUserId());
-            additionalInformation.put("username", userDetailsDto.getUsername());
-            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+            Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
+            Object principal = authentication.getUserAuthentication().getPrincipal();
+            if (principal instanceof UserDetailsDto) {
+                UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
+                additionalInformation.put("userId", userDetailsDto.getUserId());
+            } else {
+                // 解决refresh token 时 内容增强
+                UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername((String) principal);
+                additionalInformation.put("userId", userDetailsDto.getUserId());
+            }
+            if (accessToken instanceof DefaultOAuth2AccessToken) {
+                ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
+            }
             return accessToken;
         });
         tokenEnhancerChain.setTokenEnhancers(delegates);
