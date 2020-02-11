@@ -5,6 +5,7 @@ import com.glacier.sys.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @description
  * @date 2019-10-25 15:27
  */
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

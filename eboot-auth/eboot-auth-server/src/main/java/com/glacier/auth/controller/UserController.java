@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping(value = "/current")
-    public Object getUser(Authentication authentication) {
+    public Object current(Authentication authentication) {
         Object principal = authentication.getPrincipal();
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");
-        log.info(principal.toString());
+        log.info("当前登录用户为: {}", principal);
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");
         return principal;
     }

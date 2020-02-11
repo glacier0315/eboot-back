@@ -2,6 +2,7 @@ package com.glacier.auth.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
@@ -28,8 +31,8 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final DataSource dataSource;
     private final TokenStore tokenStore;
@@ -39,6 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("isAuthenticated()")
+                // 允许表单验证
                 .allowFormAuthenticationForClients();
     }
 
@@ -56,10 +60,32 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.authenticationManager(authenticationManager)
+        endpoints
+                // 配置密码模式
+                .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                // 配置token存储策略
-                .tokenStore(tokenStore)
-                .accessTokenConverter(jwtAccessTokenConverter);
+                // 配置令牌服务
+                .tokenServices(tokenService());
+    }
+
+    /**
+     * 配置令牌服务
+     *
+     * @return
+     */
+    @Bean
+    public AuthorizationServerTokenServices tokenService() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        // 设置令牌存储策略
+        defaultTokenServices.setTokenStore(tokenStore);
+        // 配置jwt 转换
+        defaultTokenServices.setTokenEnhancer(jwtAccessTokenConverter);
+        // 是否产生刷新令牌
+        defaultTokenServices.setSupportRefreshToken(true);
+        // 设置令牌有效期2小时
+        defaultTokenServices.setAccessTokenValiditySeconds(7200);
+        // 设置刷新令牌有效期3天  默认3天
+        defaultTokenServices.setRefreshTokenValiditySeconds(259200);
+        return defaultTokenServices;
     }
 }
