@@ -2,10 +2,12 @@ package com.glacier.auth.config;
 
 import com.glacier.auth.entity.dto.UserDetailsDto;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -13,7 +15,9 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +52,10 @@ public class TokenStoreConfig {
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
-        // 测试用,资源服务使用相同的字符达到一个对称加密的效果,生产时候使用RSA非对称加密方式
-        accessTokenConverter.setSigningKey("123");
+        KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("eboot-jwt.jks"), "eboot-secret".toCharArray())
+                .getKeyPair("eboot-jwt", "jwt-eboot".toCharArray());
+        // 使用非对称加密
+        accessTokenConverter.setKeyPair(keyPair);
         return accessTokenConverter;
     }
 
@@ -66,16 +72,20 @@ public class TokenStoreConfig {
         // jwt 内容增强
         delegates.add((accessToken, authentication) -> {
             Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
-            Object principal = authentication.getUserAuthentication().getPrincipal();
-            if (principal instanceof UserDetailsDto) {
-                UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
-                additionalInformation.put("userId", userDetailsDto.getUserId());
-            } else {
-                // 解决refresh token 时 内容增强
-                UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername((String) principal);
-                additionalInformation.put("userId", userDetailsDto.getUserId());
-            }
-            if (accessToken instanceof DefaultOAuth2AccessToken) {
+            String grantType = authentication.getOAuth2Request().getGrantType();
+            // 授权类型 authorization_code、password、client_credentials、refresh_token、implicit
+            // 客户端模式
+            String client_credentials = "client_credentials";
+            if (!StringUtils.equals(grantType, client_credentials)) {
+                Object principal = authentication.getUserAuthentication().getPrincipal();
+                if (principal instanceof UserDetailsDto) {
+                    UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
+                    additionalInformation.put("userId", userDetailsDto.getUserId());
+                } else {
+                    // 解决refresh token 时 内容增强
+                    UserDetailsDto userDetailsDto = (UserDetailsDto) userDetailsService.loadUserByUsername((String) principal);
+                    additionalInformation.put("userId", userDetailsDto.getUserId());
+                }
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
             }
             return accessToken;
