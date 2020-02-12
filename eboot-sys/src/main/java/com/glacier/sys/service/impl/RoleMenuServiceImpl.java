@@ -1,8 +1,8 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.RoleMenuDao;
 import com.glacier.sys.entity.RoleMenu;
+import com.glacier.sys.mapper.RoleMenuMapper;
 import com.glacier.sys.service.RoleMenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +24,18 @@ import java.util.List;
 @Service("RoleMenuService")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleMenuServiceImpl implements RoleMenuService {
-    private final RoleMenuDao roleMenuDao;
+    private final RoleMenuMapper roleMenuMapper;
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByMenuId(String menuId) {
-        return roleMenuDao.deleteByMenuId(menuId);
+        return roleMenuMapper.deleteByMenuId(menuId);
     }
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByRoleId(String roleId) {
-        return roleMenuDao.deleteByRoleId(roleId);
+        return roleMenuMapper.deleteByRoleId(roleId);
     }
 
     @Transactional(rollbackFor = {})
@@ -60,7 +60,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
                 roleMenus.add(roleMenu);
             }
             //
-            success = roleMenuDao.insertBatch(roleMenus);
+            success = roleMenuMapper.insertBatch(roleMenus);
         }
         return success;
     }

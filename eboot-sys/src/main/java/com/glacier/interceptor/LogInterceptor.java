@@ -3,6 +3,7 @@ package com.glacier.interceptor;
 import com.glacier.common.utils.IpUtils;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.controller.LogController;
+import com.glacier.sys.entity.Log;
 import com.glacier.sys.service.LogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 
 /**
  * @author glacier
@@ -55,7 +57,15 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
 
                 long time = endTime - startTime;
                 if (!className.equals(LogController.class.getName())) {
-                    logService.insert(userId, url, remoteIp, request.getMethod(), null, request.getHeader("user-agent"), time);
+                    logService.insert(Log.builder()
+                            .userId(userId)
+                            .url(url)
+                            .ip(remoteIp)
+                            .method(request.getMethod())
+                            .userAgent(request.getHeader("user-agent"))
+                            .useTime(time)
+                            .createDate(Calendar.getInstance().getTime())
+                            .build());
                 }
                 log.info("用户 {} 访问 {} ,IP： {}, {}::{}, 耗时: {} ms", userId, url, remoteIp, className, methodName, time);
             }

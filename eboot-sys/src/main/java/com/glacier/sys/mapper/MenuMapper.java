@@ -1,6 +1,6 @@
-package com.glacier.sys.dao;
+package com.glacier.sys.mapper;
 
-import com.glacier.common.core.dao.CurdDao;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.glacier.sys.entity.Menu;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +13,7 @@ import java.util.Set;
  * @description 菜单dao层
  * @date 2019-10-09 14:50
  */
-public interface MenuDao extends CurdDao<Menu> {
+public interface MenuMapper extends BaseMapper<Menu> {
 
 
     /**
@@ -23,13 +23,6 @@ public interface MenuDao extends CurdDao<Menu> {
      * @return
      */
     List<Menu> findMenusByRoleId(@Param("roleId") String roleId);
-
-    /**
-     * 查询所有
-     *
-     * @return
-     */
-    List<Menu> findAllList();
 
     /**
      * 根据用户名 查询所有菜单

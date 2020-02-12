@@ -2,6 +2,7 @@ package com.glacier.sys.controller;
 
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.sys.entity.Dict;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.DictService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +48,11 @@ public class DictController {
     /**
      * 删除指定字典
      *
-     * @param dicts
+     * @param idDtos
      * @return
      */
     @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<Dict> dicts) {
-        return HttpResult.ok(dictService.batchDelete(dicts));
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(dictService.batchDelete(idDtos));
     }
 }

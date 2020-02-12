@@ -1,7 +1,6 @@
 package com.glacier.sys.service;
 
 import com.glacier.EbootSysApplication;
-import com.glacier.common.core.constant.Constant;
 import com.glacier.sys.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * @author hebin
@@ -29,15 +27,13 @@ public class UserServiceTest {
     @Rollback(false)
     // @Test
     public void save() {
-        User user = new User();
-        user.setNewRecord(true);
-        user.setId(Constant.ADMIN_ID);
-        user.setUsername("admin");
-        user.setNickname("超级管理员");
-        user.setIdCard("11111111111111111111");
-        user.setPassword("admin");
-        Date time = Calendar.getInstance().getTime();
-        user.setCreateDate(time);
+        User user = User.builder()
+                .username("admin")
+                .nickname("超级管理员")
+                .idCard("11111111111111111111")
+                .password("admin")
+                .createDate(Calendar.getInstance().getTime())
+                .build();
         userService.save(user);
     }
 

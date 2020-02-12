@@ -1,7 +1,12 @@
 package com.glacier.sys.entity;
 
-import com.glacier.common.core.entity.BaseTreeEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author glacier
@@ -10,12 +15,18 @@ import lombok.*;
  * @date 2019-12-01 21:16
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Dict extends BaseTreeEntity<Dict> {
+@TableName(excludeProperty = {"level", "children", "parentName"})
+public class Dict implements Serializable {
     private static final long serialVersionUID = -8004367732541881835L;
+    /**
+     * 主键
+     */
+    @TableId
+    private String id;
     /**
      * 编码名称
      */
@@ -36,4 +47,45 @@ public class Dict extends BaseTreeEntity<Dict> {
      * 备注
      */
     private String remarks;
+    /**
+     * 父级id 顶级id默认为0
+     */
+    private String parentId;
+    /**
+     * 排序号
+     */
+    private Integer orderNum;
+    /**
+     * 创建人
+     */
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+    /**
+     * 更新人
+     */
+    private String updateBy;
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+    /**
+     * 删除标记
+     */
+    private String delFlag;
+
+    /**
+     * 层级
+     */
+    private Integer level;
+    /**
+     * 下级单位
+     */
+    private List<Dict> children;
+    /**
+     * 父级名称
+     */
+    private String parentName;
 }

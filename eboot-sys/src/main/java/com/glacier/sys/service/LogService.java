@@ -1,6 +1,6 @@
 package com.glacier.sys.service;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Log;
 
@@ -17,7 +17,7 @@ public interface LogService {
      * @param pageRequest
      * @return
      */
-    PageInfo<Log> findPage(PageRequest<Log> pageRequest);
+    Page<Log> findPage(PageRequest<Log> pageRequest);
 
     /**
      * 插入
@@ -28,14 +28,9 @@ public interface LogService {
     int insert(Log record);
 
     /**
-     * 异步插入
+     * 异步调用保存
      *
-     * @param userId
-     * @param url
-     * @param ip
-     * @param userAgent
-     * @param useTime
-     * @return
+     * @param record
      */
-    void insert(String userId, String url, String ip, String method, String params, String userAgent, long useTime);
+    void insertAsync(Log record);
 }

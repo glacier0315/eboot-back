@@ -3,6 +3,7 @@ package com.glacier.sys.controller;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Dept;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.DeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "dept")
+@RequestMapping(value = "/dept")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DeptController {
 
@@ -31,7 +32,7 @@ public class DeptController {
      * @param dept
      * @return
      */
-    @PostMapping("save")
+    @PostMapping("/save")
     public HttpResult<Integer> save(@RequestBody Dept dept) {
         return HttpResult.ok(deptService.save(dept));
     }
@@ -39,12 +40,12 @@ public class DeptController {
     /**
      * 删除指定组织机构
      *
-     * @param depts
+     * @param idDtos
      * @return
      */
-    @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<Dept> depts) {
-        return HttpResult.ok(deptService.batchDelete(depts));
+    @PostMapping("/delete")
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(deptService.batchDelete(idDtos));
     }
 
     /**
@@ -52,7 +53,7 @@ public class DeptController {
      *
      * @return
      */
-    @GetMapping("findTree")
+    @GetMapping("/findTree")
     public HttpResult<List<Dept>> findTree() {
         String userId = SecurityUtils.geUserId();
         log.debug("userId: {}", userId);

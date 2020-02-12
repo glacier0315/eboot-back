@@ -3,6 +3,7 @@ package com.glacier.sys.controller;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.security.util.SecurityUtils;
 import com.glacier.sys.entity.Menu;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,12 +41,12 @@ public class MenuController {
     /**
      * 删除指定菜单
      *
-     * @param menus
+     * @param idDtos
      * @return
      */
     @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<Menu> menus) {
-        return HttpResult.ok(menuService.batchDelete(menus));
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(menuService.batchDelete(idDtos));
     }
 
     /**

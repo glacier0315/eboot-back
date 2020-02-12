@@ -1,6 +1,6 @@
-package com.glacier.sys.dao;
+package com.glacier.sys.mapper;
 
-import com.glacier.common.core.dao.CurdDao;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.glacier.sys.entity.Dept;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,14 +12,7 @@ import java.util.List;
  * @description 组织机构dao层
  * @date 2019-10-24 16:55
  */
-public interface DeptDao extends CurdDao<Dept> {
-
-    /**
-     * 查询所有
-     *
-     * @return
-     */
-    List<Dept> findAllList();
+public interface DeptMapper extends BaseMapper<Dept> {
 
     /**
      * 根据角色id 查询所有拥有权限的额组织机构id

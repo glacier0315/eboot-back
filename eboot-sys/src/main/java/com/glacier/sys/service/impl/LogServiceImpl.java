@@ -1,20 +1,16 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.page.PageRequest;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.LogDao;
 import com.glacier.sys.entity.Log;
+import com.glacier.sys.mapper.LogMapper;
 import com.glacier.sys.service.LogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * @author glacier
@@ -27,14 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LogServiceImpl implements LogService {
 
-    private final LogDao logDao;
+    private final LogMapper logMapper;
 
     @Override
-    public PageInfo<Log> findPage(PageRequest<Log> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Log> list = logDao.findList(pageRequest.getParams());
-        return new PageInfo<>(list);
+    public Page<Log> findPage(PageRequest<Log> pageRequest) {
+        return logMapper.selectPage(new Page<>(pageRequest.getCurrent(), pageRequest.getSize()),
+                new QueryWrapper<>(pageRequest.getParams()));
     }
 
     /**
@@ -45,37 +39,23 @@ public class LogServiceImpl implements LogService {
      */
     @Override
     public int insert(Log record) {
-        // 生成id
-        record.setId(IdGen.uuid());
-        return logDao.insert(record);
+        int update = 0;
+        if (record.getId() != null && !record.getId().isEmpty()) {
+            update = logMapper.updateById(record);
+        } else {
+            update = logMapper.insert(record);
+        }
+        return update;
     }
 
     /**
      * 异步调用保存
      *
-     * @param userId
-     * @param url
-     * @param ip
-     * @param method
-     * @param params
-     * @param userAgent
-     * @param useTime
-     * @return
+     * @param record
      */
     @Async
     @Override
-    public void insert(String userId, String url, String ip, String method, String params, String userAgent, long useTime) {
-        Log log = new Log();
-        // 生成id
-        log.setId(IdGen.uuid());
-        log.setUserId(userId);
-        log.setIp(ip);
-        log.setMethod(method);
-        log.setParams(params);
-        log.setUrl(url);
-        log.setUserAgent(userAgent);
-        log.setUseTime(useTime);
-        log.setCreateDate(Calendar.getInstance().getTime());
-        logDao.insert(log);
+    public void insertAsync(Log record) {
+        logMapper.insert(record);
     }
 }

@@ -1,24 +1,32 @@
 package com.glacier.sys.entity;
 
-import com.glacier.common.core.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author glacier
  * @version 1.0
- * @description  用户
+ * @description 用户
  * @date 2019-08-04 13:45
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+@TableName(excludeProperty = {"deptName", "roleIds"})
+public class User implements Serializable {
     private static final long serialVersionUID = -3083387263445135811L;
+    /**
+     * 主键
+     */
+    @TableId
+    private String id;
     /**
      * 用户名
      */
@@ -48,10 +56,6 @@ public class User extends BaseEntity {
      */
     private String status;
     /**
-     *
-     */
-    private String salt;
-    /**
      * 邮箱
      */
     private String email;
@@ -63,6 +67,26 @@ public class User extends BaseEntity {
      * 单位id
      */
     private String deptId;
+    /**
+     * 创建人
+     */
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+    /**
+     * 更新人
+     */
+    private String updateBy;
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+    /**
+     * 删除标记
+     */
+    private String delFlag;
 
     /*非数据库字段*/
     /**
@@ -70,7 +94,7 @@ public class User extends BaseEntity {
      */
     private String deptName;
     /**
-     * 角色
+     * 角色Id集合
      */
     private List<String> roleIds;
 }

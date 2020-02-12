@@ -1,11 +1,12 @@
 package com.glacier.sys.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.constant.Constant;
 import com.glacier.common.core.entity.dto.ParentChildrenDto;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Role;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.RoleMenuService;
 import com.glacier.sys.service.RoleService;
 import com.glacier.sys.service.UserRoleService;
@@ -47,7 +48,7 @@ public class RoleController {
      * @return
      */
     @PostMapping("findPage")
-    public HttpResult<PageInfo<Role>> findPage(@RequestBody PageRequest<Role> pageRequest) {
+    public HttpResult<Page<Role>> findPage(@RequestBody PageRequest<Role> pageRequest) {
         return HttpResult.ok(roleService.findPage(pageRequest));
     }
 
@@ -65,12 +66,12 @@ public class RoleController {
     /**
      * 删除指定角色
      *
-     * @param roles
+     * @param idDtos
      * @return
      */
     @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<Role> roles) {
-        return HttpResult.ok(roleService.batchDelete(roles));
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(roleService.batchDelete(idDtos));
     }
 
     /**

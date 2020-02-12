@@ -40,8 +40,8 @@ public class UserControllerTest {
     public void findPage() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         PageRequest<User> pageRequest = new PageRequest<>();
-        pageRequest.setPageNum(1);
-        pageRequest.setPageSize(15);
+        pageRequest.setCurrent(1);
+        pageRequest.setSize(15);
         String params = objectMapper.writeValueAsString(pageRequest);
         MvcResult mvcResult = mockMvc.perform(
                 MockMvcRequestBuilders.patch("/user/findPage")

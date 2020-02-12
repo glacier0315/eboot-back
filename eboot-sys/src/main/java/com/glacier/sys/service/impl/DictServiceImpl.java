@@ -1,8 +1,8 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.DictDao;
 import com.glacier.sys.entity.Dict;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.DictMapper;
 import com.glacier.sys.service.DictService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -27,53 +28,41 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DictServiceImpl implements DictService {
 
-    private final DictDao dictDao;
+    private final DictMapper dictMapper;
 
     @Transactional(rollbackFor = {})
     @Override
     public int save(Dict record) {
-        if (record.isNewRecord()) {
-            if (!record.isNewRecord()) {
-                record.setId(IdGen.uuid());
-            }
-            return dictDao.insert(record);
+        int update = 0;
+        if (record.getId() != null && !record.getId().isEmpty()) {
+            update = dictMapper.updateById(record);
         } else {
-            return dictDao.update(record);
+            update = dictMapper.insert(record);
         }
+        return update;
     }
 
+    /**
+     * 根据id批量删除
+     *
+     * @param idDtos
+     * @return
+     */
     @Transactional(rollbackFor = {})
     @Override
-    public int delete(Dict record) {
-        return dictDao.delete(record);
-    }
-
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Dict> list) {
-        int delCount = 0;
-        if (list != null && !list.isEmpty()) {
-            for (Dict entity : list) {
-                delCount += dictDao.delete(entity);
-            }
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return dictMapper.deleteBatchIds(list);
         }
-        return delCount;
-    }
-
-    @Override
-    public Dict findById(String id) {
-        return dictDao.findById(id);
-    }
-
-    @Override
-    public List<Dict> findList(Dict record) {
-        return dictDao.findList(record);
+        return 0;
     }
 
     @Override
     public List<Dict> findDictTree() {
-        Dict entity = new Dict();
-        List<Dict> list = dictDao.findList(entity);
+        List<Dict> list = dictMapper.selectList(null);
         return this.findDictTree(list);
     }
 
@@ -122,6 +111,10 @@ public class DictServiceImpl implements DictService {
             while (iterator.hasNext()) {
                 Dict dict = iterator.next();
                 if (parent.getId() != null && parent.getId().equals(dict.getParentId())) {
+                    // 处理层级
+                    if (parent.getLevel() == null) {
+                        parent.setLevel(0);
+                    }
                     dict.setParentName(parent.getName());
                     dict.setLevel(parent.getLevel() + 1);
                     children.add(dict);

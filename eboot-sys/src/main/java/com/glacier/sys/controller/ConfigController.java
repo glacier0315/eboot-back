@@ -1,9 +1,10 @@
 package com.glacier.sys.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.Config;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.ConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +19,12 @@ import java.util.List;
 /**
  * @author glacier
  * @version 1.0
- * @description  配置控制层
+ * @description 配置控制层
  * @date 2019-12-01 20:43
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "config")
+@RequestMapping(value = "/config")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConfigController {
 
@@ -35,8 +36,8 @@ public class ConfigController {
      * @param pageRequest
      * @return
      */
-    @PostMapping("findPage")
-    public HttpResult<PageInfo<Config>> findPage(@RequestBody PageRequest<Config> pageRequest) {
+    @PostMapping("/findPage")
+    public HttpResult<Page<Config>> findPage(@RequestBody PageRequest<Config> pageRequest) {
         return HttpResult.ok(configService.findPage(pageRequest));
     }
 
@@ -46,7 +47,7 @@ public class ConfigController {
      * @param config
      * @return
      */
-    @PostMapping("save")
+    @PostMapping("/save")
     public HttpResult<Integer> save(@RequestBody Config config) {
         return HttpResult.ok(configService.save(config));
     }
@@ -54,11 +55,11 @@ public class ConfigController {
     /**
      * 删除指定用户
      *
-     * @param configs
+     * @param idDtos
      * @return
      */
-    @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<Config> configs) {
-        return HttpResult.ok(configService.batchDelete(configs));
+    @PostMapping("/delete")
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(configService.batchDelete(idDtos));
     }
 }

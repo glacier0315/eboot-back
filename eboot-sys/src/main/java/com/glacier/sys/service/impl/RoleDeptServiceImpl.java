@@ -1,8 +1,8 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.RoleDeptDao;
 import com.glacier.sys.entity.RoleDept;
+import com.glacier.sys.mapper.RoleDeptMapper;
 import com.glacier.sys.service.RoleDeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,18 +25,18 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleDeptServiceImpl implements RoleDeptService {
 
-    private final RoleDeptDao roleDeptDao;
+    private final RoleDeptMapper roleDeptMapper;
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByDeptId(String deptId) {
-        return roleDeptDao.deleteByDeptId(deptId);
+        return roleDeptMapper.deleteByDeptId(deptId);
     }
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByRoleId(String roleId) {
-        return roleDeptDao.deleteByRoleId(roleId);
+        return roleDeptMapper.deleteByRoleId(roleId);
     }
 
     @Transactional(rollbackFor = {})
@@ -61,7 +61,7 @@ public class RoleDeptServiceImpl implements RoleDeptService {
                 roleMenus.add(roleDept);
             }
             //
-            success = roleDeptDao.insertBatch(roleMenus);
+            success = roleDeptMapper.insertBatch(roleMenus);
         }
         return success;
     }

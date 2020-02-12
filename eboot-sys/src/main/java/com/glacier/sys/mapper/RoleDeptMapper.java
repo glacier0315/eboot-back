@@ -1,5 +1,6 @@
-package com.glacier.sys.dao;
+package com.glacier.sys.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.glacier.sys.entity.RoleDept;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @description 角色和组织机构关联dao层
  * @date 2019-10-24 17:03
  */
-public interface RoleDeptDao {
+public interface RoleDeptMapper extends BaseMapper<RoleDept> {
     /**
      * 插入操作
      *

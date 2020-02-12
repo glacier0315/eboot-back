@@ -1,7 +1,7 @@
 package com.glacier.sys.service;
 
-import com.glacier.common.core.service.CurdService;
 import com.glacier.sys.entity.Menu;
+import com.glacier.sys.entity.dto.IdDto;
 
 import java.util.List;
 import java.util.Set;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @description
  * @date 2019-10-09 15:45
  */
-public interface MenuService extends CurdService<Menu> {
+public interface MenuService {
 
     /**
      * 根据角色id 查询对应的菜单
@@ -44,4 +44,20 @@ public interface MenuService extends CurdService<Menu> {
      * @return
      */
     Set<String> findPermissions(String userId);
+
+    /**
+     * 保存操作
+     *
+     * @param record
+     * @return
+     */
+    int save(Menu record);
+
+    /**
+     * 根据Id批量删除
+     *
+     * @param idDtos
+     * @return
+     */
+    int batchDelete(List<IdDto> idDtos);
 }

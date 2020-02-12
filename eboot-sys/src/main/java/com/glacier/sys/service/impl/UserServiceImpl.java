@@ -1,11 +1,11 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.page.PageRequest;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.User;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.UserMapper;
 import com.glacier.sys.service.UserRoleService;
 import com.glacier.sys.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -28,20 +29,9 @@ import java.util.List;
 @Service(value = "UserService")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+    private final UserMapper userMapper;
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
-
-    /**
-     * 根据用户id 查找用户
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public User findById(String id) {
-        return userDao.findById(id);
-    }
 
     /**
      * 根据用户名查找用户
@@ -50,7 +40,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User loadUserByUsername(String username) {
-        return userDao.loadUserByUsername(username);
+        return userMapper.loadUserByUsername(username);
     }
 
     /**
@@ -61,30 +51,19 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(User user) {
-        if (user.isNewRecord()) {
-            if (!user.isNewRecord()) {
-                user.setId(IdGen.uuid());
-            }
-            if (user.getPassword() != null && user.getPassword().trim().length() > 0) {
+        int update = 0;
+        if (user.getId() != null && !user.getId().isEmpty()) {
+            update = userMapper.updateById(user);
+            userRoleService.insert(user.getId(), user.getRoleIds());
+        } else {
+            // 对原始密码加密
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
                 // 加密密码
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
             }
-            return userDao.insert(user);
-        } else {
-            int update = userDao.update(user);
-            userRoleService.insert(user.getId(), user.getRoleIds());
-            return update;
+            update = userMapper.insert(user);
         }
-    }
-
-    /**
-     * 查找用户
-     * @param user
-     * @return
-     */
-    @Override
-    public List<User> findList(User user) {
-        return userDao.findList(user);
+        return update;
     }
 
     /**
@@ -93,39 +72,26 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public PageInfo<User> findPage(PageRequest<User> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<User> list = userDao.findList(pageRequest.getParams());
-        return new PageInfo<>(list);
+    public Page<User> findPage(PageRequest<User> pageRequest) {
+        return userMapper.selectPage(new Page<>(pageRequest.getCurrent(), pageRequest.getSize()),
+                new QueryWrapper<>(pageRequest.getParams()));
     }
 
     /**
-     * 删除
-     * @param user
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int delete(User user) {
-        return userDao.delete(user);
-    }
-
-    /**
-     * 批量删除
+     * 根据id批量删除
      *
-     * @param users
+     * @param idDtos
      * @return
      */
     @Transactional(rollbackFor = {})
     @Override
-    public int batchDelete(List<User> users) {
-        int delCount = 0;
-        if (users != null && !users.isEmpty()) {
-            for (User user : users) {
-                delCount += userDao.delete(user);
-            }
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return userMapper.deleteBatchIds(list);
         }
-        return delCount;
+        return 0;
     }
 }

@@ -1,9 +1,10 @@
 package com.glacier.sys.controller;
 
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.http.HttpResult;
 import com.glacier.common.core.page.PageRequest;
 import com.glacier.sys.entity.User;
+import com.glacier.sys.entity.dto.IdDto;
 import com.glacier.sys.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class UserController {
      * @return
      */
     @PostMapping("findPage")
-    public HttpResult<PageInfo<User>> findPage(@RequestBody PageRequest<User> pageRequest) {
+    public HttpResult<Page<User>> findPage(@RequestBody PageRequest<User> pageRequest) {
         return HttpResult.ok(userService.findPage(pageRequest));
     }
 
@@ -51,11 +52,11 @@ public class UserController {
     /**
      * 删除指定用户
      *
-     * @param users
+     * @param idDtos
      * @return
      */
     @PostMapping("delete")
-    public HttpResult<Integer> delete(@RequestBody List<User> users) {
-        return HttpResult.ok(userService.batchDelete(users));
+    public HttpResult<Integer> delete(@RequestBody List<IdDto> idDtos) {
+        return HttpResult.ok(userService.batchDelete(idDtos));
     }
 }

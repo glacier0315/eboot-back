@@ -1,9 +1,9 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.common.core.constant.Constant;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.DeptDao;
 import com.glacier.sys.entity.Dept;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.DeptMapper;
 import com.glacier.sys.service.DeptService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author hebin
@@ -28,77 +29,44 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DeptServiceImpl implements DeptService {
 
-    private final DeptDao deptDao;
+    private final DeptMapper deptMapper;
 
     /**
      * 保存
      *
-     * @param dept
+     * @param record
      * @return
      */
     @Transactional(rollbackFor = {})
     @Override
-    public int save(Dept dept) {
-        if (dept.isNewRecord()) {
-            if (!dept.isNewRecord()) {
-                dept.setId(IdGen.uuid());
-            }
-            return deptDao.insert(dept);
+    public int save(Dept record) {
+        int update = 0;
+        if (record.getId() != null && !record.getId().isEmpty()) {
+            update = deptMapper.updateById(record);
         } else {
-            return deptDao.update(dept);
+            update = deptMapper.insert(record);
         }
+        return update;
     }
 
     /**
-     * 删除
+     * 根据id批量删除
      *
-     * @param dept
+     * @param idDtos
      * @return
      */
     @Transactional(rollbackFor = {})
     @Override
-    public int delete(Dept dept) {
-        return deptDao.delete(dept);
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param depts
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Dept> depts) {
-        int delCount = 0;
-        if (depts != null && !depts.isEmpty()) {
-            for (Dept dept : depts) {
-                delCount += deptDao.delete(dept);
-            }
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return deptMapper.deleteBatchIds(list);
         }
-        return delCount;
+        return 0;
     }
 
-    /**
-     * 根据id查找
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Dept findById(String id) {
-        return deptDao.findById(id);
-    }
-
-    /**
-     * 查找
-     * @param dept
-     * @return
-     */
-    @Override
-    public List<Dept> findList(Dept dept) {
-        return deptDao.findList(dept);
-    }
 
     /**
      * 根据用户ID 查找组织机构树
@@ -147,6 +115,10 @@ public class DeptServiceImpl implements DeptService {
             while (iterator.hasNext()) {
                 Dept dept = iterator.next();
                 if (parent.getId() != null && parent.getId().equals(dept.getParentId())) {
+                    // 处理层级
+                    if (parent.getLevel() == null) {
+                        parent.setLevel(0);
+                    }
                     dept.setParentName(parent.getName());
                     dept.setLevel(parent.getLevel() + 1);
                     children.add(dept);
@@ -171,10 +143,9 @@ public class DeptServiceImpl implements DeptService {
             return deptList;
         }
         if (Constant.ADMIN_ID.equals(userId)) {
-            Dept condition = new Dept();
-            deptList = deptDao.findList(condition);
+            deptList = deptMapper.selectList(null);
         } else {
-            deptList = deptDao.findDeptsByUserId(userId);
+            deptList = deptMapper.findDeptsByUserId(userId);
         }
         return deptList;
     }

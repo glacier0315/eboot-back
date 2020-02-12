@@ -1,11 +1,11 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.page.PageRequest;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.ConfigDao;
 import com.glacier.sys.entity.Config;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.ConfigMapper;
 import com.glacier.sys.service.ConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -27,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ConfigServiceImpl implements ConfigService {
 
-    private final ConfigDao configDao;
+    private final ConfigMapper configMapper;
 
     /**
      * 保存
@@ -38,78 +39,42 @@ public class ConfigServiceImpl implements ConfigService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Config record) {
-        if (record.isNewRecord()) {
-            if (!record.isNewRecord()) {
-                record.setId(IdGen.uuid());
-            }
-            return configDao.insert(record);
+        int update = 0;
+        if (record.getId() != null && !record.getId().isEmpty()) {
+            update = configMapper.updateById(record);
         } else {
-            return configDao.update(record);
+            update = configMapper.insert(record);
         }
+        return update;
     }
 
     /**
-     * 删除
+     * 根据id批量删除
      *
-     * @param record
+     * @param idDtos
      * @return
      */
     @Transactional(rollbackFor = {})
     @Override
-    public int delete(Config record) {
-        return configDao.delete(record);
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param list
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Config> list) {
-        int delCount = 0;
-        if (list != null && !list.isEmpty()) {
-            for (Config entity : list) {
-                delCount += configDao.delete(entity);
-            }
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return configMapper.deleteBatchIds(list);
         }
-        return delCount;
-    }
-
-    /**
-     * 根据id 查询
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Config findById(String id) {
-        return configDao.findById(id);
-    }
-
-    /**
-     * 查询列表
-     *
-     * @param record
-     * @return
-     */
-    @Override
-    public List<Config> findList(Config record) {
-        return configDao.findList(record);
+        return 0;
     }
 
     /**
      * 分页查找
+     *
      * @param pageRequest
      * @return
      */
     @Override
-    public PageInfo<Config> findPage(PageRequest<Config> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Config> list = configDao.findList(pageRequest.getParams());
-        return new PageInfo<>(list);
+    public Page<Config> findPage(PageRequest<Config> pageRequest) {
+        return configMapper.selectPage(new Page<>(pageRequest.getCurrent(), pageRequest.getSize()),
+                new QueryWrapper<>(pageRequest.getParams()));
     }
 }

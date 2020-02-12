@@ -1,11 +1,11 @@
 package com.glacier.sys.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.glacier.common.core.page.PageRequest;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.RoleDao;
 import com.glacier.sys.entity.Role;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.RoleMapper;
 import com.glacier.sys.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -27,71 +29,16 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDao roleDao;
-
-    @Override
-    public Role findById(String id) {
-        return roleDao.findById(id);
-    }
+    private final RoleMapper roleMapper;
 
     /**
-     * 保存
-     *
-     * @param role
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int save(Role role) {
-        if (role.isNewRecord()) {
-            if (!role.isNewRecord()) {
-                role.setId(IdGen.uuid());
-            }
-            return roleDao.insert(role);
-        } else {
-            return roleDao.update(role);
-        }
-    }
-
-    /**
-     * 删除
-     *
-     * @param entity
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int delete(Role entity) {
-        return roleDao.delete(entity);
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param roles
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Role> roles) {
-        int delCount = 0;
-        if (roles != null && !roles.isEmpty()) {
-            for (Role role : roles) {
-                delCount += roleDao.delete(role);
-            }
-        }
-        return delCount;
-    }
-
-    /**
-     * 查找
-     *
-     * @param entity
+     * 根据Id 查询
+     * @param id
      * @return
      */
     @Override
-    public List<Role> findList(Role entity) {
-        return roleDao.findList(entity);
+    public Role findById(Serializable id) {
+        return roleMapper.selectById(id);
     }
 
     /**
@@ -101,8 +48,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public List<Role> findAllList() {
-        Role role = new Role();
-        return roleDao.findList(role);
+        return roleMapper.selectList(null);
     }
 
     /**
@@ -112,7 +58,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public List<Role> findByUserId(String userId) {
-        return roleDao.findByUserId(userId);
+        return roleMapper.findByUserId(userId);
     }
 
     @Override
@@ -120,12 +66,12 @@ public class RoleServiceImpl implements RoleService {
         if (role != null && role.getCode() != null && role.getCode().trim().length() > 0) {
             Role role1 = null;
             if (role.getId() != null && role.getId().trim().length() > 0) {
-                role1 = this.findById(role.getId());
+                role1 = roleMapper.selectById(role.getId());
                 if (role1 != null && role1.getCode() != null  && role1.getCode().equals(role.getCode())) {
                     return false;
                 }
             }
-            List<Role> list = this.findList(role);
+            List<Role> list =roleMapper.selectList(new QueryWrapper<>(role));
             if (list != null && !list.isEmpty()) {
                 return true;
             }
@@ -141,10 +87,44 @@ public class RoleServiceImpl implements RoleService {
      * @return
      */
     @Override
-    public PageInfo<Role> findPage(PageRequest<Role> pageRequest) {
-        //将参数传给这个方法就可实现物理分页.
-        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
-        List<Role> list = roleDao.findList(pageRequest.getParams());
-        return new PageInfo<>(list);
+    public Page<Role> findPage(PageRequest<Role> pageRequest) {
+        return roleMapper.selectPage(new Page<>(pageRequest.getCurrent(), pageRequest.getSize()),
+                new QueryWrapper<>(pageRequest.getParams()));
+    }
+
+    /**
+     * 保存
+     *
+     * @param record
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int save(Role record) {
+        int update = 0;
+        if (record.getId() != null && !record.getId().isEmpty()) {
+            update = roleMapper.updateById(record);
+        } else {
+            update = roleMapper.insert(record);
+        }
+        return update;
+    }
+
+    /**
+     * 根据id批量删除
+     *
+     * @param idDtos
+     * @return
+     */
+    @Transactional(rollbackFor = {})
+    @Override
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return roleMapper.deleteBatchIds(list);
+        }
+        return 0;
     }
 }

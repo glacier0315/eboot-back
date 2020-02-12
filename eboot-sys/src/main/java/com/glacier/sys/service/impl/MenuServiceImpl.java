@@ -1,9 +1,9 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.common.core.constant.Constant;
-import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.MenuDao;
 import com.glacier.sys.entity.Menu;
+import com.glacier.sys.entity.dto.IdDto;
+import com.glacier.sys.mapper.MenuMapper;
 import com.glacier.sys.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author glacier
@@ -25,7 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MenuServiceImpl implements MenuService {
 
-    private final MenuDao menuDao;
+    private final MenuMapper menuMapper;
 
     /**
      * 保存
@@ -36,66 +37,33 @@ public class MenuServiceImpl implements MenuService {
     @Transactional(rollbackFor = {})
     @Override
     public int save(Menu menu) {
-        if (menu.isNewRecord()) {
-            if (!menu.isNewRecord()) {
-                menu.setId(IdGen.uuid());
-            }
-            return menuDao.insert(menu);
+        int update = 0;
+        if (menu.getId() != null && !menu.getId().isEmpty()) {
+            update = menuMapper.updateById(menu);
         } else {
-            return menuDao.update(menu);
+            update = menuMapper.insert(menu);
         }
+        return update;
     }
 
+
+
     /**
-     * 删除
+     * 根据id批量删除
      *
-     * @param menu
+     * @param idDtos
      * @return
      */
     @Transactional(rollbackFor = {})
     @Override
-    public int delete(Menu menu) {
-        return menuDao.delete(menu);
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param menus
-     * @return
-     */
-    @Transactional(rollbackFor = {})
-    @Override
-    public int batchDelete(List<Menu> menus) {
-        int delCount = 0;
-        if (menus != null && !menus.isEmpty()) {
-            for (Menu menu : menus) {
-                delCount += menuDao.delete(menu);
-            }
+    public int batchDelete(List<IdDto> idDtos) {
+        if (idDtos != null && !idDtos.isEmpty()) {
+            List<String> list = idDtos.stream()
+                    .map(IdDto::getId)
+                    .collect(Collectors.toList());
+            return menuMapper.deleteBatchIds(list);
         }
-        return delCount;
-    }
-
-    /**
-     * 根据id查询
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public Menu findById(String id) {
-        return menuDao.findById(id);
-    }
-
-    /**
-     * 查询
-     *
-     * @param menu
-     * @return
-     */
-    @Override
-    public List<Menu> findList(Menu menu) {
-        return menuDao.findList(menu);
+        return 0;
     }
 
     /**
@@ -106,7 +74,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<Menu> findMenusByRoleId(String roleId) {
-        return menuDao.findMenusByRoleId(roleId);
+        return menuMapper.findMenusByRoleId(roleId);
     }
 
     /**
@@ -116,7 +84,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Override
     public List<Menu> findMenuTree() {
-        List<Menu> menus = menuDao.findAllList();
+        List<Menu> menus = menuMapper.selectList(null);
         return this.findMenuTree(menus, true);
     }
 
@@ -145,9 +113,9 @@ public class MenuServiceImpl implements MenuService {
             return permissions;
         }
         if (Constant.ADMIN_ID.equals(userId)) {
-            permissions = menuDao.findAllPermissions();
+            permissions = menuMapper.findAllPermissions();
         } else {
-            permissions = menuDao.findPermissionsByUserId(userId);
+            permissions = menuMapper.findPermissionsByUserId(userId);
         }
         if (permissions == null) {
             permissions = new HashSet<>(1);
@@ -219,6 +187,10 @@ public class MenuServiceImpl implements MenuService {
                     continue;
                 }
                 if (parent.getId() != null && parent.getId().equals(menu.getParentId())) {
+                    // 处理层级
+                    if (parent.getLevel() == null) {
+                        parent.setLevel(0);
+                    }
                     menu.setParentName(parent.getName());
                     menu.setLevel(parent.getLevel() + 1);
                     children.add(menu);
@@ -243,9 +215,9 @@ public class MenuServiceImpl implements MenuService {
             return menuList;
         }
         if (Constant.ADMIN_ID.equals(userId)) {
-            menuList = menuDao.findAllList();
+            menuList = menuMapper.selectList(null);
         } else {
-            menuList = menuDao.findMenusByUserId(userId);
+            menuList = menuMapper.findMenusByUserId(userId);
         }
         return menuList;
     }

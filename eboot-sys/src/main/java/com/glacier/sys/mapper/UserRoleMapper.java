@@ -1,5 +1,6 @@
-package com.glacier.sys.dao;
+package com.glacier.sys.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.glacier.sys.entity.UserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @description 用户角色 关系 dao层
  * @date 2019-08-11 21:48
  */
-public interface UserRoleDao {
+public interface UserRoleMapper extends BaseMapper<UserRole> {
 
     /**
      * 根据用户id 删除

@@ -1,5 +1,6 @@
-package com.glacier.sys.dao;
+package com.glacier.sys.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.glacier.sys.entity.RoleMenu;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @description 角色菜单关联dao层
  * @date 2019-10-09 14:51
  */
-public interface RoleMenuDao {
+public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 
     /**
      * 插入操作

@@ -1,5 +1,6 @@
 package com.glacier.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * @date 2019-08-11 21:18
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,6 +22,7 @@ public class UserRole implements Serializable {
     /**
      * id
      */
+    @TableId
     private String id;
     /**
      * 用户id

@@ -1,8 +1,8 @@
 package com.glacier.sys.service.impl;
 
 import com.glacier.common.core.utils.IdGen;
-import com.glacier.sys.dao.UserRoleDao;
 import com.glacier.sys.entity.UserRole;
+import com.glacier.sys.mapper.UserRoleMapper;
 import com.glacier.sys.service.UserRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,23 +24,23 @@ import java.util.List;
 @Service("UserRoleService")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserRoleServiceImpl implements UserRoleService {
-    private final UserRoleDao userRoleDao;
+    private final UserRoleMapper userRoleMapper;
 
     @Override
     public List<String> findByUserId(String userId) {
-        return userRoleDao.findByUserId(userId);
+        return userRoleMapper.findByUserId(userId);
     }
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByUserId(String userId) {
-        return userRoleDao.deleteByUserId(userId);
+        return userRoleMapper.deleteByUserId(userId);
     }
 
     @Transactional(rollbackFor = {})
     @Override
     public int deleteByRoleId(String roleId) {
-        return userRoleDao.deleteByRoleId(roleId);
+        return userRoleMapper.deleteByRoleId(roleId);
     }
 
     @Transactional(rollbackFor = {})
@@ -65,7 +65,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 userRoles.add(userRole);
             }
             //
-            success = userRoleDao.insertBatch(userRoles);
+            success = userRoleMapper.insertBatch(userRoles);
         }
         return success;
     }

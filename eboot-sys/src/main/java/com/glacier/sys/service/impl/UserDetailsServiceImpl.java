@@ -1,10 +1,10 @@
 package com.glacier.sys.service.impl;
 
-import com.glacier.sys.dao.RoleDao;
-import com.glacier.sys.dao.UserDao;
 import com.glacier.sys.entity.Role;
 import com.glacier.sys.entity.User;
 import com.glacier.sys.entity.dto.UserDetailsDto;
+import com.glacier.sys.mapper.RoleMapper;
+import com.glacier.sys.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 @Service("UserDetailsService")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserDetailsServiceImpl implements UserDetailsService {
-    private final UserDao userDao;
-    private final RoleDao roleDao;
+    private final UserMapper userMapper;
+    private final RoleMapper roleMapper;
 
     /**
      * 根据用户名查用户
@@ -39,10 +39,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.loadUserByUsername(username);
+        User user = userMapper.loadUserByUsername(username);
         if (user != null) {
             // 查找角色
-            List<Role> roles = roleDao.findByUserId(user.getId());
+            List<Role> roles = roleMapper.findByUserId(user.getId());
             List<String> authorityList = new ArrayList<>(5);
             if (roles != null && !roles.isEmpty()) {
                 authorityList = roles.stream().map(Role::getCode).collect(Collectors.toList());

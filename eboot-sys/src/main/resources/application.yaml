@@ -50,28 +50,26 @@ spring:
       discovery:
         server-addr: 192.168.10.130:8848
 
-mybatis:
+
+mybatis-plus:
   # 映射文件位置
   mapper-locations: classpath*:mybatis/mapper/**/*.xml
   #config-location:  classpath:mybatis/mybatis-config.xml
-  type-aliases-package: com.glacier.**.entity
+  type-aliases-package: com.glacier.auth.**.entity
+  global-config:
+    db-config:
+      id-type: assign_uuid
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      table-prefix: sys_
+    banner: false
   configuration:
     lazy-loading-enabled: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
-    auto-mapping-unknown-column-behavior: warning
-    use-generated-keys: true
     aggressive-lazy-loading: false
-
-#pagehelper
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
-
-auth:
-
+    auto-mapping-unknown-column-behavior: warning
 
 config:
   jwt:

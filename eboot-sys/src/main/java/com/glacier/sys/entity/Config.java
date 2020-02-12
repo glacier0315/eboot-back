@@ -1,7 +1,11 @@
 package com.glacier.sys.entity;
 
-import com.glacier.common.core.entity.BaseEntity;
+
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.*;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author glacier
@@ -10,13 +14,18 @@ import lombok.*;
  * @date 2019-11-06 11:11
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Config extends BaseEntity {
+public class Config implements Serializable {
 
     private static final long serialVersionUID = 3535850238275216235L;
+    /**
+     * 主键
+     */
+    @TableId
+    private String id;
     /**
      * 值
      */
@@ -36,9 +45,29 @@ public class Config extends BaseEntity {
     /**
      * 排序号
      */
-    private int orderNum;
+    private Integer orderNum;
     /**
      * 备注
      */
     private String remarks;
+    /**
+     * 创建人
+     */
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+    /**
+     * 更新人
+     */
+    private String updateBy;
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+    /**
+     * 删除标记
+     */
+    private String delFlag;
 }
