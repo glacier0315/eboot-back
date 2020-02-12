@@ -31,10 +31,9 @@ security:
   oauth2:
     resource:
       jwt:
-        key-uri: ${oauth2.base-url}/oauth/token_key
-        key-value: 123
+        key-uri: ${oauth2.base-url}/uua/oauth/token_key
     authorization:
-      check-token-access: ${oauth2.base-url}/oauth/check_token
+      check-token-access: ${oauth2.base-url}/uua/oauth/check_token
 
 
 management:

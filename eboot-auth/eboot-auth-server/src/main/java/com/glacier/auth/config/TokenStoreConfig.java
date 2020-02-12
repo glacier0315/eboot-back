@@ -67,16 +67,14 @@ public class TokenStoreConfig {
     @Bean
     public TokenEnhancerChain tokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-        List<TokenEnhancer> delegates = new ArrayList<>(2);
-        delegates.add(jwtAccessTokenConverter());
-        // jwt 内容增强
-        delegates.add((accessToken, authentication) -> {
+        // jwt令牌内容增强
+        TokenEnhancer tokenEnhancer = (accessToken, authentication) -> {
             Map<String, Object> additionalInformation = accessToken.getAdditionalInformation();
             String grantType = authentication.getOAuth2Request().getGrantType();
             // 授权类型 authorization_code、password、client_credentials、refresh_token、implicit
             // 客户端模式
-            String client_credentials = "client_credentials";
-            if (!StringUtils.equals(grantType, client_credentials)) {
+            String clientCredentials = "client_credentials";
+            if (!StringUtils.equals(grantType, clientCredentials)) {
                 Object principal = authentication.getUserAuthentication().getPrincipal();
                 if (principal instanceof UserDetailsDto) {
                     UserDetailsDto userDetailsDto = (UserDetailsDto) principal;
@@ -89,7 +87,10 @@ public class TokenStoreConfig {
                 ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
             }
             return accessToken;
-        });
+        };
+        List<TokenEnhancer> delegates = new ArrayList<>(2);
+        delegates.add(jwtAccessTokenConverter());
+        delegates.add(tokenEnhancer);
         tokenEnhancerChain.setTokenEnhancers(delegates);
         return tokenEnhancerChain;
     }

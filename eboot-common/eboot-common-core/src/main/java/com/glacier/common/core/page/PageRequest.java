@@ -1,6 +1,9 @@
 package com.glacier.common.core.page;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -14,7 +17,6 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class PageRequest<T> implements Serializable {
     private static final long serialVersionUID = 4076080201697869870L;
     /**

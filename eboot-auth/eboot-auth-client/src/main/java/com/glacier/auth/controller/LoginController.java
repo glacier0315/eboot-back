@@ -1,13 +1,8 @@
 package com.glacier.auth.controller;
 
-import com.glacier.auth.entity.dto.JwtDto;
-import com.glacier.auth.entity.dto.LoginUserDto;
 import com.glacier.auth.service.UserService;
-import com.glacier.common.core.http.HttpResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,8 +17,8 @@ public class LoginController {
 
     private final UserService userService;
 
-    @PostMapping("/login")
-    public HttpResult<JwtDto> login(@RequestBody LoginUserDto loginUserDto) {
-        return userService.login(loginUserDto);
-    }
+//    @PostMapping("/login")
+//    public HttpResult<JwtDto> login(@RequestBody LoginUserDto loginUserDto) {
+//        return userService.login(loginUserDto);
+//    }
 }

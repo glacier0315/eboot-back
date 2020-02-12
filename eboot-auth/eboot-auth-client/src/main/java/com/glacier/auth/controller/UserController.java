@@ -1,7 +1,7 @@
 package com.glacier.auth.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @GetMapping(value = "/current")
-    public Object getUser(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
+    public Object current() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");
         log.info(principal.toString());
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>");

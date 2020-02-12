@@ -83,8 +83,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain);
         // 是否产生刷新令牌
         defaultTokenServices.setSupportRefreshToken(true);
-        // 设置令牌有效期2小时
-        defaultTokenServices.setAccessTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(2));
+        // 设置令牌有效期2分钟
+        defaultTokenServices.setAccessTokenValiditySeconds((int) TimeUnit.SECONDS.toSeconds(2));
         // 设置刷新令牌有效期3天  默认3天
         defaultTokenServices.setRefreshTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(3));
         return defaultTokenServices;

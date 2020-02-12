@@ -32,15 +32,15 @@ security:
     client:
       client-id: user-client
       client-secret: user-client
-      user-authorization-uri: ${oauth2.base-url}/oauth/authorize
-      access-token-uri: ${oauth2.base-url}/oauth/token
+      user-authorization-uri: ${oauth2.base-url}/uua/oauth/authorize
+      access-token-uri: ${oauth2.base-url}/uua/oauth/token
+      pre-established-redirect-uri:
     resource:
+      user-info-uri: http://localhost:8520/users/current
       jwt:
-        key-uri: ${oauth2.base-url}/oauth/token_key
-        key-value: 123
+        key-uri: ${oauth2.base-url}/uua/oauth/token_key
     authorization:
-      check-token-access: ${oauth2.base-url}/oauth/check_token
-
+      check-token-access: ${oauth2.base-url}/uua/oauth/check_token
 
 management:
   endpoints:

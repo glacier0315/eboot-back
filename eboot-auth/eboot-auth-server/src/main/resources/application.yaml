@@ -58,12 +58,16 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       table-prefix: sys_
+    banner: false
   configuration:
     lazy-loading-enabled: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     aggressive-lazy-loading: false
 
+server:
+  servlet:
+    context-path: /uua
 
 management:
   endpoints:
