@@ -1,0 +1,47 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: eboot-auth-client
+  boot:
+    admin:
+      client:
+        url: "http://192.168.10.1:8091"
+        instance:
+          prefer-ip: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.10.130:8848
+  feign:
+    compression:
+      request:
+        enabled: true
+        mime-types: text/xml,application/xml,application/json
+        min-request-size: 2048
+      response:
+        enabled: true
+    hystrix:
+      enabled: true
+
+oauth2:
+  base-url: http://localhost:8510
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: ${oauth2.base-url}/oauth/token_key
+        key-value: 123
+    authorization:
+      check-token-access: ${oauth2.base-url}/oauth/check_token
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

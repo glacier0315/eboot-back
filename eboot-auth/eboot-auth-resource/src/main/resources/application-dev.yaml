@@ -1,0 +1,8 @@
+server:
+  port: 8520
+
+
+spring:
+  devtools:
+    restart:
+      trigger-file: trigger.txt
