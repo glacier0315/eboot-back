@@ -1,8 +1,9 @@
 package com.glacier.auth.entity;
 
-import com.glacier.common.core.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,12 +13,16 @@ import java.util.Date;
  * @date 2019-08-04 13:45
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User extends BaseEntity {
+public class User implements Serializable {
     private static final long serialVersionUID = -3083387263445135811L;
+    /**
+     * 主键
+     */
+    private String id;
     /**
      * 用户名
      */
@@ -62,10 +67,31 @@ public class User extends BaseEntity {
      * 单位id
      */
     private String deptId;
+    /**
+     * 创建人
+     */
+    private String createBy;
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+    /**
+     * 更新人
+     */
+    private String updateBy;
+    /**
+     * 更新时间
+     */
+    private Date updateDate;
+    /**
+     * 删除标记
+     */
+    private String delFlag;
 
     /*非数据库字段*/
     /**
      * 单位名称
      */
+    @TableField(exist = false)
     private String deptName;
 }

@@ -23,6 +23,7 @@ allprojects {
         oauth2Version = "2.1.9.RELEASE"
         jjwtVersion = "0.9.1"
         hutoolVersion = "5.1.2"
+        mybatisPlusVersion = "3.3.1.tmp"
         kaptchaVersion = "1.1.0"
         springBootAdminVersion = "2.1.6"
     }
