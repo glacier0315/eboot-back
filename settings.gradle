@@ -1,4 +1,4 @@
-rootProject.name = 'eboot-platform'
+rootProject.name = 'eboot-back'
 include(
         'eboot-sys', 'eboot-monitor', 'eboot-consumer', 'eboot-hystrix', 'eboot-zuul', 'eboot-gateway'
 )
